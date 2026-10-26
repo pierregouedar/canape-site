@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pierregouedar.github.io/canape-site/sitemap.xml
