@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Pierre Gouedar">
-<link rel="preload" as="image" href="ally.webp" type="image/webp">
+<link rel="preload" as="image" href="ally.webp" imagesrcset="ally.webp 1799w, ally@2x.webp 2698w" imagesizes="(max-width: 900px) 96vw, 1280px" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Canapé", "applicationCategory": "GameApplication", "operatingSystem": "Windows 11", "inLanguage": "fr", "url": "https://pierregouedar.github.io/canape-site/", "image": "https://pierregouedar.github.io/canape-site/og.jpg", "description": "Accueil plein écran pour la ROG Ally sous Windows : bibliothèque Steam, Epic, GOG et Xbox, réglage automatique de la puissance (auto TDP), ventilateurs et manette, à la manette.", "author": {"@type": "Person", "name": "Pierre Gouedar"}, "softwareVersion": "en développement"}</script>
 <link rel="canonical" href="https://pierregouedar.github.io/canape-site/">
 <meta property="og:type" content="website">
@@ -133,6 +133,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .hero-stage::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
 .hero-stage::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
 @keyframes drift { to { transform: translateX(-50%); } }
+.hero-device.flat { transform: none; }
 .hero-device { max-width: 1280px; margin: 0 auto; transform: perspective(1600px) rotateX(var(--tilt, 10deg)) scale(var(--hs, .94)); transform-origin: 50% 100%; transition: transform .1s linear; }
 @media (max-width: 680px) { .drift .cover { width: 96px; height: 144px; } .hero { padding-block: 36px 8px; } .hero-stage { margin-top: 36px; } }
 
@@ -269,7 +270,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; padding-top: 64px; }
 .pin::before { content: ""; position: absolute; inset: 0; background: radial-gradient(45% 40% at 50% 42%, var(--scene, rgba(255,61,94,.18)), transparent 70%); transition: background 1s; pointer-events: none; }
 .cam-wrap { width: min(90vw, 1180px, (100svh - 400px) * 2.38); perspective: 1800px; position: relative; z-index: 1; }
-.cam { transform-origin: 50% 50%; transition: transform 1s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+.cam { transform-origin: 50% 50%; transition: transform 1s cubic-bezier(.2,.8,.2,1); }
 .captions { position: relative; width: 100%; height: 190px; z-index: 2; }
 .captions::before { content: ""; position: absolute; left: 0; right: 0; top: -60px; bottom: -40vh; background: linear-gradient(rgba(8,9,11,0), var(--bg) 60px); pointer-events: none; }
 .step { position: absolute; inset: 0; margin-inline: auto; width: min(100% - 32px, 780px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; pointer-events: none; }
@@ -832,7 +833,7 @@ footer small { color: var(--faint); }
 
 <template id="device-tpl">
   <div class="ally">
-    <img class="body" src="ally.webp" alt="" width="1799" height="756">
+    <img class="body" src="ally.webp" srcset="ally.webp 1799w, ally@2x.webp 2698w" sizes="(max-width: 900px) 96vw, 1280px" alt="" width="1799" height="756" decoding="async">
     <span class="glowring" style="left:7.8%;top:22.1%"></span><span class="glowring" style="left:86.8%;top:44.7%"></span>
     <div class="screen">
       <div class="ui lib on" data-ui="lib">
@@ -1018,7 +1019,8 @@ function onScroll() {
   const t = clamp01(scrollY / 600);
   const host = document.getElementById("hero-host");
   host.style.setProperty("--tilt", (reduce ? 0 : 12 * (1 - t)) + "deg");
-  host.style.setProperty("--hs", reduce ? 1 : (0.92 + 0.12 * t).toFixed(3));
+  host.classList.toggle("flat", reduce || t >= 1);
+  host.style.setProperty("--hs", reduce ? 1 : (0.92 + 0.08 * t).toFixed(3));
   const r = storyEl.getBoundingClientRect();
   const p = clamp01(-r.top / (r.height - innerHeight));
   const idx = Math.min(4, Math.floor(p * 5)), local = clamp01(p * 5 - idx);
@@ -1030,8 +1032,7 @@ function onScroll() {
     if (scene === "hw") story.setAttribute("data-lit", ""); else story.removeAttribute("data-lit");
   }
   const [tf, glow] = CAMERA[scene];
-  const sway = reduce ? "" : ` rotateY(${((local - .5) * 6).toFixed(2)}deg) rotateX(${((.5 - local) * 3).toFixed(2)}deg)`;
-  cam.style.transform = tf + sway;
+  cam.style.transform = tf;
   pin.style.setProperty("--scene", glow);
   if (scene === "lib") selectGame(story, Math.round(local * 7));
   if (scene === "perf") story.querySelectorAll(".perf .pw").forEach(e => e.textContent = Math.round(22 - local * 11));
