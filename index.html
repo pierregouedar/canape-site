@@ -316,6 +316,7 @@ section.block { padding-block: clamp(100px, 16vh, 180px); }
 @media (max-width: 560px) { .bento { grid-template-columns: 1fr; } }
 
 .js .bento .tile.rise { transition: transform .9s cubic-bezier(.16,1,.3,1) calc(var(--i, 0) * 70ms), opacity .8s calc(var(--i, 0) * 70ms), border-color .25s; }
+.js .col.rise { transition-delay: calc(var(--i, 0) * 90ms); }
 .js .bento .tile.rise.in { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
 .js .bento .tile.rise.in.lean { transition: transform .2s ease-out, border-color .25s; }
 
@@ -337,6 +338,32 @@ section.block { padding-block: clamp(100px, 16vh, 180px); }
 .gloss dt { font: 700 16px var(--display); }
 .gloss dd { margin: 0; color: var(--dim); font-size: 15px; }
 @media (max-width: 760px) { .gloss { grid-template-columns: 1fr; } }
+
+/* Project status */
+.status { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.col { background: var(--surface); border: 1px solid var(--stroke); border-radius: 24px; padding: 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.col header { display: flex; align-items: center; gap: 10px; }
+.col header h3 { font: 700 20px var(--body); letter-spacing: -.01em; }
+.chip-st { font: 700 11px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; padding: 6px 10px; border-radius: 99px; margin-left: auto; white-space: nowrap; }
+.col.ok .chip-st { background: rgba(52,211,153,.14); color: var(--good); }
+.col.wip .chip-st { background: rgba(251,191,36,.14); color: #fbbf24; }
+.col.next .chip-st { background: rgba(255,255,255,.06); color: var(--dim); }
+.col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.col li { position: relative; padding-left: 18px; color: #c6cad2; font-size: 15px; }
+.col li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; box-sizing: border-box; }
+.col.ok li::before { background: var(--good); box-shadow: 0 0 10px rgba(52,211,153,.6); }
+.col.wip li::before { background: #fbbf24; }
+.col.next li::before { background: transparent; border: 1.5px solid var(--faint); }
+.col .meter { height: 6px; border-radius: 6px; background: var(--bg-2); overflow: hidden; }
+.col .meter i { display: block; height: 100%; width: 0; border-radius: 6px; transition: width 1.4s cubic-bezier(.16,1,.3,1) .2s; }
+.col.ok .meter i { background: var(--good); } .col.wip .meter i { background: #fbbf24; } .col.next .meter i { background: var(--faint); }
+.col.in .meter i { width: var(--w); }
+.no-js .col .meter i { width: var(--w); }
+.install { margin-top: 18px; display: flex; gap: 18px; align-items: center; background: linear-gradient(90deg, rgba(255,61,94,.10), rgba(255,61,94,.02)); border: 1px solid rgba(255,61,94,.25); border-radius: 22px; padding: 22px 26px; }
+.install svg { width: 30px; height: 30px; color: var(--accent); flex: none; }
+.install p { color: #d6d9df; }
+.install b { color: #fff; }
+@media (max-width: 900px) { .status { grid-template-columns: 1fr; } .install { flex-direction: column; align-items: flex-start; } }
 
 /* Closing */
 .closing { text-align: center; padding-block: 200px 140px; position: relative; isolation: isolate; }
@@ -396,6 +423,7 @@ footer small { color: var(--faint); }
       <a href="#visite">La visite</a>
       <a href="#auto">Auto TDP</a>
       <a href="#dedans">Dedans</a>
+      <a href="#projet">Le projet</a>
       <a href="#glossaire">Glossaire</a>
     </nav>
   </div>
@@ -543,6 +571,57 @@ footer small { color: var(--faint); }
     </div>
   </section>
 
+  <section class="block" id="projet">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Où en est le projet</p>
+        <h2>Un projet personnel, en cours.</h2>
+        <p class="lead">Canapé est développé par une seule personne et essayé chaque semaine sur une vraie ROG Ally. Voici ce qui fonctionne aujourd'hui, ce qui est en essai et ce qui vient ensuite.</p>
+      </div>
+      <div class="status">
+        <div class="col ok rise" style="--i:0">
+          <header><h3>Fonctionne</h3><span class="chip-st">Validé sur l'Ally</span></header>
+          <div class="meter"><i style="--w:100%"></i></div>
+          <ul>
+            <li>Démarrage direct sur Canapé, en accueil du <button class="t" data-t="fse">FSE</button></li>
+            <li>Bibliothèque Steam, Epic et Xbox, jeux ajoutés à la main</li>
+            <li>Installation des jeux Steam et Epic sans leur lanceur</li>
+            <li>Fiche du jeu : durée pour le finir, succès</li>
+            <li>Modes, <button class="t" data-t="autotdp">auto TDP</button>, ventilateurs, banc d'essai</li>
+            <li>Widget dans la Xbox Game Bar</li>
+          </ul>
+        </div>
+        <div class="col wip rise" style="--i:1">
+          <header><h3>En essai</h3><span class="chip-st">Écrit, à valider</span></header>
+          <div class="meter"><i style="--w:60%"></i></div>
+          <ul>
+            <li>Bibliothèque et installation GOG</li>
+            <li>Options d'un jeu : renommer, catégories, désinstaller</li>
+            <li>Réglages du processeur et définition d'écran par jeu</li>
+            <li>Pleine puissance dans Canapé et mode d'affichage Fluide</li>
+            <li>Optimisations de Windows</li>
+            <li>Visée au gyroscope, boutons arrière, éclairage</li>
+          </ul>
+        </div>
+        <div class="col next rise" style="--i:2">
+          <header><h3>Ensuite</h3><span class="chip-st">Prévu</span></header>
+          <div class="meter"><i style="--w:15%"></i></div>
+          <ul>
+            <li>Réglages du pilote AMD par jeu : mise à l'échelle et génération d'images</li>
+            <li>Intégration de Lossless Scaling</li>
+            <li>Réglages avancés du processeur (tension, température)</li>
+            <li>Un banc d'essai qui combine tous les réglages</li>
+            <li>Une version installable par tous</li>
+          </ul>
+        </div>
+      </div>
+      <div class="install rise">
+        <svg aria-hidden="true"><use href="#i-download"/></svg>
+        <p><b>Pas encore de version publique.</b> Aujourd'hui, Canapé s'installe en mode développeur de Windows, avec un certificat de test : ce n'est pas encore fait pour être installé par tout le monde. Une version simple à installer viendra quand l'essentiel aura été validé.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="glossaire">
     <div class="wrap">
       <div class="block-head rise">
@@ -556,8 +635,7 @@ footer small { color: var(--faint); }
   <section class="closing">
     <div class="wrap rise">
       <h2>Allumez. Choisissez. Jouez.</h2>
-      <p class="lead">Canapé est un projet en cours, testé chaque semaine sur une vraie ROG Ally.</p>
-      <div class="cta" style="margin-top:28px"><a class="btn btn-primary" href="#visite"><span class="glyph" aria-hidden="true">A</span>Revoir la visite</a></div>
+      <p class="lead">Canapé avance chaque semaine. Cette page suit le projet au fil de ses versions.</p>
     </div>
   </section>
 </main>
