@@ -65,16 +65,26 @@ button { font: inherit; color: inherit; }
 .k.sq { border-radius: .35em; background: #f2f3f5; color: #1b1c20; box-shadow: none; }
 .k.sq svg { width: .95em; height: .95em; }
 
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 /* Top bar */
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: rgba(8,9,11,.72); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid rgba(255,255,255,.05); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 31; background: var(--bg); }
 .top .wrap { display: flex; align-items: center; gap: 12px; height: 62px; }
 .brand { display: flex; align-items: center; gap: 10px; font: 800 20px var(--body); letter-spacing: -.01em; }
 .brand svg { width: 30px; height: 22px; }
-.top nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; color: var(--dim); }
-.top nav a { text-decoration: none; }
-.top nav a:hover { color: var(--text); }
-@media (max-width: 680px) { .top nav { display: none; } }
+.top nav { margin-left: auto; display: flex; gap: 4px; font-size: 14px; font-weight: 500; color: var(--dim); }
+.top nav a { text-decoration: none; padding: 7px 12px; border-radius: 99px; transition: color .2s, background .2s; white-space: nowrap; }
+.top nav a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+.top nav a.on { color: #fff; background: rgba(255,61,94,.16); box-shadow: inset 0 0 0 1px rgba(255,61,94,.35); }
+@media (max-width: 760px) {
+  .top .wrap { height: auto; flex-wrap: wrap; padding-block: 10px; row-gap: 8px; }
+  .top nav { margin-left: 0; width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .top nav::-webkit-scrollbar { display: none; }
+  .top nav a { font-size: 13px; padding: 6px 11px; background: rgba(255,255,255,.04); }
+  .pin { padding-top: 104px; }
+  [id] { scroll-margin-top: 100px; }
+}
 
 /* Hero */
 .hero { position: relative; isolation: isolate; padding-block: 64px 24px; text-align: center; }
@@ -365,6 +375,36 @@ section.block { padding-block: clamp(100px, 16vh, 180px); }
 .install b { color: #fff; }
 @media (max-width: 900px) { .status { grid-template-columns: 1fr; } .install { flex-direction: column; align-items: flex-start; } }
 
+/* Compatibility */
+.compat-wrap { overflow-x: auto; border: 1px solid var(--stroke); border-radius: 24px; background: var(--surface); }
+table.compat { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 15px; }
+.compat th, .compat td { padding: 16px 18px; text-align: center; border-top: 1px solid var(--stroke); }
+.compat thead th { border-top: 0; font: 700 13px/1.3 var(--body); color: var(--dim); vertical-align: bottom; }
+.compat thead th b { display: block; color: var(--text); font-size: 15px; }
+.compat th[scope="row"] { text-align: left; font-weight: 600; color: #d6d9df; position: sticky; left: 0; background: var(--surface); }
+.compat td small { display: block; color: var(--faint); font-size: 12px; margin-top: 4px; }
+.compat .group th { text-align: left; font: 700 12px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); background: var(--bg-2); }
+.st { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; font: 800 13px/1 var(--body); }
+.st.y { background: rgba(52,211,153,.16); color: var(--good); }
+.st.p { background: rgba(251,191,36,.16); color: #fbbf24; }
+.st.n { background: rgba(255,255,255,.05); color: var(--faint); }
+.legend2 { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; color: var(--dim); font-size: 14px; }
+.legend2 span { display: flex; align-items: center; gap: 8px; }
+.legend2 .st { width: 22px; height: 22px; font-size: 11px; }
+
+/* FAQ */
+.faq { display: flex; flex-direction: column; gap: 10px; max-width: 900px; }
+.faq details { background: var(--surface); border: 1px solid var(--stroke); border-radius: 18px; padding: 0 22px; transition: border-color .25s, background .25s; }
+.faq details[open] { border-color: #3a3e48; background: #16181d; }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 0; display: flex; align-items: center; gap: 16px; font: 700 18px/1.35 var(--body); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; margin-left: auto; flex: none; width: 12px; height: 12px; border-right: 2px solid var(--dim); border-bottom: 2px solid var(--dim); transform: rotate(45deg) translateY(-3px); transition: transform .3s; }
+.faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); border-color: var(--accent); }
+.faq summary:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 6px; }
+.faq .a { padding-bottom: 22px; color: #c6cad2; max-width: 72ch; display: flex; flex-direction: column; gap: 10px; }
+.faq details[open] .a { animation: faqin .45s cubic-bezier(.16,1,.3,1); }
+@keyframes faqin { from { opacity: 0; transform: translateY(-6px); } }
+
 /* Closing */
 .closing { text-align: center; padding-block: 200px 140px; position: relative; isolation: isolate; }
 .closing::before { content: ""; position: absolute; inset: 10% 20%; background: radial-gradient(50% 50% at 50% 50%, rgba(255,61,94,.25), transparent 70%); filter: blur(40px); z-index: -1; }
@@ -419,12 +459,13 @@ footer small { color: var(--faint); }
 <header class="top">
   <div class="wrap">
     <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Canapé</div>
-    <nav aria-label="Sections">
-      <a href="#visite">La visite</a>
-      <a href="#auto">Auto TDP</a>
-      <a href="#dedans">Dedans</a>
-      <a href="#projet">Le projet</a>
-      <a href="#glossaire">Glossaire</a>
+    <nav aria-label="Sections" id="nav">
+      <a href="#visite">Découvrir</a>
+      <a href="#auto">Autonomie</a>
+      <a href="#dedans">Fonctions</a>
+      <a href="#compat">Compatibilité</a>
+      <a href="#projet">Avancement</a>
+      <a href="#faq">FAQ</a>
     </nav>
   </div>
 </header>
@@ -622,6 +663,54 @@ footer small { color: var(--faint); }
     </div>
   </section>
 
+  <section class="block" id="compat">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Compatibilité</p>
+        <h2>Sur quelles machines, avec quelles boutiques.</h2>
+        <p class="lead">Canapé est développé et essayé sur une ROG Ally (Z1 Extreme). Les autres modèles de la gamme sont reconnus, mais n'ont pas encore été essayés. Windows 11 avec l'expérience plein écran (<button class="t" data-t="fse">FSE</button>) est nécessaire.</p>
+      </div>
+      <div class="compat-wrap rise">
+        <table class="compat">
+          <thead><tr><th scope="col"><span class="sr-only">Fonction</span></th><th scope="col"><b>ROG Ally</b>Z1 Extreme</th><th scope="col"><b>ROG Ally</b>Z1</th><th scope="col"><b>ROG Ally X</b>Z1 Extreme</th><th scope="col"><b>ROG Xbox Ally / Ally X</b>Z2 A, Z2 Extreme</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Accueil et bibliothèque</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">Puissance, modes, auto TDP</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span><small>plage à confirmer</small></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span><small>plage à confirmer</small></td></tr><tr><th scope="row">Ventilateurs</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">Mode de la manette, boutons arrière, éclairage</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>manette non reconnue</small></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>manette non reconnue</small></td></tr><tr><th scope="row">Widget Game Bar</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="compat-wrap rise" style="margin-top:14px">
+        <table class="compat" style="min-width:520px">
+          <thead><tr><th scope="col"><span class="sr-only">Boutique</span></th><th scope="col"><b>Jeux installés</b>affichés et lancés</th><th scope="col"><b>Jeux possédés</b>installés depuis Canapé</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Steam</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st y" aria-label="Validé">✓</span></td></tr><tr><th scope="row">Epic Games</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st y" aria-label="Validé">✓</span><small>par Legendary</small></td></tr><tr><th scope="row">GOG</th><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">App Xbox</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>depuis l'app Xbox</small></td></tr><tr><th scope="row">Autres jeux et émulateurs</th><td><span class="st y" aria-label="Validé">✓</span><small>ajoutés à la main</small></td><td><span class="st n" aria-label="Non pris en charge">–</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend2"><span><span class="st y" aria-label="Validé">✓</span> Validé sur l'Ally</span><span><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span> Prévu, pas encore essayé</span><span><span class="st n" aria-label="Non pris en charge">–</span> Non pris en charge</span></div>
+      <p class="note" style="margin-top:12px">Les autres consoles portables sous Windows (Legion Go, MSI Claw, Steam Deck…) ne sont pas prises en charge pour l'instant : le pilotage du matériel est propre aux consoles ASUS.</p>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Questions fréquentes</p>
+        <h2>Ce qu'on demande souvent.</h2>
+      </div>
+      <div class="faq rise">
+        <details><summary>Est-ce que je peux l'installer ?</summary><div class="a"><p>Pas encore. Canapé s'installe aujourd'hui en mode développeur de Windows, avec un certificat de test. Une version simple à installer viendra quand l'essentiel aura été validé sur l'Ally.</p></div></details>
+        <details><summary>Est-ce que Canapé remplace Windows ?</summary><div class="a"><p>Non. Canapé remplace seulement l'accueil plein écran que Windows 11 affiche au démarrage d'une console portable. Windows reste là : le bureau, les paramètres et toutes vos applications restent accessibles.</p></div></details>
+        <details><summary>Mes jeux et mes sauvegardes sont-ils touchés ?</summary><div class="a"><p>Non. Canapé lit ce que les boutiques ont installé et lance les jeux par leurs propres moyens. Il ne modifie ni vos jeux ni vos sauvegardes. Il n'écrit dans le dossier d'une boutique que lorsque vous lui demandez d'installer ou de désinstaller un jeu.</p></div></details>
+        <details><summary>Faut-il un compte ou un abonnement ?</summary><div class="a"><p>Non. Les jeux installés apparaissent sans rien faire. Pour voir et installer les jeux que vous possédez, il suffit de connecter les boutiques concernées : une clé d'API pour Steam, une connexion pour Epic Games et GOG.</p></div></details>
+        <details><summary>Est-ce compatible avec les logiciels d'ASUS ?</summary><div class="a"><p>Canapé règle le même matériel (puissance, ventilateurs, manette). Deux logiciels qui règlent la même chose s'annulent : il vaut mieux n'en garder qu'un. Canapé vous prévient s'il en voit un autre en marche.</p></div></details>
+        <details><summary>Est-ce que ça consomme de la batterie ?</summary><div class="a"><p>Très peu. L'interface occupe environ 28 Mo de mémoire et le service 1,4 Mo. Au repos sur l'accueil, Canapé utilise environ 1 % d'un cœur du processeur, et il se met en retrait pendant que vous jouez.</p></div></details>
+        <details><summary>Est-ce sûr ?</summary><div class="a"><p>Seul le service qui règle le matériel a des droits élevés ; l'interface fonctionne comme une application ordinaire. Les valeurs envoyées au matériel restent dans les plages prévues pour chaque modèle.</p></div></details>
+        <details><summary>Peut-on revenir en arrière ?</summary><div class="a"><p>Oui. La désinstallation retire Canapé et annule les optimisations de Windows qu'il a appliquées. Pour retrouver l'accueil d'origine, il suffit de le choisir à nouveau dans Paramètres, Jeux, Expérience plein écran.</p></div></details>
+        <details><summary>Et sur une autre console que la ROG Ally ?</summary><div class="a"><p>Pas pour l'instant. La bibliothèque fonctionnerait sur n'importe quel PC sous Windows, mais le réglage de la puissance, des ventilateurs et de la manette est propre aux consoles ASUS.</p></div></details>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="glossaire">
     <div class="wrap">
       <div class="block-head rise">
@@ -643,7 +732,7 @@ footer small { color: var(--faint); }
 <footer>
   <div class="wrap">
     <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Canapé</div>
-    <p>Un projet personnel, en développement. Sans lien avec ASUS, Microsoft ou Valve.</p>
+    <p>Un projet personnel, en développement. Sans lien avec ASUS, Microsoft ou Valve. <a href="#glossaire">Glossaire</a></p>
     <small>Jeux, jaquettes et bannières : propriété de leurs éditeurs. ROG Ally : marque et visuel d'ASUS.</small>
   </div>
 </footer>
@@ -863,6 +952,24 @@ let ticking = false;
 addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
 addEventListener("resize", onScroll);
 onScroll();
+
+// Top bar: the section in view is highlighted.
+const navLinks = [...document.querySelectorAll("#nav a")];
+const navTargets = navLinks.map(a => document.querySelector(a.getAttribute("href")));
+function spy() {
+  const y = innerHeight * 0.35;
+  let cur = -1;
+  navTargets.forEach((t, i) => { const r = t.getBoundingClientRect(); if (r.top <= y && r.bottom > y) cur = i; });
+  navLinks.forEach((a, i) => {
+    const on = i === cur;
+    if (a.classList.contains("on") !== on) {
+      a.classList.toggle("on", on);
+      if (on) { a.setAttribute("aria-current", "true"); if (innerWidth <= 760) a.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" }); }
+      else a.removeAttribute("aria-current");
+    }
+  });
+}
+addEventListener("scroll", spy, { passive: true }); spy();
 
 // Big titles: split into words that rise one after the other.
 function split(el) {
