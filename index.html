@@ -7,6 +7,22 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Canapé</title>
 <meta name="description" content="Canapé : une expérience unifiée sous Windows pour la ROG Ally. Vos boutiques, vos jeux, la puissance et les réglages dans une seule interface, à la manette.">
+<meta name="theme-color" content="#08090b">
+<link rel="canonical" href="https://pierregouedar.github.io/canape-site/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Canapé">
+<meta property="og:url" content="https://pierregouedar.github.io/canape-site/">
+<meta property="og:title" content="Canapé : jouer sous Windows, en une seule expérience">
+<meta property="og:description" content="Canapé remplace l'accueil plein écran de Windows sur la ROG Ally : vos boutiques, vos jeux, la puissance et les réglages de la console réunis dans une seule interface, à la manette.">
+<meta property="og:image" content="https://pierregouedar.github.io/canape-site/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Une ROG Ally qui affiche la bibliothèque de jeux de Canapé">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Canapé : jouer sous Windows, en une seule expérience">
+<meta name="twitter:description" content="Canapé remplace l'accueil plein écran de Windows sur la ROG Ally : vos boutiques, vos jeux, la puissance et les réglages de la console réunis dans une seule interface, à la manette.">
+<meta name="twitter:image" content="https://pierregouedar.github.io/canape-site/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
@@ -243,7 +259,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 680px) { .wall { padding-block: 70px; } .wall .row .cover { width: 104px; height: 156px; border-radius: 12px; } .wall .rows { gap: 12px; } .wall .row { gap: 12px; } }
 
 /* Story: a pinned stage, the handheld large in the middle, captions crossfading under it */
-.story { position: relative; height: 600vh; }
+.story { position: relative; height: 460vh; }
 .pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; padding-top: 64px; }
 .pin::before { content: ""; position: absolute; inset: 0; background: radial-gradient(45% 40% at 50% 42%, var(--scene, rgba(255,61,94,.18)), transparent 70%); transition: background 1s; pointer-events: none; }
 .cam-wrap { width: min(90vw, 1180px, (100svh - 400px) * 2.38); perspective: 1800px; position: relative; z-index: 1; }
@@ -298,7 +314,7 @@ section.block { padding-block: clamp(100px, 16vh, 180px); }
 .readout .w b { color: var(--accent); }
 .readout .f b { color: var(--good); }
 .legend { display: flex; gap: 18px; font-size: 13px; color: var(--dim); flex-wrap: wrap; }
-.legend span { display: flex; align-items: center; gap: 8px; }
+.legend > span { display: flex; align-items: center; gap: 8px; }
 .legend i { width: 14px; height: 3px; border-radius: 3px; display: inline-block; }
 .note { font-size: 13px; color: var(--faint); margin-top: auto; }
 @media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo canvas { min-height: 220px; } }
@@ -310,6 +326,7 @@ section.block { padding-block: clamp(100px, 16vh, 180px); }
 .tile::before { content: ""; position: absolute; inset: 0; background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(255,61,94,.14), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
 .tile:hover::before { opacity: 1; }
 .tile.wide { grid-column: span 3; }
+.tile.full { grid-column: 1 / -1; min-height: 0; }
 .tile.big b.n { font: 800 clamp(56px, 7vw, 96px)/1 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .tile b.n small { font-size: .4em; color: var(--dim); margin-left: 6px; letter-spacing: 0; }
 .tile.red b.n { color: var(--accent); }
@@ -389,7 +406,7 @@ table.compat { width: 100%; min-width: 760px; border-collapse: collapse; font-si
 .st.p { background: rgba(251,191,36,.16); color: #fbbf24; }
 .st.n { background: rgba(255,255,255,.05); color: var(--faint); }
 .legend2 { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; color: var(--dim); font-size: 14px; }
-.legend2 span { display: flex; align-items: center; gap: 8px; }
+.legend2 > span { display: flex; align-items: center; gap: 8px; }
 .legend2 .st { width: 22px; height: 22px; font-size: 11px; }
 
 /* FAQ */
@@ -592,22 +609,7 @@ footer small { color: var(--faint); }
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Inclinez la console pour viser, en tenant une palette ou tout le temps.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à la couleur d'accent.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Windows allégé</h3><p>Copilot, publicités, applis inutiles : on retire, et on peut tout remettre.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="capot">
-    <div class="wrap">
-      <div class="block-head rise">
-        <p class="eyebrow">Sous le capot</p>
-        <h2>Quatre pièces, chacune à sa place.</h2>
-        <p class="lead">Écrit en Rust. Seul le service a des droits élevés ; l'interface tourne comme une application normale.</p>
-      </div>
-      <div class="stack">
-        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-screen"/></svg><span class="tag">FSE</span><h3>L'accueil</h3><p>Windows démarre directement sur Canapé, en plein écran, à la place de l'app Xbox.</p></div>
-        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg><span class="tag">canape-shell</span><h3>L'interface</h3><p>Ce que vous voyez, pilotée à la manette, dessinée par le processeur pour rester légère.</p></div>
-        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="tag">canape-service</span><h3>Le service</h3><p>Le seul avec des droits élevés : puissance, ventilateurs, auto TDP.</p></div>
-        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-chip"/></svg><span class="tag">firmware</span><h3>La console</h3><p>Le <button class="t" data-t="firmware">firmware</button> de l'Ally et le pilote graphique, qui donnent les mesures en direct.</p></div>
+        <div class="tile full rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><h3>Sous le capot</h3><p>Écrit en Rust. Un <button class="t" data-t="service">service</button> règle le matériel ; l'interface, elle, tourne comme une application ordinaire, sans droits particuliers. Les valeurs envoyées à la console restent dans les plages prévues pour chaque modèle.</p></div>
       </div>
     </div>
   </section>
