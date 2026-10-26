@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 22'%3E%3Crect x='5' y='2' width='20' height='10' rx='3.5' fill='%23ff3d5e'/%3E%3Crect x='1' y='8' width='7' height='10' rx='3' fill='%23ff3d5e'/%3E%3Crect x='22' y='8' width='7' height='10' rx='3' fill='%23ff3d5e'/%3E%3Crect x='6' y='11.5' width='18' height='6.5' rx='1.5' fill='%23ff3d5e'/%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Canapé</title>
+<meta name="description" content="Canapé : l'accueil console léger pour la ROG Ally. Tes jeux, la puissance et la batterie, à la manette.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: dark console world. Centered hero with a white ROG Ally over drifting covers; a cover wall; a pinned-Ally scroll story; live auto TDP; bento of numbers and features; under the hood; glossary. Single dark look, like Canapé. */
+:root {
+  color-scheme: dark;
+  --bg: #08090b;
+  --bg-2: #0e1014;
+  --surface: #13151a;
+  --surface-2: #1b1e25;
+  --stroke: #262931;
+  --text: #eef0f4;
+  --dim: #8b919b;
+  --faint: #5d626b;
+  --accent: #ff3d5e;
+  --accent-soft: rgba(255, 61, 94, .16);
+  --good: #34d399;
+  --display: "Bricolage Grotesque", "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --body: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font: 400 17px/1.6 var(--body); }
+main, footer { overflow-x: clip; }
+a { color: inherit; }
+img { display: block; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.02; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.eyebrow { font: 700 12px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+.lead { color: #aeb3bc; font-size: 19px; max-width: 60ch; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
+.grad { background: linear-gradient(90deg, #fff 10%, #ffb3c0 55%, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Terms with a definition */
+.t { all: unset; cursor: help; border-bottom: 1px dashed currentColor; color: var(--text); font-weight: 600; white-space: nowrap; }
+.t::after { content: "i"; display: inline-grid; place-items: center; width: 15px; height: 15px; margin-left: 4px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--stroke); color: var(--dim); font: 700 10px/1 var(--mono); vertical-align: 2px; }
+.t:hover::after, .t:focus-visible::after, .t[aria-expanded="true"]::after { background: var(--accent); border-color: var(--accent); color: #fff; }
+.t:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 3px; }
+#tip { position: fixed; z-index: 50; max-width: min(320px, calc(100vw - 32px)); background: #1d2027; border: 1px solid var(--stroke); border-radius: 14px; padding: 14px 16px; box-shadow: 0 18px 50px rgba(0,0,0,.6); font-size: 14px; line-height: 1.5; pointer-events: none; opacity: 0; transform: translateY(6px); transition: opacity .15s, transform .15s; }
+#tip.on { opacity: 1; transform: none; }
+#tip .tt { display: flex; align-items: center; gap: 10px; font: 700 15px var(--display); margin-bottom: 6px; }
+#tip svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+#tip p { color: #c6cad2; }
+
+/* Top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: rgba(8,9,11,.72); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid rgba(255,255,255,.05); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 31; background: var(--bg); }
+.top .wrap { display: flex; align-items: center; gap: 12px; height: 62px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 800 20px var(--body); letter-spacing: -.01em; }
+.brand svg { width: 30px; height: 22px; }
+.top nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; color: var(--dim); }
+.top nav a { text-decoration: none; }
+.top nav a:hover { color: var(--text); }
+@media (max-width: 680px) { .top nav { display: none; } }
+
+/* Hero */
+.hero { position: relative; isolation: isolate; padding-block: 64px 24px; text-align: center; }
+.hero .copy { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.hero h1 { font-size: clamp(46px, 8.4vw, 112px); font-weight: 800; }
+.hero .lead { margin-inline: auto; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 14px; font-weight: 700; text-decoration: none; transition: transform .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: #fff; color: #08090b; }
+.btn-ghost { background: rgba(255,255,255,.06); border: 1px solid var(--stroke); }
+.btn .glyph { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid currentColor; display: grid; place-items: center; font: 700 11px var(--body); }
+.hero-stage { position: relative; margin-top: 56px; }
+.hero-stage .halo { position: absolute; inset: 8% 10% 0; background: radial-gradient(50% 50% at 50% 55%, var(--halo, rgba(255,61,94,.35)), transparent 70%); filter: blur(30px); z-index: -1; transition: background 1s; }
+.drift { position: absolute; left: 0; right: 0; display: flex; gap: 18px; width: max-content; z-index: -2; opacity: .35; filter: saturate(.9); }
+.drift.d1 { top: -2%; animation: drift 80s linear infinite; }
+.drift.d2 { bottom: 4%; animation: drift 95s linear infinite reverse; }
+.drift .cover { width: 150px; height: 225px; border-radius: 14px; }
+.hero-stage::before, .hero-stage::after { content: ""; position: absolute; top: -10%; bottom: -10%; width: 22%; z-index: -1; pointer-events: none; }
+.hero-stage::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+.hero-stage::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
+@keyframes drift { to { transform: translateX(-50%); } }
+.hero-device { max-width: 980px; margin: 0 auto; transform: perspective(1600px) rotateX(var(--tilt, 10deg)); transform-origin: 50% 100%; transition: transform .1s linear; }
+@media (max-width: 680px) { .drift .cover { width: 96px; height: 144px; } .hero { padding-block: 36px 8px; } .hero-stage { margin-top: 36px; } }
+
+/* The ROG Ally: drawn body, live screen */
+.ally { position: relative; width: 100%; aspect-ratio: 1000 / 420; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
+.ally > svg.body { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ally .screen { position: absolute; left: 21.5%; top: 10.5%; width: 57%; height: 76.2%; border-radius: .8% / 1.4%; overflow: hidden; background: #050607; container-type: inline-size; }
+.ally .screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,.07), transparent 35%); pointer-events: none; z-index: 9; }
+.ring { transition: stroke .4s, filter .4s; }
+
+/* Covers with real art; a gradient shows while it loads or if it is missing */
+.cover { position: relative; flex: none; overflow: hidden; background: linear-gradient(160deg, var(--c1, #23262d), var(--c2, #101216)); }
+.cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s; }
+.cover img.ok { opacity: 1; }
+.cover .nm { position: absolute; inset: auto 6% 8%; font: 800 11px/1.15 var(--body); text-transform: uppercase; text-align: center; color: rgba(255,255,255,.85); }
+.cover img.ok + .nm { display: none; }
+.banner { position: absolute; inset: 0; background: linear-gradient(160deg, var(--c1, #1d2433), var(--c2, #0b0c0f)); }
+.banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s; }
+.banner img.ok { opacity: 1; }
+
+/* Screen UI, sized in container units */
+.ui { position: absolute; inset: 0; font-family: var(--body); color: #eef0f4; font-size: 1.5cqw; background: #0b0c0f; opacity: 0; transition: opacity .45s ease; }
+.ui.on { opacity: 1; }
+.bar { position: absolute; left: 3.8cqw; right: 3.8cqw; top: 2.6cqw; display: flex; align-items: center; gap: 2.2cqw; font-size: 1.35cqw; z-index: 3; }
+.bar .logo { display: flex; align-items: center; gap: .9cqw; font-weight: 700; font-size: 1.5cqw; margin-right: 1.4cqw; }
+.bar .logo svg { width: 2.3cqw; height: 1.7cqw; }
+.bar .tab { color: #9aa0aa; position: relative; }
+.bar .tab.on { color: #fff; }
+.bar .tab.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.6cqw; height: .22cqw; border-radius: 1cqw; background: var(--accent); }
+.bar .stat { margin-left: auto; display: flex; gap: 1.6cqw; color: #aeb3bc; font-size: 1.2cqw; }
+.bar .stat b { color: #fff; font-weight: 600; }
+.hints { position: absolute; right: 3.8cqw; bottom: 2.4cqw; display: flex; gap: 2cqw; font-size: 1.1cqw; color: #d0d3da; z-index: 3; }
+.hints span { display: flex; align-items: center; gap: .6cqw; }
+.hints i { font-style: normal; display: inline-grid; place-items: center; min-width: 1.7cqw; height: 1.7cqw; padding: 0 .3cqw; border: .12cqw solid #d0d3da; border-radius: 1cqw; font-size: .8cqw; font-weight: 700; }
+.pill { align-self: flex-start; display: inline-flex; align-items: center; gap: .8cqw; background: #fff; color: #0b0c0f; padding: .9cqw 1.4cqw; border-radius: .9cqw; font-weight: 700; font-size: 1.3cqw; }
+.pill i { font-style: normal; width: 1.6cqw; height: 1.6cqw; border-radius: 50%; border: .12cqw solid #0b0c0f; display: grid; place-items: center; font-size: .8cqw; }
+.shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,9,11,.92) 0%, rgba(8,9,11,.55) 45%, rgba(8,9,11,.15) 80%), linear-gradient(0deg, #0b0c0f 18%, rgba(11,12,15,0) 58%); z-index: 1; }
+
+/* Library */
+.lib .banner { transition: opacity .5s; }
+.lib .head { position: absolute; left: 3.8cqw; top: 9.5cqw; display: flex; flex-direction: column; gap: 1.2cqw; z-index: 2; }
+.lib .store { font-size: 1cqw; letter-spacing: .14em; color: #c6cad2; font-weight: 700; }
+.lib .title { font-weight: 800; font-size: 4.6cqw; letter-spacing: -.02em; line-height: 1; max-width: 50cqw; }
+.lib .sub { color: #d0d3da; font-size: 1.3cqw; }
+.lib .label { position: absolute; left: 3.8cqw; top: 33cqw; font-size: 1.15cqw; color: #d0d3da; font-weight: 600; z-index: 2; }
+.lib .track { position: absolute; left: 3.8cqw; top: 36cqw; display: flex; gap: 1cqw; transition: transform .45s cubic-bezier(.16,1,.3,1); z-index: 2; }
+.lib .track .cover { width: 9.4cqw; height: 14.1cqw; border-radius: .9cqw; transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s; }
+.lib .track .cover .nm { font-size: .9cqw; }
+.lib .track .cover.sel { transform: scale(1.1); box-shadow: 0 0 0 .3cqw #0b0c0f, 0 0 0 .55cqw #fff; z-index: 2; }
+
+/* Game page */
+.game .banner { height: 58%; inset: 0 0 auto; }
+.game .banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, #0b0c0f 2%, rgba(11,12,15,.2) 70%, rgba(11,12,15,.5)); }
+.game .art { position: absolute; left: 3.8cqw; top: 15cqw; width: 17cqw; height: 25.5cqw; border-radius: 1.2cqw; box-shadow: 0 2cqw 4cqw rgba(0,0,0,.6); z-index: 2; }
+.game .info { position: absolute; left: 24cqw; top: 22.5cqw; right: 3.8cqw; display: flex; flex-direction: column; gap: 1cqw; z-index: 2; }
+.game .title { font-weight: 800; font-size: 3.8cqw; letter-spacing: -.02em; line-height: 1; }
+.game .sub { color: #c6cad2; font-size: 1.25cqw; }
+.ttb { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8cqw; }
+.ttb div { background: #15171c; border-radius: .9cqw; padding: .9cqw 1.2cqw; }
+.ttb small { display: block; color: #8b919b; font-size: .95cqw; }
+.ttb b { font-size: 1.7cqw; font-weight: 800; }
+.ttb div:nth-child(1) b { color: var(--accent); }
+.ach { background: #15171c; border-radius: .9cqw; padding: .9cqw 1.2cqw; display: flex; align-items: center; gap: 1.2cqw; }
+.ach .icons { display: flex; gap: .5cqw; }
+.ach .icons i { width: 2.3cqw; height: 2.3cqw; border-radius: .5cqw; background: linear-gradient(135deg, #fbbf24, #b45309); }
+.ach .icons i:nth-child(2) { background: linear-gradient(135deg, #60a5fa, #1e3a8a); }
+.ach .icons i:nth-child(3) { background: linear-gradient(135deg, #34d399, #065f46); }
+.ach .icons i:nth-child(4) { background: #2a2d34; }
+.ach .meter { flex: 1; height: .5cqw; border-radius: 1cqw; background: #2a2d34; overflow: hidden; }
+.ach .meter i { display: block; height: 100%; width: 0; background: var(--good); transition: width 1.2s cubic-bezier(.16,1,.3,1) .2s; }
+.game.on .ach .meter i { width: 57%; }
+.ach small { color: #c6cad2; font-size: 1.05cqw; white-space: nowrap; }
+
+/* Performance */
+.perf { background: radial-gradient(60% 70% at 80% 10%, rgba(255,61,94,.14), transparent 70%), #0b0c0f; }
+.perf .fig { position: absolute; left: 3.8cqw; top: 10cqw; display: flex; flex-direction: column; gap: .6cqw; }
+.perf .fig small { color: #8b919b; font-size: 1cqw; letter-spacing: .14em; font-weight: 700; }
+.perf .fig b { font: 800 6.4cqw/1 var(--body); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.perf .fig b span { font-size: 2.4cqw; color: #8b919b; margin-left: .4cqw; }
+.perf .fig p { color: #c6cad2; font-size: 1.2cqw; }
+.perf .fig p em { font-style: normal; color: var(--good); font-weight: 700; }
+.perf svg.graph { position: absolute; right: 3.8cqw; top: 10cqw; width: 52cqw; height: 18cqw; overflow: visible; }
+.perf .cards { position: absolute; left: 3.8cqw; right: 3.8cqw; top: 33cqw; display: flex; gap: 1cqw; }
+.card { flex: 1; background: #16181d; border-radius: 1.1cqw; padding: 1.2cqw; display: flex; flex-direction: column; gap: .5cqw; min-height: 8.6cqw; }
+.card small { color: #8b919b; font-size: 1cqw; }
+.card b { font-size: 1.55cqw; }
+.card.sel { background: #262930; box-shadow: 0 0 0 .22cqw #fff; }
+.card .dot { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: var(--accent-soft); border: .15cqw solid var(--accent); }
+
+/* In game */
+.ingame .banner { transform: scale(1.06); transition: transform 6s ease-out; }
+.ingame.on .banner { transform: scale(1.0); }
+.ingame .osd { position: absolute; left: 2cqw; top: 2cqw; font: 700 1.2cqw var(--mono); color: #b6f7d0; background: rgba(0,0,0,.45); padding: .4cqw .8cqw; border-radius: .5cqw; font-variant-numeric: tabular-nums; z-index: 2; }
+.widget { position: absolute; right: 2cqw; top: 2cqw; bottom: 2cqw; width: 27cqw; background: rgba(16,18,22,.93); backdrop-filter: blur(1cqw); border: .1cqw solid #2a2d34; border-radius: 1.4cqw; padding: 1.6cqw; display: flex; flex-direction: column; gap: 1.2cqw; transform: translateX(120%); transition: transform .6s cubic-bezier(.16,1,.3,1) .3s; box-shadow: 0 2cqw 5cqw rgba(0,0,0,.5); z-index: 3; }
+.ingame.on .widget { transform: none; }
+.widget header { display: flex; align-items: center; gap: .8cqw; font-weight: 700; font-size: 1.4cqw; }
+.widget header svg { width: 2cqw; height: 1.5cqw; }
+.widget .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5cqw; }
+.widget .modes span { text-align: center; font-size: 1cqw; padding: .7cqw 0; border-radius: .7cqw; background: #1c1f26; color: #c6cad2; }
+.widget .modes span.on { background: var(--accent); color: #fff; font-weight: 700; }
+.widget .w { display: flex; align-items: center; justify-content: space-between; background: #1c1f26; border-radius: .9cqw; padding: .8cqw 1cqw; }
+.widget .w i { font-style: normal; width: 2.4cqw; height: 2.4cqw; border-radius: .6cqw; background: #2a2d34; display: grid; place-items: center; font-size: 1.4cqw; }
+.widget .w b { font: 800 2.4cqw var(--body); font-variant-numeric: tabular-nums; }
+.widget .row { display: flex; justify-content: space-between; align-items: center; font-size: 1.1cqw; color: #c6cad2; }
+.widget .row b { color: #fff; font-variant-numeric: tabular-nums; }
+.widget .toggle { width: 3.2cqw; height: 1.8cqw; border-radius: 1cqw; background: var(--accent); position: relative; }
+.widget .toggle::after { content: ""; position: absolute; right: .25cqw; top: .25cqw; width: 1.3cqw; height: 1.3cqw; border-radius: 50%; background: #fff; }
+.widget svg.spark { width: 100%; height: 5cqw; }
+
+/* Hardware */
+.hw { background: radial-gradient(60% 70% at 20% 0%, rgba(96,165,250,.12), transparent 70%), #0b0c0f; }
+.hw .sh-label { position: absolute; left: 3.8cqw; font-size: 1.15cqw; color: #d0d3da; font-weight: 600; }
+.hw .shelf { position: absolute; left: 3.8cqw; right: 3.8cqw; display: flex; gap: 1cqw; }
+.hw svg.curve { width: 100%; height: 4cqw; }
+.hw .ringprev { width: 3cqw; height: 3cqw; border-radius: 50%; border: .5cqw solid var(--lit, #ff3d5e); box-shadow: 0 0 1.4cqw var(--lit, #ff3d5e); }
+
+/* Cover wall */
+.wall { position: relative; padding-block: 120px; overflow: hidden; }
+.wall .rows { display: flex; flex-direction: column; gap: 18px; transform: rotate(-6deg) scale(1.15); opacity: .9; }
+.wall .row { display: flex; gap: 18px; width: max-content; }
+.wall .row .cover { width: 170px; height: 255px; border-radius: 16px; }
+.wall .r1 { animation: drift 70s linear infinite; }
+.wall .r2 { animation: drift 85s linear infinite reverse; }
+.wall .r3 { animation: drift 100s linear infinite; }
+.wall .over { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; background: radial-gradient(45% 55% at 50% 50%, rgba(8,9,11,.92), rgba(8,9,11,.55) 70%, rgba(8,9,11,.2)); padding-inline: var(--gutter-l) var(--gutter-r); }
+.wall .over > div { display: flex; flex-direction: column; gap: 18px; align-items: center; max-width: 760px; }
+.wall h2 { font-size: clamp(36px, 6vw, 76px); font-weight: 800; }
+.stores { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.stores span { padding: 8px 14px; border-radius: 99px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); font-weight: 700; font-size: 14px; backdrop-filter: blur(6px); }
+@media (max-width: 680px) { .wall { padding-block: 70px; } .wall .row .cover { width: 104px; height: 156px; border-radius: 12px; } .wall .rows { gap: 12px; } .wall .row { gap: 12px; } }
+
+/* Story */
+.story { position: relative; padding-block: 40px; }
+.story-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.3fr); gap: 56px; }
+.steps { display: flex; flex-direction: column; }
+.step { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; gap: 16px; padding-block: 40px; opacity: .3; transition: opacity .4s; }
+.step.on { opacity: 1; }
+.step h2 { font-size: clamp(32px, 4.2vw, 54px); font-weight: 800; }
+.step p { color: #c6cad2; max-width: 46ch; }
+.step ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; color: #c6cad2; font-size: 15px; }
+.step li { display: flex; gap: 10px; align-items: flex-start; }
+.step li svg { width: 20px; height: 20px; flex: none; color: var(--accent); margin-top: 2px; }
+.stage { position: sticky; top: calc(50vh - min(15vw, 190px)); height: fit-content; }
+.progress { display: flex; gap: 6px; justify-content: center; margin-top: 22px; }
+.progress i { width: 22px; height: 4px; border-radius: 4px; background: var(--stroke); transition: background .3s, width .3s; }
+.progress i.on { background: var(--accent); width: 40px; }
+@media (max-width: 900px) {
+  .story-grid { grid-template-columns: 1fr; gap: 0; }
+  .stage { order: -1; top: calc(env(safe-area-inset-top, 0px) + 66px); z-index: 5; padding-block: 8px 16px; background: linear-gradient(var(--bg) 84%, transparent); margin-left: calc(-1 * var(--gutter-l)); margin-right: calc(-1 * var(--gutter-r)); padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+  .step { min-height: 78vh; padding-block: 24px; }
+  .progress { margin-top: 10px; }
+}
+
+/* Sections */
+section.block { padding-block: 110px; }
+.block-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 44px; }
+.block-head h2 { font-size: clamp(34px, 5vw, 64px); font-weight: 800; }
+
+/* Auto TDP demo */
+.demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; align-items: stretch; }
+.panel { background: var(--surface); border: 1px solid var(--stroke); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.demo canvas { width: 100%; height: 100%; min-height: 280px; display: block; }
+.ctl { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ctl span { color: var(--dim); font-size: 14px; margin-right: 4px; }
+.seg { all: unset; cursor: pointer; padding: 9px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--stroke); font: 700 14px var(--mono); }
+.seg[aria-pressed="true"] { background: #fff; color: #08090b; border-color: #fff; }
+.seg:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.readout div { background: var(--bg-2); border-radius: 14px; padding: 12px 14px; }
+.readout small { display: block; color: var(--dim); font-size: 12px; }
+.readout b { font: 800 28px var(--display); font-variant-numeric: tabular-nums; }
+.readout .w b { color: var(--accent); }
+.readout .f b { color: var(--good); }
+.legend { display: flex; gap: 18px; font-size: 13px; color: var(--dim); flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 14px; height: 3px; border-radius: 3px; display: inline-block; }
+.note { font-size: 13px; color: var(--faint); margin-top: auto; }
+@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo canvas { min-height: 220px; } }
+
+/* Bento */
+.bento { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.tile { grid-column: span 2; background: var(--surface); border: 1px solid var(--stroke); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; position: relative; overflow: hidden; transition: transform .25s, border-color .25s; }
+.tile:hover { transform: translateY(-3px); border-color: #3a3e48; }
+.tile.wide { grid-column: span 3; }
+.tile.big b.n { font: 800 clamp(56px, 7vw, 96px)/1 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.tile b.n small { font-size: .4em; color: var(--dim); margin-left: 6px; letter-spacing: 0; }
+.tile.red b.n { color: var(--accent); }
+.tile svg.ic { width: 28px; height: 28px; color: var(--accent); }
+.tile h3 { font: 700 19px var(--body); letter-spacing: -.01em; }
+.tile p { color: var(--dim); font-size: 15px; }
+.tile .lang { font: 800 clamp(30px, 3.4vw, 44px)/1.1 var(--display); min-height: 1.2em; }
+.tile .lang span { display: inline-block; animation: pop .5s cubic-bezier(.16,1,.3,1); }
+@keyframes pop { from { transform: translateY(40%); opacity: 0; } }
+.tile .mini { margin-top: auto; height: 70px; }
+.tile .mini path { stroke-dasharray: 400; stroke-dashoffset: 400; transition: stroke-dashoffset 1.6s ease; }
+.tile.in .mini path { stroke-dashoffset: 0; }
+@media (max-width: 960px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile, .tile.wide { grid-column: span 1; } }
+@media (max-width: 560px) { .bento { grid-template-columns: 1fr; } }
+
+/* Under the hood */
+.stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.layer-card { background: var(--surface); border: 1px solid var(--stroke); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 10px; min-width: 0; position: relative; }
+.layer-card svg.ic { width: 28px; height: 28px; color: var(--accent); }
+.layer-card h3 { font-size: 21px; }
+.layer-card p { color: #c6cad2; font-size: 15px; }
+.layer-card .tag { align-self: flex-start; font: 700 11px var(--mono); padding: 4px 8px; border-radius: 6px; background: var(--bg-2); color: var(--dim); }
+.layer-card:not(:last-child)::after { content: "→"; position: absolute; right: -13px; top: 50%; transform: translateY(-50%); color: var(--faint); font: 700 14px var(--mono); }
+@media (max-width: 900px) { .stack { grid-template-columns: 1fr 1fr; } .layer-card::after { display: none; } }
+@media (max-width: 520px) { .stack { grid-template-columns: 1fr; } }
+
+/* Glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin: 0; }
+.gloss div { padding-block: 16px; border-top: 1px solid var(--stroke); display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 14px; }
+.gloss svg { width: 22px; height: 22px; color: var(--accent); grid-row: span 2; margin-top: 2px; }
+.gloss dt { font: 700 16px var(--display); }
+.gloss dd { margin: 0; color: var(--dim); font-size: 15px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: 1fr; } }
+
+/* Closing */
+.closing { text-align: center; padding-block: 120px 90px; position: relative; isolation: isolate; }
+.closing::before { content: ""; position: absolute; inset: 10% 20%; background: radial-gradient(50% 50% at 50% 50%, rgba(255,61,94,.25), transparent 70%); filter: blur(40px); z-index: -1; }
+.closing h2 { font-size: clamp(38px, 6vw, 80px); font-weight: 800; }
+.closing p { margin: 18px auto 0; }
+
+footer { padding-block: 40px 64px; border-top: 1px solid var(--stroke); color: var(--dim); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; align-items: center; }
+footer small { color: var(--faint); }
+
+/* Reveal: visible at rest without script */
+.js .rise { transform: translateY(22px); opacity: .001; transition: transform .8s cubic-bezier(.16,1,.3,1), opacity .8s; }
+.js .rise.in { transform: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .rise { transform: none; opacity: 1; transition: none; }
+  .drift, .wall .row { animation: none !important; }
+  .ui, .cover, .lib .track, .widget, .ingame .banner, .ach .meter i, .hero-device { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo" viewBox="0 0 30 22"><rect x="5" y="2" width="20" height="10" rx="3.5" fill="#ff3d5e"/><rect x="1" y="8" width="7" height="10" rx="3" fill="#ff3d5e"/><rect x="22" y="8" width="7" height="10" rx="3" fill="#ff3d5e"/><rect x="6" y="11.5" width="18" height="6.5" rx="1.5" fill="#ff3d5e" opacity=".8"/><rect x="4" y="18" width="2.5" height="3" rx="1" fill="#ff3d5e"/><rect x="23.5" y="18" width="2.5" height="3" rx="1" fill="#ff3d5e"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-auto" viewBox="0 0 24 24"><path d="M3 17c3-6 6-9 9-9s5 3 9 1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="8" r="2.2" fill="currentColor"/><path d="M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-fps" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 13l3-3 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-screen" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-fan" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 10c0-4 1-7 4-7s3 4-2 7M14 12c4 0 7 1 7 4s-4 3-7-2M12 14c0 4-1 7-4 7s-3-4 2-7M10 12c-4 0-7-1-7-4s4-3 7 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pad" viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4l-1 5a3 3 0 0 1-5 1l-2-2h-4l-2 2a3 3 0 0 1-5-1l-1-5a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 11v3M6.5 12.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="12" r="1" fill="currentColor"/><circle cx="18" cy="14" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5zM2 13l10 5 10-5M2 17.5l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-feather" viewBox="0 0 24 24"><path d="M20 4C11 4 5 10 5 19l-2 2M5 19c6 0 12-4 13-11M9 15h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="10" y="4" width="5" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m17 5.5 3.5-1 2.5 14.5-3.5 1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-profile" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-bench" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-gyro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="10" ry="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="12" rx="4.5" ry="10" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-widget" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="12" y="6" width="6" height="12" rx="1.5" fill="currentColor" opacity=".9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="m3 16 5-5 4 4 3-3 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="8.5" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><path d="M4 18 9 6l4 9 2-5 5 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Canapé</div>
+    <nav aria-label="Sections">
+      <a href="#visite">La visite</a>
+      <a href="#auto">Auto TDP</a>
+      <a href="#dedans">Dedans</a>
+      <a href="#glossaire">Glossaire</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap copy">
+      <p class="eyebrow">Pour ROG Ally · Windows 11</p>
+      <h1>Ta ROG Ally,<br><span class="grad">enfin une console.</span></h1>
+      <p class="lead">Canapé remplace l'accueil plein écran de Windows (le <button class="t" data-t="fse">FSE</button>). Tous tes jeux au même endroit, la puissance réglée toute seule, et plus jamais besoin de la souris.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#visite"><span class="glyph" aria-hidden="true">A</span>Faire la visite</a>
+        <a class="btn btn-ghost" href="#auto">Voir l'auto TDP</a>
+      </div>
+    </div>
+    <div class="hero-stage">
+      <div class="drift d1" aria-hidden="true"></div>
+      <div class="drift d2" aria-hidden="true"></div>
+      <div class="halo" id="halo"></div>
+      <div class="wrap"><div class="hero-device" id="hero-host"></div></div>
+    </div>
+  </section>
+
+  <section class="wall" aria-label="Bibliothèque">
+    <div class="rows" aria-hidden="true"><div class="row r1"></div><div class="row r2"></div><div class="row r3"></div></div>
+    <div class="over">
+      <div class="rise">
+        <p class="eyebrow">Une seule bibliothèque</p>
+        <h2>Tous tes jeux. Toutes tes boutiques.</h2>
+        <p class="lead">Canapé trouve tout seul ce qui est installé et ce que tu possèdes. Fini de passer d'un lanceur à l'autre.</p>
+        <div class="stores"><span>Steam</span><span>Epic Games</span><span>GOG</span><span>Xbox</span><span>Tes émulateurs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="visite" aria-label="La visite">
+    <div class="wrap story-grid">
+      <div class="steps">
+        <article class="step" data-scene="lib">
+          <p class="eyebrow">01 · Bibliothèque</p>
+          <h2>Tout est là, à la manette.</h2>
+          <p>Les jeux de Steam, Epic, GOG et de l'app Xbox, rangés sur des étagères. Ceux que tu possèdes sans les avoir installés aussi : <b>A</b> les installe sans ouvrir le lanceur de la boutique.</p>
+          <ul>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Récents, installés, par boutique et par catégorie</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Jaquettes et bannières téléchargées toutes seules</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Tes propres jeux et émulateurs en deux clics</li>
+          </ul>
+        </article>
+        <article class="step" data-scene="game">
+          <p class="eyebrow">02 · Fiche du jeu</p>
+          <h2>Tout savoir avant de lancer.</h2>
+          <p>Le temps qu'il faut pour le finir (d'après <button class="t" data-t="igdb">IGDB</button>), tes succès, la place qu'il prend et le réglage appris pour lui. <b>Y</b> pour le renommer, le ranger dans une catégorie ou le désinstaller.</p>
+        </article>
+        <article class="step" data-scene="perf">
+          <p class="eyebrow">03 · Performance</p>
+          <h2>La puissance, réglée toute seule.</h2>
+          <p>Tu choisis un objectif, par exemple 60 <button class="t" data-t="fps">FPS</button>. L'<button class="t" data-t="autotdp">auto TDP</button> baisse le <button class="t" data-t="tdp">TDP</button> jusqu'au minimum qui tient cet objectif. Moins de watts : plus de batterie, moins de bruit.</p>
+          <ul>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Silencieux, Performance, Turbo, ou les watts à la main</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="profil">profil par jeu</button>, appliqué dès que le jeu passe devant</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="banc">banc d'essai</button> qui trouve le bon réglage pour toi</li>
+          </ul>
+        </article>
+        <article class="step" data-scene="ingame">
+          <p class="eyebrow">04 · En jeu</p>
+          <h2>Ajuster sans quitter la partie.</h2>
+          <p>Le bouton de gauche ouvre le widget Canapé dans la <button class="t" data-t="gamebar">Xbox Game Bar</button>, par-dessus le jeu : mode, ±1 W, objectif de FPS, température, batterie. Le jeu continue derrière.</p>
+        </article>
+        <article class="step" data-scene="hw">
+          <p class="eyebrow">05 · Matériel</p>
+          <h2>Toute la console, à ta main.</h2>
+          <p>Courbes de ventilateurs, limite de FPS, définition d'écran par jeu, boutons arrière, éclairage des sticks, visée au <button class="t" data-t="gyro">gyroscope</button>. Tout est réappliqué au démarrage.</p>
+        </article>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div id="story-host"></div>
+        <div class="progress" id="progress"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="auto">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Auto TDP, en direct</p>
+        <h2>Le moins de watts possible.<br>Sans perdre d'images.</h2>
+        <p class="lead">Choisis un objectif et regarde la puissance descendre pendant que les images par seconde restent au-dessus. C'est ce que fait Canapé chaque seconde, à partir des mesures du pilote graphique.</p>
+      </div>
+      <div class="demo">
+        <div class="panel rise">
+          <div class="ctl" role="group" aria-label="Objectif de FPS">
+            <span>Objectif</span>
+            <button class="seg" id="t30" data-fps="30" aria-pressed="false">30 FPS</button>
+            <button class="seg" id="t40" data-fps="40" aria-pressed="false">40 FPS</button>
+            <button class="seg" id="t60" data-fps="60" aria-pressed="true">60 FPS</button>
+          </div>
+          <div class="readout">
+            <div class="w"><small>Puissance</small><b id="r-w">25 W</b></div>
+            <div class="f"><small>Images / s</small><b id="r-f">88</b></div>
+            <div><small>Autonomie</small><b id="r-g">+0 %</b></div>
+          </div>
+          <div class="legend"><span><i style="background:var(--accent)"></i>Puissance (W)</span><span><i style="background:var(--good)"></i>Images par seconde</span><span><i style="background:var(--dim)"></i>Objectif</span></div>
+          <p class="note">Simulation d'un jeu type : sa courbe images/watts est inventée, la méthode est celle de Canapé.</p>
+        </div>
+        <div class="panel rise"><canvas id="chart" aria-label="Graphique : puissance et images par seconde dans le temps" role="img"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="dedans">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Ce qu'il y a dedans</p>
+        <h2>Léger d'abord.<br>Complet quand même.</h2>
+        <p class="lead">Pas de navigateur embarqué, pas de moteur de jeu pour afficher un menu. Chaque mégaoctet laissé libre est pour tes jeux. Chiffres mesurés sur la ROG Ally.</p>
+      </div>
+      <div class="bento">
+        <div class="tile big red rise"><b class="n" data-count="28">0<small>Mo</small></b><p>de mémoire pour l'interface, grâce au <button class="t" data-t="rendu">rendu logiciel</button>. Moins qu'un onglet de navigateur.</p></div>
+        <div class="tile big rise"><b class="n" data-count="1.4" data-dec="1">0<small>Mo</small></b><p>pour le <button class="t" data-t="service">service</button> qui pilote le matériel, en arrière-plan.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><div class="lang" id="lang"><span>Jeux</span></div><p>13 langues, celle de Windows par défaut ou celle que tu choisis.</p></div>
+        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer sans lanceur</h3><p>Les jeux Steam, Epic et GOG que tu possèdes s'installent depuis Canapé, progression sur la jaquette, sans ouvrir la boutique.</p></div>
+        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-profile"/></svg><h3>Un profil par jeu</h3><p>Puissance, ventilateurs, limite de FPS, définition d'écran, réglages du processeur : chaque jeu garde les siens.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-bench"/></svg><h3>Banc d'essai</h3><p>Il teste plusieurs puissances sur ton jeu et propose le meilleur compromis.</p><svg class="mini" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C30 60 45 30 80 22 S140 14 200 12" fill="none" stroke="#ff3d5e" stroke-width="3"/></svg></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg><h3>Processeur</h3><p>Boost, priorité performance ou énergie, fréquence maximale. Par jeu si tu veux.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg><h3>Image</h3><p>Définition et fréquence d'écran par jeu. Mise à l'échelle et génération d'images en préparation.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Incline la console pour viser, en tenant une palette ou tout le temps.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à ta couleur d'accent.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Windows allégé</h3><p>Copilot, publicités, applis inutiles : on retire, et on peut tout remettre.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="capot">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Sous le capot</p>
+        <h2>Quatre pièces, chacune à sa place.</h2>
+        <p class="lead">Écrit en Rust. Seul le service a des droits élevés ; l'interface tourne comme une application normale.</p>
+      </div>
+      <div class="stack">
+        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-screen"/></svg><span class="tag">FSE</span><h3>L'accueil</h3><p>Windows démarre directement sur Canapé, en plein écran, à la place de l'app Xbox.</p></div>
+        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg><span class="tag">canape-shell</span><h3>L'interface</h3><p>Ce que tu vois, pilotée à la manette, dessinée par le processeur pour rester légère.</p></div>
+        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="tag">canape-service</span><h3>Le service</h3><p>Le seul avec des droits élevés : puissance, ventilateurs, auto TDP.</p></div>
+        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-chip"/></svg><span class="tag">firmware</span><h3>La console</h3><p>Le <button class="t" data-t="firmware">firmware</button> de l'Ally et le pilote graphique, qui donnent les mesures en direct.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="glossaire">
+    <div class="wrap">
+      <div class="block-head rise">
+        <p class="eyebrow">Glossaire</p>
+        <h2>Les mots, en clair.</h2>
+      </div>
+      <dl class="gloss" id="gloss"></dl>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap rise">
+      <h2>Allume. Choisis. Joue.</h2>
+      <p class="lead">Canapé est un projet en cours, testé chaque semaine sur une vraie ROG Ally.</p>
+      <div class="cta" style="margin-top:28px"><a class="btn btn-primary" href="#visite"><span class="glyph" aria-hidden="true">A</span>Revoir la visite</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Canapé</div>
+    <p>Un projet personnel, en développement. Sans lien avec ASUS, Microsoft ou Valve.</p>
+    <small>Jeux, jaquettes et bannières : propriété de leurs éditeurs.</small>
+  </div>
+</footer>
+
+<div id="tip" role="tooltip" aria-hidden="true"><div class="tt"><svg><use href=""/></svg><span></span></div><p></p></div>
+
+<template id="device-tpl">
+  <div class="ally">
+    <svg class="body" viewBox="0 0 1000 420" aria-hidden="true">
+      <defs>
+        <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfdfe"/><stop offset=".55" stop-color="#e9ebee"/><stop offset="1" stop-color="#c9ccd2"/></linearGradient>
+        <linearGradient id="grip" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".10"/><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".10"/></linearGradient>
+        <radialGradient id="cap" cx=".5" cy=".38" r=".6"><stop offset="0" stop-color="#4a4d55"/><stop offset="1" stop-color="#1c1d21"/></radialGradient>
+        <radialGradient id="well" cx=".5" cy=".5" r=".5"><stop offset=".7" stop-color="#cfd2d8"/><stop offset="1" stop-color="#b7bbc3"/></radialGradient>
+      </defs>
+      <path d="M78 14 H922 Q972 14 980 62 L996 292 Q1002 372 934 398 L800 414 Q752 420 728 396 L706 376 H294 L272 396 Q248 420 200 414 L66 398 Q-2 372 4 292 L20 62 Q28 14 78 14 Z" fill="url(#shell)" stroke="#aeb2ba" stroke-width="2"/>
+      <path d="M78 14 H922 Q972 14 980 62 L996 292 Q1002 372 934 398 L800 414 Q752 420 728 396 L706 376 H294 L272 396 Q248 420 200 414 L66 398 Q-2 372 4 292 L20 62 Q28 14 78 14 Z" fill="url(#grip)"/>
+      <path d="M90 20 H910" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <rect x="200" y="30" width="600" height="352" rx="16" fill="#0c0d10"/>
+      <rect x="200" y="30" width="600" height="352" rx="16" fill="none" stroke="#2a2c31" stroke-width="2"/>
+      <!-- left stick -->
+      <circle cx="108" cy="118" r="58" fill="url(#well)"/>
+      <circle class="ring" cx="108" cy="118" r="49" fill="none" stroke="#3a3d44" stroke-width="5"/>
+      <circle cx="108" cy="118" r="40" fill="url(#cap)"/>
+      <circle cx="108" cy="118" r="28" fill="none" stroke="#5a5d66" stroke-width="2" opacity=".6"/>
+      <!-- d-pad -->
+      <g transform="translate(108 272)" fill="#2b2d33"><rect x="-13" y="-42" width="26" height="84" rx="6"/><rect x="-42" y="-13" width="84" height="26" rx="6"/><circle r="7" fill="#1f2125"/></g>
+      <!-- ABXY -->
+      <g transform="translate(892 118)" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="15" text-anchor="middle" fill="#2b2d33">
+        <circle cx="0" cy="-33" r="17"/><circle cx="33" cy="0" r="17"/><circle cx="0" cy="33" r="17"/><circle cx="-33" cy="0" r="17"/>
+        <g fill="#c9ccd2"><text x="0" y="-28">Y</text><text x="33" y="5">B</text><text x="0" y="38">A</text><text x="-33" y="5">X</text></g>
+      </g>
+      <!-- right stick -->
+      <circle cx="892" cy="274" r="58" fill="url(#well)"/>
+      <circle class="ring" cx="892" cy="274" r="49" fill="none" stroke="#3a3d44" stroke-width="5"/>
+      <circle cx="892" cy="274" r="40" fill="url(#cap)"/>
+      <circle cx="892" cy="274" r="28" fill="none" stroke="#5a5d66" stroke-width="2" opacity=".6"/>
+      <!-- small buttons: Command Center, View / Armoury, Menu -->
+      <rect x="166" y="50" width="20" height="12" rx="6" fill="#2b2d33"/><rect x="166" y="88" width="20" height="12" rx="6" fill="#2b2d33"/>
+      <rect x="814" y="50" width="20" height="12" rx="6" fill="#2b2d33"/><rect x="814" y="88" width="20" height="12" rx="6" fill="#2b2d33"/>
+      <!-- speaker grilles -->
+      <g fill="#b9bdc4"><circle cx="160" cy="356" r="2.4"/><circle cx="170" cy="350" r="2.4"/><circle cx="170" cy="362" r="2.4"/><circle cx="180" cy="356" r="2.4"/><circle cx="840" cy="356" r="2.4"/><circle cx="830" cy="350" r="2.4"/><circle cx="830" cy="362" r="2.4"/><circle cx="820" cy="356" r="2.4"/></g>
+    </svg>
+    <div class="screen">
+      <div class="ui lib on" data-ui="lib">
+        <div class="banner" data-hero></div>
+        <div class="shade"></div>
+        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab on">Jeux</span><span class="tab">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span><span>21:42</span></span></div>
+        <div class="head"><span class="store">STEAM</span><span class="title">ELDEN RING</span><span class="sub">Joué hier</span><span class="pill"><i>A</i>Détails</span></div>
+        <span class="label">Récents</span>
+        <div class="track"></div>
+        <div class="hints"><span><i>✥</i>Étagères</span><span><i>A</i>Détails</span><span><i>LB</i><i>RB</i>Sections</span></div>
+      </div>
+      <div class="ui game" data-ui="game">
+        <div class="banner" data-app="367520" data-kind="hero" style="--c1:#1f2a44;--c2:#0b0c0f"></div>
+        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab on">Jeux</span><span class="tab">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span></span></div>
+        <div class="cover art" data-app="367520" data-name="Hollow Knight"></div>
+        <div class="info">
+          <span class="title">Hollow Knight</span>
+          <span class="sub">Steam · Joué aujourd'hui · 9,2 Go · 6 W appris</span>
+          <span class="pill"><i>A</i>Jouer</span>
+          <div class="ttb"><div><small>Histoire</small><b>27 h</b></div><div><small>Complet</small><b>42 h</b></div><div><small>100 %</small><b>63 h</b></div></div>
+          <div class="ach"><span class="icons"><i></i><i></i><i></i><i></i></span><span class="meter"><i></i></span><small>Succès 36 / 63</small></div>
+        </div>
+        <div class="hints"><span><i>A</i>Jouer</span><span><i>Y</i>Options</span><span><i>B</i>Retour</span></div>
+      </div>
+      <div class="ui perf" data-ui="perf">
+        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab">Jeux</span><span class="tab on">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b class="pw">11</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span></span></div>
+        <div class="fig"><small>PUISSANCE</small><b><em class="pw" style="font-style:normal">11</em><span>W</span></b><p>Auto TDP · objectif 60 FPS · <em>tenu</em></p></div>
+        <svg class="graph" viewBox="0 0 520 180" preserveAspectRatio="none"><path d="M0 170H520" stroke="#2a2d34" stroke-width="2"/><path d="M0 40H520" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 6"/><path d="M0 30 C60 34 90 60 140 80 S240 110 300 112 S420 118 520 116 V170 H0Z" fill="rgba(255,61,94,.14)"/><path d="M0 30 C60 34 90 60 140 80 S240 110 300 112 S420 118 520 116" fill="none" stroke="#ff8aa0" stroke-width="5" stroke-linecap="round"/></svg>
+        <div class="cards"><div class="card"><span class="dot"></span><small>Mode</small><b>Silencieux</b></div><div class="card sel"><span class="dot"></span><small>Auto TDP</small><b>60 FPS</b></div><div class="card"><span class="dot"></span><small>Plage</small><b>7 – 25 W</b></div><div class="card"><span class="dot"></span><small>Processeur</small><b>Boost off</b></div></div>
+        <div class="hints"><span><i>✥</i>Cartes</span><span><i>A</i>Régler</span><span><i>X</i>Enregistrer pour ce jeu</span></div>
+      </div>
+      <div class="ui ingame" data-ui="ingame">
+        <div class="banner" data-app="1245620" data-kind="hero" style="--c1:#3a2f17;--c2:#0b0c0f"></div>
+        <div class="osd"><span class="fps">60</span> FPS · <span class="pw">9</span> W</div>
+        <div class="widget">
+          <header><svg><use href="#logo"/></svg>Canapé</header>
+          <div class="modes"><span>Silence</span><span class="on">Perf.</span><span>Turbo</span></div>
+          <div class="w"><i>−</i><b><span class="pw">9</span> W</b><i>+</i></div>
+          <div class="row"><span>Auto TDP · 60 FPS</span><span class="toggle"></span></div>
+          <svg class="spark" viewBox="0 0 200 50" preserveAspectRatio="none"><path d="M0 12 C30 14 40 28 70 30 S120 36 200 34" fill="none" stroke="#ff8aa0" stroke-width="3"/><path d="M0 8H200" stroke="#34d399" stroke-width="2" stroke-dasharray="4 4"/></svg>
+          <div class="row"><span>Température</span><b>68 °C</b></div>
+          <div class="row"><span>Batterie</span><b>74 % · 2 h 40</b></div>
+        </div>
+      </div>
+      <div class="ui hw" data-ui="hw">
+        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab">Jeux</span><span class="tab">Performance</span><span class="tab on">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span></span></div>
+        <span class="sh-label" style="top:9cqw">Refroidissement</span>
+        <div class="shelf" style="top:12cqw"><div class="card"><small>Ventilateurs</small><b>Équilibré</b><svg class="curve" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 26 L20 22 L40 17 L60 11 L80 6 L100 3" fill="none" stroke="#ff8aa0" stroke-width="2.5"/></svg></div><div class="card"><small>Température</small><b>68 °C</b></div><div class="card"><small>Limite de FPS</small><b>60</b></div></div>
+        <span class="sh-label" style="top:26cqw">Manette</span>
+        <div class="shelf" style="top:29cqw"><div class="card sel"><small>Éclairage</small><b>Arc-en-ciel</b><span class="ringprev"></span></div><div class="card"><small>Boutons arrière</small><b>M1 · M2</b></div><div class="card"><small>Gyroscope</small><b>Palette gauche</b></div><div class="card"><small>Écran</small><b>1280 × 720</b></div></div>
+        <div class="hints"><span><i>✥</i>Cartes</span><span><i>A</i>Régler</span></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+document.documentElement.classList.add("js");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Real games, by Steam app id; the store shown is where Canapé would find them.
+const GAMES = [
+  [1245620, "ELDEN RING", "STEAM", "#b98b2e"],
+  [1086940, "Baldur's Gate 3", "STEAM", "#7c3aed"],
+  [1091500, "Cyberpunk 2077", "GOG", "#e6d23c"],
+  [1145350, "Hades II", "STEAM", "#c2410c"],
+  [367520, "Hollow Knight", "STEAM", "#3b5b8f"],
+  [1850570, "DEATH STRANDING", "EPIC GAMES", "#4b6a88"],
+  [1551360, "Forza Horizon 5", "XBOX", "#ec4899"],
+  [413150, "Stardew Valley", "GOG", "#22c55e"],
+  [2379780, "Balatro", "STEAM", "#ef4444"],
+  [1174180, "Red Dead Redemption 2", "EPIC GAMES", "#b91c1c"],
+  [504230, "Celeste", "EPIC GAMES", "#a855f7"],
+  [1172620, "Sea of Thieves", "XBOX", "#14b8a6"],
+  [814380, "Sekiro", "STEAM", "#991b1b"],
+  [292030, "The Witcher 3", "GOG", "#78716c"],
+  [1627720, "Lies of P", "STEAM", "#a16207"],
+  [553850, "HELLDIVERS 2", "STEAM", "#facc15"],
+  [1868140, "DAVE THE DIVER", "STEAM", "#0ea5e9"],
+  [2358720, "Black Myth: Wukong", "STEAM", "#b45309"],
+];
+const HOSTS = ["https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/", "https://cdn.cloudflare.steamstatic.com/steam/apps/"];
+const FILES = { cover: ["library_600x900_2x.jpg", "library_600x900.jpg"], hero: ["library_hero.jpg", "header.jpg"] };
+
+// Loads the first image that answers among the known Steam locations.
+function art(el, app, kind, lazy) {
+  const urls = [];
+  for (const f of FILES[kind]) for (const h of HOSTS) urls.push(h + app + "/" + f);
+  const img = new Image();
+  img.alt = ""; img.decoding = "async"; if (lazy) img.loading = "lazy";
+  let i = 0;
+  img.onload = () => img.classList.add("ok");
+  img.onerror = () => { if (++i < urls.length) img.src = urls[i]; else img.remove(); };
+  img.src = urls[0];
+  el.prepend(img);
+}
+function cover(g, lazy) {
+  const [app, name, , color] = g;
+  const c = document.createElement("div");
+  c.className = "cover";
+  c.style.setProperty("--c1", color); c.style.setProperty("--c2", "#0b0c0f");
+  const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = name; c.append(nm);
+  art(c, app, "cover", lazy);
+  return c;
+}
+document.querySelectorAll("[data-app]").forEach(el => {
+  if (el.classList.contains("cover")) {
+    const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = el.dataset.name || ""; el.append(nm);
+  }
+  art(el, el.dataset.app, el.dataset.kind || "cover");
+});
+
+// Hero drift rows and the cover wall.
+const shuffle = (a, k) => a.map((g, i) => a[(i * k + 3) % a.length]);
+function fill(row, list, lazy) { for (const g of [...list, ...list]) row.append(cover(g, lazy)); }
+fill(document.querySelector(".drift.d1"), GAMES.slice(0, 12));
+fill(document.querySelector(".drift.d2"), shuffle(GAMES, 5).slice(0, 12));
+document.querySelectorAll(".wall .row").forEach((row, i) => fill(row, shuffle(GAMES, [7, 5, 11][i]), true));
+
+// A handheld: drawn body, live screen.
+function mountDevice(host) {
+  const node = document.getElementById("device-tpl").content.firstElementChild.cloneNode(true);
+  host.append(node);
+  node.querySelectorAll("[data-app]").forEach(el => {
+    if (el.classList.contains("cover")) { const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = el.dataset.name || ""; el.append(nm); }
+    art(el, el.dataset.app, el.dataset.kind || "cover");
+  });
+  const track = node.querySelector(".lib .track");
+  for (const g of GAMES.slice(0, 10)) track.append(cover(g));
+  const hero = node.querySelector(".lib [data-hero]");
+  node._heroes = GAMES.slice(0, 10).map(g => { const b = document.createElement("div"); b.className = "banner"; b.style.opacity = 0; b.style.setProperty("--c1", g[3]); art(b, g[0], "hero"); hero.append(b); return b; });
+  return node;
+}
+function selectGame(device, i) {
+  i = Math.max(0, Math.min(9, i));
+  if (device._sel === i) return;
+  device._sel = i;
+  device.querySelectorAll(".lib .track .cover").forEach((c, k) => c.classList.toggle("sel", k === i));
+  device.querySelector(".lib .track").style.transform = `translateX(-${Math.max(0, i - 2) * 10.4}cqw)`;
+  device._heroes.forEach((b, k) => b.style.opacity = k === i ? 1 : 0);
+  device.querySelector(".lib .title").textContent = GAMES[i][1];
+  device.querySelector(".lib .store").textContent = GAMES[i][2];
+  device.querySelector(".lib .sub").textContent = ["Joué aujourd'hui", "Joué hier", "Joué il y a 3 jours", "Pas encore installé · A pour l'installer"][i % 4];
+  if (device === heroDev) document.getElementById("halo").style.setProperty("--halo", GAMES[i][3] + "66");
+}
+function showScene(device, scene) {
+  if (device._scene === scene) return;
+  device._scene = scene;
+  device.querySelectorAll(".ui").forEach(u => u.classList.toggle("on", u.dataset.ui === scene));
+}
+
+const heroDev = mountDevice(document.getElementById("hero-host"));
+const story = mountDevice(document.getElementById("story-host"));
+selectGame(heroDev, 0); selectGame(story, 0);
+
+if (!reduce) {
+  let k = 0, dir = 1;
+  setInterval(() => { if (document.hidden) return; k += dir; if (k >= 6 || k <= 0) dir = -dir; selectGame(heroDev, k); }, 2200);
+}
+
+// Stick rings: accent at rest, a rainbow in the hardware scene.
+let hue = 350;
+function rings(device, color) { device.querySelectorAll(".ring").forEach(r => { r.style.stroke = color; r.style.filter = color === "#3a3d44" ? "" : `drop-shadow(0 0 8px ${color})`; }); }
+rings(heroDev, "#ff3d5e");
+setInterval(() => {
+  if (story._scene === "hw") { hue = (hue + (reduce ? 0 : 6)) % 360; const c = `hsl(${hue} 95% 60%)`; rings(story, c); story.style.setProperty("--lit", c); }
+}, 90);
+
+// Story and hero tilt follow the scroll.
+const steps = [...document.querySelectorAll(".step")];
+const bars = [...document.querySelectorAll("#progress i")];
+function onScroll() {
+  const t = Math.min(1, scrollY / 500);
+  document.getElementById("hero-host").style.setProperty("--tilt", (reduce ? 0 : 10 * (1 - t)) + "deg");
+  const mid = innerHeight * (innerWidth <= 900 ? 0.64 : 0.5);
+  let active = 0;
+  steps.forEach((s, i) => { if (s.getBoundingClientRect().top < mid) active = i; });
+  steps.forEach((s, i) => s.classList.toggle("on", i === active));
+  bars.forEach((b, i) => b.classList.toggle("on", i === active));
+  const scene = steps[active].dataset.scene;
+  if (story._scene !== scene) { showScene(story, scene); if (scene !== "hw") rings(story, scene === "ingame" ? "#ff3d5e" : "#3a3d44"); }
+  const r = steps[0].getBoundingClientRect();
+  selectGame(story, Math.round(Math.min(1, Math.max(0, (mid - r.top) / r.height)) * 7));
+  const pr = steps[2].getBoundingClientRect();
+  const w = Math.round(22 - Math.min(1, Math.max(0, (mid - pr.top) / pr.height)) * 11);
+  story.querySelectorAll(".perf .pw").forEach(e => e.textContent = w);
+}
+let ticking = false;
+addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
+addEventListener("resize", onScroll);
+onScroll();
+
+// Reveal and count up.
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); countUp(e.target); } }), { threshold: .15 });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+setTimeout(() => document.querySelectorAll(".rise").forEach(el => { el.classList.add("in"); countUp(el); }), 3000);
+document.querySelectorAll("[data-count]").forEach(b => { b.firstChild.nodeValue = "0"; });
+function countUp(el) {
+  const b = el.querySelector("[data-count]");
+  if (!b || b._done) return; b._done = true;
+  const to = parseFloat(b.dataset.count), dec = +(b.dataset.dec || 0);
+  const set = v => { b.firstChild.nodeValue = v.toLocaleString("fr-FR", { minimumFractionDigits: dec, maximumFractionDigits: dec }); };
+  if (reduce) { set(to); return; }
+  const t0 = performance.now();
+  const f = t => { const k = Math.min(1, (t - t0) / 1200); set(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+}
+
+// "Games" in Canapé's languages.
+const WORDS = ["Jeux", "Games", "Juegos", "Spiele", "Giochi", "Jogos", "Spellen", "Gry", "Игры", "Oyunlar", "ゲーム", "게임", "游戏"];
+let wi = 0;
+setInterval(() => { if (reduce || document.hidden) return; wi = (wi + 1) % WORDS.length; const s = document.createElement("span"); s.textContent = WORDS[wi]; document.getElementById("lang").replaceChildren(s); }, 1400);
+
+// Glossary and tooltips.
+const TERMS = {
+  fse: ["FSE", "i-screen", "Full Screen Experience : le mode plein écran « console » de Windows 11. Au démarrage, Windows ouvre directement un accueil pour les jeux. Canapé prend cette place."],
+  tdp: ["TDP", "i-bolt", "La puissance maximale, en watts, que la puce a le droit de consommer. Plus bas : plus d'autonomie, moins de chaleur et de bruit. Plus haut : plus d'images par seconde."],
+  autotdp: ["Auto TDP", "i-auto", "Canapé mesure les images par seconde et ajuste le TDP en continu : il descend tant que l'objectif est tenu, remonte dès qu'il ne l'est plus."],
+  fps: ["FPS", "i-fps", "Frames per second, images par seconde. 30 se joue, 60 est fluide, au-delà c'est très fluide si l'écran suit (celui de l'Ally monte à 120 Hz)."],
+  profil: ["Profil de jeu", "i-profile", "Les réglages propres à un jeu (objectif de FPS, puissance, ventilateurs, écran…). Ils s'appliquent quand le jeu passe au premier plan et s'effacent quand il le quitte."],
+  banc: ["Banc d'essai", "i-bench", "Canapé fait tourner ton jeu à plusieurs puissances et note les images par seconde obtenues, puis te propose le meilleur compromis."],
+  gamebar: ["Xbox Game Bar", "i-widget", "Le panneau que Windows affiche par-dessus un jeu (bouton Command Center de l'Ally). Canapé y ajoute son propre widget."],
+  gyro: ["Gyroscope", "i-gyro", "Le capteur qui mesure la rotation de la console. Canapé le transforme en mouvement de souris pour viser en inclinant l'Ally."],
+  igdb: ["IGDB", "i-library", "Une grande base de données de jeux vidéo. Canapé y lit la durée moyenne pour finir chaque jeu."],
+  rendu: ["Rendu logiciel", "i-feather", "L'interface est dessinée par le processeur, sans réserver de mémoire graphique. C'est ce qui la garde aussi légère. Un mode Fluide, par la carte graphique, existe en option."],
+  service: ["Service Windows", "i-shield", "Un programme qui tourne en arrière-plan avec des droits élevés. Chez Canapé, c'est le seul à toucher au matériel."],
+  firmware: ["Firmware", "i-chip", "Le logiciel intégré à la console, sous Windows. C'est lui qui applique vraiment la puissance et la vitesse des ventilateurs."],
+};
+const tip = document.getElementById("tip");
+let openTerm = null;
+function showTip(btn) {
+  const d = TERMS[btn.dataset.t]; if (!d) return;
+  tip.querySelector("use").setAttribute("href", "#" + d[1]);
+  tip.querySelector(".tt span").textContent = d[0];
+  tip.querySelector("p").textContent = d[2];
+  tip.classList.add("on"); tip.setAttribute("aria-hidden", "false");
+  const r = btn.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  const x = Math.min(Math.max(12, r.left + r.width / 2 - tw / 2), innerWidth - tw - 12);
+  let y = r.bottom + 10; if (y + th > innerHeight - 12) y = r.top - th - 10;
+  tip.style.left = x + "px"; tip.style.top = Math.max(12, y) + "px";
+  if (openTerm && openTerm !== btn) openTerm.setAttribute("aria-expanded", "false");
+  openTerm = btn; btn.setAttribute("aria-expanded", "true");
+}
+function hideTip() { tip.classList.remove("on"); tip.setAttribute("aria-hidden", "true"); if (openTerm) openTerm.setAttribute("aria-expanded", "false"); openTerm = null; }
+document.querySelectorAll(".t").forEach(b => {
+  b.setAttribute("aria-expanded", "false");
+  b.setAttribute("aria-label", b.textContent + " : définition");
+  b.addEventListener("mouseenter", () => showTip(b));
+  b.addEventListener("mouseleave", hideTip);
+  b.addEventListener("focus", () => showTip(b));
+  b.addEventListener("blur", hideTip);
+  b.addEventListener("click", e => { e.stopPropagation(); openTerm === b && tip.classList.contains("on") ? hideTip() : showTip(b); });
+});
+document.addEventListener("click", hideTip);
+addEventListener("keydown", e => { if (e.key === "Escape") hideTip(); });
+addEventListener("scroll", () => { if (openTerm) hideTip(); }, { passive: true });
+const gloss = document.getElementById("gloss");
+for (const [name, icon, text] of Object.values(TERMS)) {
+  const div = document.createElement("div");
+  div.innerHTML = `<svg aria-hidden="true"><use href="#${icon}"/></svg><dt></dt><dd></dd>`;
+  div.querySelector("dt").textContent = name; div.querySelector("dd").textContent = text;
+  gloss.append(div);
+}
+
+// Auto TDP simulation: a made-up game whose frame rate grows with watts, and Canapé's controller idea.
+const canvas = document.getElementById("chart"), ctx = canvas.getContext("2d");
+let target = 60, watts = 25, lastStep = 0;
+const fpsAt = w => 132 * (1 - Math.exp(-w / 11)) - 4;
+const N = 90, hist = Array.from({ length: N }, () => [25, fpsAt(25)]);
+document.querySelectorAll(".seg").forEach(b => b.addEventListener("click", () => {
+  target = +b.dataset.fps;
+  document.querySelectorAll(".seg").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+}));
+function stepSim() {
+  const fps = fpsAt(watts) + (Math.random() - .5) * 3;
+  if (fps > target * 1.08 && watts > 5) watts -= 0.5;
+  else if (fps < target * 1.02 && watts < 30) watts += 1;
+  hist.push([watts, fps]); if (hist.length > N) hist.shift();
+  document.getElementById("r-w").textContent = watts.toFixed(1).replace(".", ",") + " W";
+  document.getElementById("r-f").textContent = Math.round(fps);
+  document.getElementById("r-g").textContent = "+" + Math.round((25 / watts - 1) * 60) + " %";
+}
+function draw() {
+  const dpr = devicePixelRatio || 1, w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  const L = 34, R = 38, T = 12, B = 16, iw = w - L - R, ih = h - T - B;
+  const yF = v => T + ih - (v / 120) * ih, yW = v => T + ih - (v / 30) * ih;
+  ctx.font = "11px JetBrains Mono, monospace"; ctx.fillStyle = "#5d626b"; ctx.strokeStyle = "#1f2229"; ctx.lineWidth = 1;
+  for (const v of [0, 30, 60, 90, 120]) { const y = yF(v); ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(L + iw, y); ctx.stroke(); ctx.textAlign = "right"; ctx.fillText(v, L - 6, y + 4); }
+  ctx.textAlign = "left"; for (const v of [0, 10, 20, 30]) ctx.fillText(v + "W", L + iw + 6, yW(v) + 4);
+  ctx.setLineDash([6, 6]); ctx.strokeStyle = "#8b919b"; ctx.beginPath(); ctx.moveTo(L, yF(target)); ctx.lineTo(L + iw, yF(target)); ctx.stroke(); ctx.setLineDash([]);
+  const x = i => L + (i / (N - 1)) * iw;
+  const g = ctx.createLinearGradient(0, T, 0, T + ih); g.addColorStop(0, "rgba(255,61,94,.30)"); g.addColorStop(1, "rgba(255,61,94,0)");
+  ctx.beginPath(); hist.forEach(([wt], i) => i ? ctx.lineTo(x(i), yW(wt)) : ctx.moveTo(x(i), yW(wt)));
+  ctx.lineTo(x(N - 1), T + ih); ctx.lineTo(x(0), T + ih); ctx.closePath(); ctx.fillStyle = g; ctx.fill();
+  ctx.beginPath(); hist.forEach(([wt], i) => i ? ctx.lineTo(x(i), yW(wt)) : ctx.moveTo(x(i), yW(wt))); ctx.strokeStyle = "#ff3d5e"; ctx.lineWidth = 2.5; ctx.stroke();
+  ctx.beginPath(); hist.forEach(([, f], i) => i ? ctx.lineTo(x(i), yF(f)) : ctx.moveTo(x(i), yF(f))); ctx.strokeStyle = "#34d399"; ctx.lineWidth = 2; ctx.stroke();
+  const [lw, lf] = hist[N - 1];
+  for (const [y, c] of [[yW(lw), "#ff3d5e"], [yF(lf), "#34d399"]]) { ctx.beginPath(); ctx.arc(x(N - 1), y, 4.5, 0, 7); ctx.fillStyle = c; ctx.fill(); }
+}
+let simOn = false;
+new IntersectionObserver(es => { simOn = es[0].isIntersecting; }).observe(canvas);
+function loop(t) { if (simOn && t - lastStep > (reduce ? 600 : 160)) { lastStep = t; stepSim(); draw(); } requestAnimationFrame(loop); }
+draw(); requestAnimationFrame(loop);
+addEventListener("resize", draw);
+
+// In-game overlay figures move a little, like a live game.
+setInterval(() => {
+  if (story._scene !== "ingame") return;
+  const f = 58 + Math.round(Math.random() * 4), p = 8 + Math.round(Math.random() * 2);
+  story.querySelectorAll(".ingame .fps").forEach(e => e.textContent = f);
+  story.querySelectorAll(".ingame .pw").forEach(e => e.textContent = p);
+}, 900);
+</script>
+</body>
+</html>
