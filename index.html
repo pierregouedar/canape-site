@@ -92,9 +92,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 680px) { .drift .cover { width: 96px; height: 144px; } .hero { padding-block: 36px 8px; } .hero-stage { margin-top: 36px; } }
 
 /* The ROG Ally: drawn body, live screen */
-.ally { position: relative; width: 100%; aspect-ratio: 1000 / 440; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
-.ally > svg.body { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.ally .screen { position: absolute; left: 21.7%; top: 15%; width: 56.4%; height: 72.3%; border-radius: .8% / 1.4%; overflow: hidden; background: #050607; container-type: inline-size; }
+.ally { position: relative; width: 100%; aspect-ratio: 1799 / 756; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
+.ally > img.body { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ally .screen { position: absolute; left: 21.79%; top: 12.7%; width: 56.48%; height: 75.93%; border-radius: 0; overflow: hidden; background: #050607; container-type: inline-size; }
 .ally .screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,.07), transparent 35%); pointer-events: none; z-index: 9; }
 .ring { transition: stroke .4s, filter .4s; }
 
@@ -535,7 +535,7 @@ footer small { color: var(--faint); }
   <div class="wrap">
     <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Canapé</div>
     <p>Un projet personnel, en développement. Sans lien avec ASUS, Microsoft ou Valve.</p>
-    <small>Jeux, jaquettes et bannières : propriété de leurs éditeurs.</small>
+    <small>Jeux, jaquettes et bannières : propriété de leurs éditeurs. ROG Ally : marque et visuel d'ASUS.</small>
   </div>
 </footer>
 
@@ -543,51 +543,7 @@ footer small { color: var(--faint); }
 
 <template id="device-tpl">
   <div class="ally">
-    <svg class="body" viewBox="0 0 1000 440" aria-hidden="true">
-      <defs>
-        <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbfc"/><stop offset=".6" stop-color="#f0f1f3"/><stop offset="1" stop-color="#dfe1e5"/></linearGradient>
-        <linearGradient id="gripL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9dce1"/><stop offset="1" stop-color="#eceef1"/></linearGradient>
-        <linearGradient id="gripR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#d9dce1"/><stop offset="1" stop-color="#eceef1"/></linearGradient>
-        <radialGradient id="cap" cx=".45" cy=".4" r=".65"><stop offset="0" stop-color="#34363c"/><stop offset=".85" stop-color="#18191c"/><stop offset="1" stop-color="#0f1012"/></radialGradient>
-        <radialGradient id="gY" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#6b3f6e"/><stop offset="1" stop-color="#2a1630"/></radialGradient>
-        <radialGradient id="gX" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#3f7d86"/><stop offset="1" stop-color="#16303a"/></radialGradient>
-        <radialGradient id="gB" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5a4a86"/><stop offset="1" stop-color="#211a3a"/></radialGradient>
-        <radialGradient id="gA" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#3f5492"/><stop offset="1" stop-color="#161e3d"/></radialGradient>
-      </defs>
-      <!-- shoulder buttons -->
-      <rect x="32" y="12" width="138" height="34" rx="14" fill="#1d1e22"/>
-      <rect x="830" y="12" width="138" height="34" rx="14" fill="#1d1e22"/>
-      <!-- body -->
-      <path d="M59 26 H941 Q969 27 976 57 L998 230 Q1001 300 1000 345 Q999 420 935 431 Q880 433 820 426 H180 Q120 433 65 431 Q1 420 0 345 Q-1 300 2 230 L24 57 Q31 27 59 26 Z" fill="url(#shell)" stroke="#cdd0d6" stroke-width="1.5"/>
-      <!-- grips -->
-      <path d="M24 60 Q60 300 118 428 Q90 432 65 431 Q1 420 0 345 Q-1 300 2 230 Z" fill="url(#gripL)" opacity=".9"/>
-      <path d="M976 60 Q940 300 882 428 Q910 432 935 431 Q999 420 1000 345 Q1001 300 998 230 Z" fill="url(#gripR)" opacity=".9"/>
-      <!-- screen bezel -->
-      <rect x="199" y="31" width="601" height="388" rx="5" fill="#0a0b0d"/>
-      <!-- left stick -->
-      <circle class="ring" cx="78" cy="105" r="37" fill="none" stroke="#3a3d44" stroke-width="9"/>
-      <circle cx="78" cy="105" r="29" fill="url(#cap)"/>
-      <circle cx="78" cy="105" r="19" fill="none" stroke="#2c2e33" stroke-width="2"/>
-      <!-- d-pad -->
-      <circle cx="138" cy="185" r="41" fill="#121316"/>
-      <g fill="#24262b"><rect x="129" y="150" width="18" height="24" rx="3"/><rect x="129" y="196" width="18" height="24" rx="3"/><rect x="103" y="176" width="24" height="18" rx="3"/><rect x="149" y="176" width="24" height="18" rx="3"/></g>
-      <circle cx="138" cy="185" r="7" fill="#0d0e10"/>
-      <!-- small buttons and LEDs -->
-      <g fill="#ffffff" stroke="#c9ccd2" stroke-width="1.5"><rect x="171" y="76" width="21" height="22" rx="5"/><rect x="171" y="116" width="21" height="22" rx="5"/><rect x="805" y="76" width="21" height="22" rx="5"/><rect x="805" y="116" width="21" height="22" rx="5"/></g>
-      <g fill="none" stroke="#8b9099" stroke-width="1.4"><rect x="177" y="82" width="7" height="6" rx="1"/><rect x="180" y="85" width="7" height="6" rx="1"/><path d="M178 122 v9 l8 -4.5 z"/><path d="M811 83 h9 M811 87 h9 M811 91 h9"/><path d="M815.5 121 l5 3 v6 l-5 3 l-5 -3 v-6 z"/></g>
-      <circle cx="183" cy="51" r="1.8" fill="#3a3d44"/><circle cx="816" cy="51" r="1.8" fill="#3a3d44"/>
-      <!-- ABXY -->
-      <g font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="17" text-anchor="middle">
-        <circle cx="915" cy="59" r="18" fill="url(#gY)"/><circle cx="879" cy="96" r="18" fill="url(#gX)"/><circle cx="951" cy="96" r="18" fill="url(#gB)"/><circle cx="915" cy="132" r="18" fill="url(#gA)"/>
-        <g fill="rgba(255,255,255,.28)"><text x="915" y="65">Y</text><text x="879" y="102">X</text><text x="951" y="102">B</text><text x="915" y="138">A</text></g>
-      </g>
-      <!-- right stick -->
-      <circle class="ring" cx="867" cy="200" r="37" fill="none" stroke="#3a3d44" stroke-width="9"/>
-      <circle cx="867" cy="200" r="29" fill="url(#cap)"/>
-      <circle cx="867" cy="200" r="19" fill="none" stroke="#2c2e33" stroke-width="2"/>
-      <!-- speaker grilles -->
-      <g stroke="#2b2d32" stroke-width="2.6" stroke-linecap="round"><path d="M136 288 l14 -5"/><path d="M136 297 l14 -5"/><path d="M136 306 l14 -5"/><path d="M136 315 l14 -5"/><path d="M136 324 l14 -5"/><path d="M136 333 l14 -5"/><path d="M136 342 l14 -5"/><path d="M136 351 l14 -5"/><path d="M136 360 l14 -5"/><path d="M136 369 l14 -5"/><path d="M136 378 l14 -5"/><path d="M136 387 l14 -5"/><path d="M156 288 l14 -5"/><path d="M156 297 l14 -5"/><path d="M156 306 l14 -5"/><path d="M156 315 l14 -5"/><path d="M156 324 l14 -5"/><path d="M156 333 l14 -5"/><path d="M156 342 l14 -5"/><path d="M156 351 l14 -5"/><path d="M156 360 l14 -5"/><path d="M156 369 l14 -5"/><path d="M156 378 l14 -5"/><path d="M156 387 l14 -5"/><path d="M822 288 l14 -5"/><path d="M822 297 l14 -5"/><path d="M822 306 l14 -5"/><path d="M822 315 l14 -5"/><path d="M822 324 l14 -5"/><path d="M822 333 l14 -5"/><path d="M822 342 l14 -5"/><path d="M822 351 l14 -5"/><path d="M822 360 l14 -5"/><path d="M822 369 l14 -5"/><path d="M822 378 l14 -5"/><path d="M822 387 l14 -5"/><path d="M842 288 l14 -5"/><path d="M842 297 l14 -5"/><path d="M842 306 l14 -5"/><path d="M842 315 l14 -5"/><path d="M842 324 l14 -5"/><path d="M842 333 l14 -5"/><path d="M842 342 l14 -5"/><path d="M842 351 l14 -5"/><path d="M842 360 l14 -5"/><path d="M842 369 l14 -5"/><path d="M842 378 l14 -5"/><path d="M842 387 l14 -5"/></g>
-    </svg>
+    <img class="body" src="ally.webp" alt="" width="1799" height="756">
     <div class="screen">
       <div class="ui lib on" data-ui="lib">
         <div class="banner" data-hero></div>
