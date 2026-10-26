@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 22'%3E%3Crect x='5' y='2' width='20' height='10' rx='3.5' fill='%23ff3d5e'/%3E%3Crect x='1' y='8' width='7' height='10' rx='3' fill='%23ff3d5e'/%3E%3Crect x='22' y='8' width='7' height='10' rx='3' fill='%23ff3d5e'/%3E%3Crect x='6' y='11.5' width='18' height='6.5' rx='1.5' fill='%23ff3d5e'/%3E%3C/svg%3E">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Canapé</title>
-<meta name="description" content="Canapé : l'accueil console léger pour la ROG Ally. Tes jeux, la puissance et la batterie, à la manette.">
+<meta name="description" content="Canapé : l'accueil console léger pour la ROG Ally. Vos jeux, la puissance et la batterie, à la manette.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
@@ -92,9 +92,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 680px) { .drift .cover { width: 96px; height: 144px; } .hero { padding-block: 36px 8px; } .hero-stage { margin-top: 36px; } }
 
 /* The ROG Ally: drawn body, live screen */
-.ally { position: relative; width: 100%; aspect-ratio: 1000 / 420; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
+.ally { position: relative; width: 100%; aspect-ratio: 1000 / 400; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
 .ally > svg.body { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.ally .screen { position: absolute; left: 21.5%; top: 10.5%; width: 57%; height: 76.2%; border-radius: .8% / 1.4%; overflow: hidden; background: #050607; container-type: inline-size; }
+.ally .screen { position: absolute; left: 22%; top: 10.5%; width: 56%; height: 79%; border-radius: .8% / 1.4%; overflow: hidden; background: #050607; container-type: inline-size; }
 .ally .screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,.07), transparent 35%); pointer-events: none; z-index: 9; }
 .ring { transition: stroke .4s, filter .4s; }
 
@@ -372,8 +372,8 @@ footer small { color: var(--faint); }
   <section class="hero">
     <div class="wrap copy">
       <p class="eyebrow">Pour ROG Ally · Windows 11</p>
-      <h1>Ta ROG Ally,<br><span class="grad">enfin une console.</span></h1>
-      <p class="lead">Canapé remplace l'accueil plein écran de Windows (le <button class="t" data-t="fse">FSE</button>). Tous tes jeux au même endroit, la puissance réglée toute seule, et plus jamais besoin de la souris.</p>
+      <h1>La ROG Ally,<br><span class="grad">enfin une console.</span></h1>
+      <p class="lead">Canapé remplace l'accueil plein écran de Windows (le <button class="t" data-t="fse">FSE</button>). Tous vos jeux au même endroit, la puissance réglée automatiquement, et plus besoin de la souris.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#visite"><span class="glyph" aria-hidden="true">A</span>Faire la visite</a>
         <a class="btn btn-ghost" href="#auto">Voir l'auto TDP</a>
@@ -392,9 +392,9 @@ footer small { color: var(--faint); }
     <div class="over">
       <div class="rise">
         <p class="eyebrow">Une seule bibliothèque</p>
-        <h2>Tous tes jeux. Toutes tes boutiques.</h2>
-        <p class="lead">Canapé trouve tout seul ce qui est installé et ce que tu possèdes. Fini de passer d'un lanceur à l'autre.</p>
-        <div class="stores"><span>Steam</span><span>Epic Games</span><span>GOG</span><span>Xbox</span><span>Tes émulateurs</span></div>
+        <h2>Tous vos jeux. Toutes vos boutiques.</h2>
+        <p class="lead">Canapé repère automatiquement ce qui est installé et ce que vous possédez. Plus besoin de passer d'un lanceur à l'autre.</p>
+        <div class="stores"><span>Steam</span><span>Epic Games</span><span>GOG</span><span>Xbox</span><span>Émulateurs</span></div>
       </div>
     </div>
   </section>
@@ -405,26 +405,26 @@ footer small { color: var(--faint); }
         <article class="step" data-scene="lib">
           <p class="eyebrow">01 · Bibliothèque</p>
           <h2>Tout est là, à la manette.</h2>
-          <p>Les jeux de Steam, Epic, GOG et de l'app Xbox, rangés sur des étagères. Ceux que tu possèdes sans les avoir installés aussi : <b>A</b> les installe sans ouvrir le lanceur de la boutique.</p>
+          <p>Les jeux de Steam, Epic, GOG et de l'app Xbox, rangés sur des étagères. Ceux que vous possédez sans les avoir installés aussi : <b>A</b> les installe sans ouvrir le lanceur de la boutique.</p>
           <ul>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Récents, installés, par boutique et par catégorie</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Jaquettes et bannières téléchargées toutes seules</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Tes propres jeux et émulateurs en deux clics</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Jaquettes et bannières téléchargées automatiquement</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Vos propres jeux et émulateurs en quelques gestes</li>
           </ul>
         </article>
         <article class="step" data-scene="game">
           <p class="eyebrow">02 · Fiche du jeu</p>
           <h2>Tout savoir avant de lancer.</h2>
-          <p>Le temps qu'il faut pour le finir (d'après <button class="t" data-t="igdb">IGDB</button>), tes succès, la place qu'il prend et le réglage appris pour lui. <b>Y</b> pour le renommer, le ranger dans une catégorie ou le désinstaller.</p>
+          <p>Le temps qu'il faut pour le finir (d'après <button class="t" data-t="igdb">IGDB</button>), vos succès, la place qu'il prend et le réglage appris pour lui. <b>Y</b> pour le renommer, le ranger dans une catégorie ou le désinstaller.</p>
         </article>
         <article class="step" data-scene="perf">
           <p class="eyebrow">03 · Performance</p>
-          <h2>La puissance, réglée toute seule.</h2>
-          <p>Tu choisis un objectif, par exemple 60 <button class="t" data-t="fps">FPS</button>. L'<button class="t" data-t="autotdp">auto TDP</button> baisse le <button class="t" data-t="tdp">TDP</button> jusqu'au minimum qui tient cet objectif. Moins de watts : plus de batterie, moins de bruit.</p>
+          <h2>La puissance, réglée automatiquement.</h2>
+          <p>Vous choisissez un objectif, par exemple 60 <button class="t" data-t="fps">FPS</button>. L'<button class="t" data-t="autotdp">auto TDP</button> baisse le <button class="t" data-t="tdp">TDP</button> jusqu'au minimum qui tient cet objectif. Moins de watts : plus de batterie, moins de bruit.</p>
           <ul>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Silencieux, Performance, Turbo, ou les watts à la main</li>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="profil">profil par jeu</button>, appliqué dès que le jeu passe devant</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="banc">banc d'essai</button> qui trouve le bon réglage pour toi</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="banc">banc d'essai</button> qui trouve le bon réglage pour vous</li>
           </ul>
         </article>
         <article class="step" data-scene="ingame">
@@ -434,7 +434,7 @@ footer small { color: var(--faint); }
         </article>
         <article class="step" data-scene="hw">
           <p class="eyebrow">05 · Matériel</p>
-          <h2>Toute la console, à ta main.</h2>
+          <h2>Toute la console, sous la main.</h2>
           <p>Courbes de ventilateurs, limite de FPS, définition d'écran par jeu, boutons arrière, éclairage des sticks, visée au <button class="t" data-t="gyro">gyroscope</button>. Tout est réappliqué au démarrage.</p>
         </article>
       </div>
@@ -450,7 +450,7 @@ footer small { color: var(--faint); }
       <div class="block-head rise">
         <p class="eyebrow">Auto TDP, en direct</p>
         <h2>Le moins de watts possible.<br>Sans perdre d'images.</h2>
-        <p class="lead">Choisis un objectif et regarde la puissance descendre pendant que les images par seconde restent au-dessus. C'est ce que fait Canapé chaque seconde, à partir des mesures du pilote graphique.</p>
+        <p class="lead">Choisissez un objectif et regardez la puissance descendre pendant que les images par seconde restent au-dessus. C'est ce que fait Canapé chaque seconde, à partir des mesures du pilote graphique.</p>
       </div>
       <div class="demo">
         <div class="panel rise">
@@ -478,19 +478,19 @@ footer small { color: var(--faint); }
       <div class="block-head rise">
         <p class="eyebrow">Ce qu'il y a dedans</p>
         <h2>Léger d'abord.<br>Complet quand même.</h2>
-        <p class="lead">Pas de navigateur embarqué, pas de moteur de jeu pour afficher un menu. Chaque mégaoctet laissé libre est pour tes jeux. Chiffres mesurés sur la ROG Ally.</p>
+        <p class="lead">Pas de navigateur embarqué, pas de moteur de jeu pour afficher un menu. Chaque mégaoctet laissé libre revient à vos jeux. Chiffres mesurés sur la ROG Ally.</p>
       </div>
       <div class="bento">
         <div class="tile big red rise"><b class="n" data-count="28">0<small>Mo</small></b><p>de mémoire pour l'interface, grâce au <button class="t" data-t="rendu">rendu logiciel</button>. Moins qu'un onglet de navigateur.</p></div>
         <div class="tile big rise"><b class="n" data-count="1.4" data-dec="1">0<small>Mo</small></b><p>pour le <button class="t" data-t="service">service</button> qui pilote le matériel, en arrière-plan.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><div class="lang" id="lang"><span>Jeux</span></div><p>13 langues, celle de Windows par défaut ou celle que tu choisis.</p></div>
-        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer sans lanceur</h3><p>Les jeux Steam, Epic et GOG que tu possèdes s'installent depuis Canapé, progression sur la jaquette, sans ouvrir la boutique.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><div class="lang" id="lang"><span>Jeux</span></div><p>13 langues, celle de Windows par défaut ou celle de votre choix.</p></div>
+        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer sans lanceur</h3><p>Les jeux Steam, Epic et GOG que vous possédez s'installent depuis Canapé, progression sur la jaquette, sans ouvrir la boutique.</p></div>
         <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-profile"/></svg><h3>Un profil par jeu</h3><p>Puissance, ventilateurs, limite de FPS, définition d'écran, réglages du processeur : chaque jeu garde les siens.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-bench"/></svg><h3>Banc d'essai</h3><p>Il teste plusieurs puissances sur ton jeu et propose le meilleur compromis.</p><svg class="mini" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C30 60 45 30 80 22 S140 14 200 12" fill="none" stroke="#ff3d5e" stroke-width="3"/></svg></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg><h3>Processeur</h3><p>Boost, priorité performance ou énergie, fréquence maximale. Par jeu si tu veux.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-bench"/></svg><h3>Banc d'essai</h3><p>Il teste plusieurs puissances sur votre jeu et propose le meilleur compromis.</p><svg class="mini" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C30 60 45 30 80 22 S140 14 200 12" fill="none" stroke="#ff3d5e" stroke-width="3"/></svg></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg><h3>Processeur</h3><p>Boost, priorité performance ou énergie, fréquence maximale. Réglables jeu par jeu.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg><h3>Image</h3><p>Définition et fréquence d'écran par jeu. Mise à l'échelle et génération d'images en préparation.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Incline la console pour viser, en tenant une palette ou tout le temps.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à ta couleur d'accent.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Inclinez la console pour viser, en tenant une palette ou tout le temps.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à la couleur d'accent.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Windows allégé</h3><p>Copilot, publicités, applis inutiles : on retire, et on peut tout remettre.</p></div>
       </div>
     </div>
@@ -505,7 +505,7 @@ footer small { color: var(--faint); }
       </div>
       <div class="stack">
         <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-screen"/></svg><span class="tag">FSE</span><h3>L'accueil</h3><p>Windows démarre directement sur Canapé, en plein écran, à la place de l'app Xbox.</p></div>
-        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg><span class="tag">canape-shell</span><h3>L'interface</h3><p>Ce que tu vois, pilotée à la manette, dessinée par le processeur pour rester légère.</p></div>
+        <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-pad"/></svg><span class="tag">canape-shell</span><h3>L'interface</h3><p>Ce que vous voyez, pilotée à la manette, dessinée par le processeur pour rester légère.</p></div>
         <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="tag">canape-service</span><h3>Le service</h3><p>Le seul avec des droits élevés : puissance, ventilateurs, auto TDP.</p></div>
         <div class="layer-card rise"><svg class="ic" aria-hidden="true"><use href="#i-chip"/></svg><span class="tag">firmware</span><h3>La console</h3><p>Le <button class="t" data-t="firmware">firmware</button> de l'Ally et le pilote graphique, qui donnent les mesures en direct.</p></div>
       </div>
@@ -524,7 +524,7 @@ footer small { color: var(--faint); }
 
   <section class="closing">
     <div class="wrap rise">
-      <h2>Allume. Choisis. Joue.</h2>
+      <h2>Allumez. Choisissez. Jouez.</h2>
       <p class="lead">Canapé est un projet en cours, testé chaque semaine sur une vraie ROG Ally.</p>
       <div class="cta" style="margin-top:28px"><a class="btn btn-primary" href="#visite"><span class="glyph" aria-hidden="true">A</span>Revoir la visite</a></div>
     </div>
@@ -543,40 +543,37 @@ footer small { color: var(--faint); }
 
 <template id="device-tpl">
   <div class="ally">
-    <svg class="body" viewBox="0 0 1000 420" aria-hidden="true">
+    <svg class="body" viewBox="0 0 1000 400" aria-hidden="true">
       <defs>
-        <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfdfe"/><stop offset=".55" stop-color="#e9ebee"/><stop offset="1" stop-color="#c9ccd2"/></linearGradient>
-        <linearGradient id="grip" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".10"/><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".10"/></linearGradient>
-        <radialGradient id="cap" cx=".5" cy=".38" r=".6"><stop offset="0" stop-color="#4a4d55"/><stop offset="1" stop-color="#1c1d21"/></radialGradient>
-        <radialGradient id="well" cx=".5" cy=".5" r=".5"><stop offset=".7" stop-color="#cfd2d8"/><stop offset="1" stop-color="#b7bbc3"/></radialGradient>
+        <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#eef0f3"/><stop offset="1" stop-color="#d3d6dc"/></linearGradient>
+        <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".12"/><stop offset=".12" stop-color="#000" stop-opacity="0"/><stop offset=".88" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient>
+        <radialGradient id="cap" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#3b3e45"/><stop offset=".8" stop-color="#1b1c20"/><stop offset="1" stop-color="#121316"/></radialGradient>
+        <radialGradient id="btn" cx=".5" cy=".35" r=".65"><stop offset="0" stop-color="#3a3c43"/><stop offset="1" stop-color="#18191d"/></radialGradient>
       </defs>
-      <path d="M78 14 H922 Q972 14 980 62 L996 292 Q1002 372 934 398 L800 414 Q752 420 728 396 L706 376 H294 L272 396 Q248 420 200 414 L66 398 Q-2 372 4 292 L20 62 Q28 14 78 14 Z" fill="url(#shell)" stroke="#aeb2ba" stroke-width="2"/>
-      <path d="M78 14 H922 Q972 14 980 62 L996 292 Q1002 372 934 398 L800 414 Q752 420 728 396 L706 376 H294 L272 396 Q248 420 200 414 L66 398 Q-2 372 4 292 L20 62 Q28 14 78 14 Z" fill="url(#grip)"/>
-      <path d="M90 20 H910" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
-      <rect x="200" y="30" width="600" height="352" rx="16" fill="#0c0d10"/>
-      <rect x="200" y="30" width="600" height="352" rx="16" fill="none" stroke="#2a2c31" stroke-width="2"/>
-      <!-- left stick -->
-      <circle cx="108" cy="118" r="58" fill="url(#well)"/>
-      <circle class="ring" cx="108" cy="118" r="49" fill="none" stroke="#3a3d44" stroke-width="5"/>
-      <circle cx="108" cy="118" r="40" fill="url(#cap)"/>
-      <circle cx="108" cy="118" r="28" fill="none" stroke="#5a5d66" stroke-width="2" opacity=".6"/>
-      <!-- d-pad -->
-      <g transform="translate(108 272)" fill="#2b2d33"><rect x="-13" y="-42" width="26" height="84" rx="6"/><rect x="-42" y="-13" width="84" height="26" rx="6"/><circle r="7" fill="#1f2125"/></g>
-      <!-- ABXY -->
-      <g transform="translate(892 118)" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="15" text-anchor="middle" fill="#2b2d33">
-        <circle cx="0" cy="-33" r="17"/><circle cx="33" cy="0" r="17"/><circle cx="0" cy="33" r="17"/><circle cx="-33" cy="0" r="17"/>
-        <g fill="#c9ccd2"><text x="0" y="-28">Y</text><text x="33" y="5">B</text><text x="0" y="38">A</text><text x="-33" y="5">X</text></g>
+      <path d="M92 6 H908 Q984 6 993 80 L999 296 Q1001 390 906 395 H94 Q-1 390 1 296 L7 80 Q16 6 92 6 Z" fill="url(#shell)" stroke="#b9bdc5" stroke-width="2"/>
+      <path d="M92 6 H908 Q984 6 993 80 L999 296 Q1001 390 906 395 H94 Q-1 390 1 296 L7 80 Q16 6 92 6 Z" fill="url(#edge)"/>
+      <path d="M100 9 H900" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <rect x="212" y="28" width="576" height="344" rx="10" fill="#0a0b0d"/>
+      <rect x="212" y="28" width="576" height="344" rx="10" fill="none" stroke="#2b2d32" stroke-width="2"/>
+      <!-- left stick, upper outer -->
+      <circle class="ring" cx="118" cy="118" r="47" fill="none" stroke="#3a3d44" stroke-width="4"/>
+      <circle cx="118" cy="118" r="43" fill="#d7dade"/>
+      <circle cx="118" cy="118" r="33" fill="url(#cap)"/>
+      <circle cx="118" cy="118" r="22" fill="none" stroke="#4b4e56" stroke-width="2"/>
+      <!-- d-pad, lower inner -->
+      <g transform="translate(160 272)"><g fill="url(#btn)"><rect x="-11" y="-36" width="22" height="72" rx="5"/><rect x="-36" y="-11" width="72" height="22" rx="5"/></g><circle r="5" fill="#141518"/></g>
+      <!-- ABXY, upper outer -->
+      <g transform="translate(882 118)" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="13" text-anchor="middle">
+        <g fill="url(#btn)"><circle cx="0" cy="-29" r="14"/><circle cx="29" cy="0" r="14"/><circle cx="0" cy="29" r="14"/><circle cx="-29" cy="0" r="14"/></g>
+        <g fill="#d0d3d9"><text x="0" y="-24.5">Y</text><text x="29" y="4.5">B</text><text x="0" y="33.5">A</text><text x="-29" y="4.5">X</text></g>
       </g>
-      <!-- right stick -->
-      <circle cx="892" cy="274" r="58" fill="url(#well)"/>
-      <circle class="ring" cx="892" cy="274" r="49" fill="none" stroke="#3a3d44" stroke-width="5"/>
-      <circle cx="892" cy="274" r="40" fill="url(#cap)"/>
-      <circle cx="892" cy="274" r="28" fill="none" stroke="#5a5d66" stroke-width="2" opacity=".6"/>
-      <!-- small buttons: Command Center, View / Armoury, Menu -->
-      <rect x="166" y="50" width="20" height="12" rx="6" fill="#2b2d33"/><rect x="166" y="88" width="20" height="12" rx="6" fill="#2b2d33"/>
-      <rect x="814" y="50" width="20" height="12" rx="6" fill="#2b2d33"/><rect x="814" y="88" width="20" height="12" rx="6" fill="#2b2d33"/>
-      <!-- speaker grilles -->
-      <g fill="#b9bdc4"><circle cx="160" cy="356" r="2.4"/><circle cx="170" cy="350" r="2.4"/><circle cx="170" cy="362" r="2.4"/><circle cx="180" cy="356" r="2.4"/><circle cx="840" cy="356" r="2.4"/><circle cx="830" cy="350" r="2.4"/><circle cx="830" cy="362" r="2.4"/><circle cx="820" cy="356" r="2.4"/></g>
+      <!-- right stick, lower inner -->
+      <circle class="ring" cx="840" cy="272" r="47" fill="none" stroke="#3a3d44" stroke-width="4"/>
+      <circle cx="840" cy="272" r="43" fill="#d7dade"/>
+      <circle cx="840" cy="272" r="33" fill="url(#cap)"/>
+      <circle cx="840" cy="272" r="22" fill="none" stroke="#4b4e56" stroke-width="2"/>
+      <!-- View / Command Center, Menu / Armoury -->
+      <g fill="#2a2c31"><rect x="186" y="42" width="11" height="20" rx="5.5"/><rect x="186" y="74" width="11" height="20" rx="5.5"/><rect x="803" y="42" width="11" height="20" rx="5.5"/><rect x="803" y="74" width="11" height="20" rx="5.5"/></g>
     </svg>
     <div class="screen">
       <div class="ui lib on" data-ui="lib">
@@ -797,7 +794,7 @@ const TERMS = {
   autotdp: ["Auto TDP", "i-auto", "Canapé mesure les images par seconde et ajuste le TDP en continu : il descend tant que l'objectif est tenu, remonte dès qu'il ne l'est plus."],
   fps: ["FPS", "i-fps", "Frames per second, images par seconde. 30 se joue, 60 est fluide, au-delà c'est très fluide si l'écran suit (celui de l'Ally monte à 120 Hz)."],
   profil: ["Profil de jeu", "i-profile", "Les réglages propres à un jeu (objectif de FPS, puissance, ventilateurs, écran…). Ils s'appliquent quand le jeu passe au premier plan et s'effacent quand il le quitte."],
-  banc: ["Banc d'essai", "i-bench", "Canapé fait tourner ton jeu à plusieurs puissances et note les images par seconde obtenues, puis te propose le meilleur compromis."],
+  banc: ["Banc d'essai", "i-bench", "Canapé fait tourner votre jeu à plusieurs puissances et note les images par seconde obtenues, puis vous propose le meilleur compromis."],
   gamebar: ["Xbox Game Bar", "i-widget", "Le panneau que Windows affiche par-dessus un jeu (bouton Command Center de l'Ally). Canapé y ajoute son propre widget."],
   gyro: ["Gyroscope", "i-gyro", "Le capteur qui mesure la rotation de la console. Canapé le transforme en mouvement de souris pour viser en inclinant l'Ally."],
   igdb: ["IGDB", "i-library", "Une grande base de données de jeux vidéo. Canapé y lit la durée moyenne pour finir chaque jeu."],
