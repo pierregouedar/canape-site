@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://pierregouedar.github.io/canape-site/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Une ROG Ally qui affiche la bibliothèque de jeux de Canapé">
+<meta property="og:image:alt" content="Illustration d'une ROG Ally avec une maquette de Canapé">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Canapé : jouer sous Windows, en une seule expérience">
 <meta name="twitter:description" content="Canapé remplace l'accueil plein écran de Windows sur la ROG Ally : vos boutiques, vos jeux, la puissance et les réglages de la console réunis dans une seule interface, à la manette.">
@@ -285,9 +285,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .step ul { display: none; margin: 0; padding: 0; list-style: none; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .step li { display: flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 99px; background: rgba(255,255,255,.05); border: 1px solid var(--stroke); color: #c6cad2; font-size: 14px; }
 .step li svg { width: 16px; height: 16px; flex: none; color: var(--accent); }
-.progress { position: absolute; right: max(24px, var(--gutter-r)); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 3; }
-.progress i { width: 4px; height: 22px; border-radius: 4px; background: var(--stroke); transition: background .3s, height .3s; }
-.progress i.on { background: var(--accent); height: 44px; }
+.progress { position: absolute; right: max(12px, var(--gutter-r)); top: 50%; transform: translateY(-50%); display: none; flex-direction: column; gap: 4px; z-index: 3; }
+.js .progress { display: flex; }
+.progress button { width: 44px; height: 44px; border: 1px solid var(--stroke); border-radius: 50%; background: var(--surface); color: #c6cad2; cursor: pointer; font: 700 13px var(--mono); }
+.progress button[aria-current="step"] { border-color: var(--accent); background: var(--accent); color: #08090b; }
+.progress button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
 .glowring { position: absolute; width: 8.2%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); border: .55vw solid var(--lit, transparent); box-shadow: 0 0 2vw var(--lit, transparent), inset 0 0 1vw var(--lit, transparent); opacity: 0; transition: opacity .5s; pointer-events: none; mix-blend-mode: screen; }
 .ally[data-lit] .glowring { opacity: .95; }
 @media (max-width: 900px) {
@@ -297,7 +299,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .step p { font-size: 15px; }
   .step ul { display: none; }
   .progress { right: auto; top: auto; bottom: 14px; left: 50%; transform: translateX(-50%); flex-direction: row; }
-  .progress i { width: 18px; height: 4px; } .progress i.on { width: 36px; height: 4px; }
+  .progress button { width: 44px; height: 44px; }
 }
 
 /* Sections */
@@ -569,21 +571,21 @@ footer small { color: var(--faint); }
     <div class="over">
       <div class="rise">
         <p class="eyebrow">Une seule bibliothèque</p>
-        <h2>Tous vos jeux. Toutes vos boutiques.</h2>
-        <p class="lead">Canapé repère automatiquement ce qui est installé et ce que vous possédez. Plus besoin de passer d'un lanceur à l'autre.</p>
+        <h2>Vos jeux, réunis.</h2>
+        <p class="lead">Canapé retrouve les jeux installés de plusieurs boutiques. Les jeux possédés sur Steam, Epic et GOG apparaissent après configuration ; vos autres jeux et émulateurs s'ajoutent à la main.</p>
         <div class="stores"><span>Steam</span><span>Epic Games</span><span>GOG</span><span>Xbox</span><span>Émulateurs</span></div>
       </div>
     </div>
   </section>
 
-  <section class="story" id="visite" aria-label="La visite">
+  <section class="story" id="visite" aria-label="La visite, illustrée par une maquette animée">
     <div class="pin">
       <div class="cam-wrap"><div class="cam" id="cam"><div id="story-host"></div></div></div>
       <div class="captions">
         <article class="step" data-scene="lib">
           <p class="eyebrow">01 · Bibliothèque</p>
           <h2>Tout est là, à la manette.</h2>
-          <p>Les jeux de Steam, Epic, GOG et de l'app Xbox, rangés sur des étagères. Ceux que vous possédez sans les avoir installés aussi : <span class="k a" role="img" aria-label="bouton A">A</span> les installe sans ouvrir le lanceur de la boutique.</p>
+          <p>Les jeux Steam, Epic, GOG et Xbox installés sont rangés sur des étagères. Les jeux possédés sur Steam, Epic et GOG peuvent aussi être installés depuis leur fiche ; Steam peut afficher sa fenêtre.</p>
           <ul>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Récents, installés, par boutique et par catégorie</li>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Jaquettes et bannières téléchargées automatiquement</li>
@@ -593,30 +595,36 @@ footer small { color: var(--faint); }
         <article class="step" data-scene="game">
           <p class="eyebrow">02 · Fiche du jeu</p>
           <h2>Tout savoir avant de lancer.</h2>
-          <p>Le temps qu'il faut pour le finir (d'après <button class="t" data-t="igdb">IGDB</button>), vos succès, la place qu'il prend et le réglage appris pour lui. <span class="k y" role="img" aria-label="bouton Y">Y</span> pour le renommer, le ranger dans une catégorie ou le désinstaller.</p>
+          <p>La fiche affiche, lorsqu'ils sont disponibles, la durée selon <button class="t" data-t="igdb">IGDB</button>, les succès Steam, la place occupée et le réglage appris. <span class="k y" role="img" aria-label="bouton Y">Y</span> ouvre les options du jeu.</p>
         </article>
         <article class="step" data-scene="perf">
           <p class="eyebrow">03 · Performance</p>
           <h2>La puissance, réglée automatiquement.</h2>
-          <p>Vous choisissez un objectif, par exemple 60 <button class="t" data-t="fps">FPS</button>. L'<button class="t" data-t="autotdp">auto TDP</button> baisse le <button class="t" data-t="tdp">TDP</button> jusqu'au minimum qui tient cet objectif. Moins de watts : plus de batterie, moins de bruit.</p>
+          <p>Choisissez un objectif, par exemple 60 <button class="t" data-t="fps">FPS</button>. L'<button class="t" data-t="autotdp">auto TDP</button> ajuste la limite de puissance pour chercher à le tenir avec moins de watts, sans garantie si la charge change.</p>
           <ul>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Silencieux, Performance, Turbo, ou les watts à la main</li>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="profil">profil par jeu</button>, appliqué dès que le jeu passe devant</li>
-            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="banc">banc d'essai</button> qui trouve le bon réglage pour vous</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Un <button class="t" data-t="banc">banc d'essai</button> pour comparer plusieurs limites</li>
           </ul>
         </article>
         <article class="step" data-scene="ingame">
           <p class="eyebrow">04 · En jeu</p>
           <h2>Ajuster sans quitter la partie.</h2>
-          <p>Le bouton <span class="k sq" role="img" aria-label="bouton Command Center"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2.2v7.6L9.6 6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span> (Command Center, à gauche de l'écran) ouvre le widget Canapé dans la <button class="t" data-t="gamebar">Xbox Game Bar</button>, par-dessus le jeu : mode, ±1 W, objectif de FPS, température, batterie. Le jeu continue derrière.</p>
+          <p>Le bouton <span class="k sq" role="img" aria-label="bouton Command Center"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2.2v7.6L9.6 6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span> ouvre la <button class="t" data-t="gamebar">Xbox Game Bar</button>. Son menu Widgets ouvre Canapé, installé séparément : mode, ±1 W, objectif de FPS et température, par-dessus le jeu.</p>
         </article>
         <article class="step" data-scene="hw">
           <p class="eyebrow">05 · Matériel</p>
           <h2>Toute la console, sous la main.</h2>
-          <p>Courbes de ventilateurs, limite de FPS, définition d'écran par jeu, boutons arrière, éclairage des sticks, visée au <button class="t" data-t="gyro">gyroscope</button>. Tout est réappliqué au démarrage.</p>
+          <p>Ventilateurs, limite de FPS, écran par jeu, boutons arrière, éclairage et gyroscope. Les réglages généraux sont conservés ; les profils s'appliquent au jeu au premier plan. Plusieurs fonctions restent à essayer sur l'Ally.</p>
         </article>
       </div>
-      <div class="progress" id="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <nav class="progress" id="progress" aria-label="Étapes de la visite">
+        <button type="button" aria-label="1. Bibliothèque">1</button>
+        <button type="button" aria-label="2. Fiche du jeu">2</button>
+        <button type="button" aria-label="3. Performance">3</button>
+        <button type="button" aria-label="4. En jeu">4</button>
+        <button type="button" aria-label="5. Matériel">5</button>
+      </nav>
     </div>
   </section>
 
@@ -624,13 +632,13 @@ footer small { color: var(--faint); }
     <div class="wrap">
       <div class="block-head rise">
         <p class="eyebrow">Auto TDP</p>
-        <h2>Le moins de watts possible.<br>Sans perdre d'images.</h2>
-        <p class="lead">Vous choisissez un objectif de <button class="t" data-t="fps">FPS</button>. Canapé règle le <button class="t" data-t="tdp">TDP</button> chaque seconde pour le tenir avec le moins de watts possible : plus d'autonomie, moins de chaleur, moins de bruit.</p>
+        <h2>Chercher le bon équilibre.<br>Selon votre objectif de FPS.</h2>
+        <p class="lead">Canapé ajuste la limite de puissance pour chercher à tenir votre objectif. Les résultats dépendent de la scène, des limites thermiques et de la disponibilité des mesures.</p>
       </div>
       <ol class="loop">
         <li class="rise"><span class="ln">1</span><svg aria-hidden="true"><use href="#i-fps"/></svg><h3>Mesurer</h3><p>Les images par seconde et l'activité du GPU, lues dans le pilote graphique chaque seconde, sans rien injecter dans le jeu.</p></li>
-        <li class="rise"><span class="ln">2</span><svg aria-hidden="true"><use href="#i-auto"/></svg><h3>Ajuster</h3><p>Tant que l'objectif tient, la puissance descend d'un watt à la fois. S'il décroche, elle remonte aussitôt, puis tient un palier.</p></li>
-        <li class="rise"><span class="ln">3</span><svg aria-hidden="true"><use href="#i-profile"/></svg><h3>Retenir</h3><p>La puissance trouvée est gardée dans le profil du jeu : la partie suivante démarre directement au bon réglage.</p></li>
+        <li class="rise"><span class="ln">2</span><svg aria-hidden="true"><use href="#i-auto"/></svg><h3>Ajuster</h3><p>La limite baisse par petits pas quand les FPS ont de la marge. Elle remonte si la baisse échoue, selon des seuils et des délais.</p></li>
+        <li class="rise"><span class="ln">3</span><svg aria-hidden="true"><use href="#i-profile"/></svg><h3>Retenir</h3><p>La puissance stable peut être conservée dans le profil du jeu pour servir de point de départ à la partie suivante.</p></li>
       </ol>
       <div class="demo">
         <div class="panel rise">
@@ -643,7 +651,7 @@ footer small { color: var(--faint); }
           <div class="readout">
             <div class="w"><small>Puissance</small><b id="r-w">25 W</b></div>
             <div class="f"><small>Images / s</small><b id="r-f">82</b></div>
-            <div><small>Watts économisés</small><b id="r-g">0 %</b></div>
+            <div><small>Baisse de limite</small><b id="r-g">0 %</b></div>
           </div>
           <div class="legend"><span><i style="background:var(--accent)"></i>Puissance (W)</span><span><i style="background:var(--good)"></i>Images par seconde</span><span><i style="background:var(--dim)"></i>Objectif</span></div>
           <p class="note">Simulation construite sur les mesures réelles d'Unigine Heaven sur la ROG Ally (FPS obtenus à chaque puissance, voir le banc d'essai plus bas).</p>
@@ -651,7 +659,7 @@ footer small { color: var(--faint); }
         <div class="panel rise"><canvas id="chart" aria-label="Graphique : puissance et images par seconde dans le temps" role="img"></canvas></div>
       </div>
       <div class="proof">
-        <div class="pf rise"><small>Mesuré sur la ROG Ally · Heaven · objectif 60 FPS</small><b><span data-count="36">0</span><em>%</em></b><p>de puissance en moins : <strong>25 → 16 W en 26 s</strong>, puis 16 W stables pendant 150 s, à 64,5 FPS de moyenne.</p></div>
+        <div class="pf rise"><small>Mesuré sur la ROG Ally · Heaven · objectif 60 FPS</small><b><span data-count="36">0</span><em>%</em></b><p>de limite TDP en moins : <strong>25 → 16 W en 26 s</strong>, puis 16 W pendant 150 s, à 64,5 FPS de moyenne. Ce n'est pas une mesure d'autonomie.</p></div>
         <div class="pf rise"><small>Mesuré sur la ROG Ally · Heaven · objectif 40 FPS</small><b><span data-count="11">0</span><em>W</em></b><p>tenus pendant 147 s sur 180, entre <strong>40,1 et 41,4 FPS</strong>. Un à-coup ne fait remonter que d'un watt.</p></div>
       </div>
     </div>
@@ -661,8 +669,8 @@ footer small { color: var(--faint); }
     <div class="wrap">
       <div class="block-head rise">
         <p class="eyebrow">Banc d'essai</p>
-        <h2>Le bon réglage,<br>mesuré sur votre jeu.</h2>
-        <p class="lead">Lancez votre jeu, puis le <button class="t" data-t="banc">banc d'essai</button> : Canapé le fait tourner à plusieurs puissances, note ce que chacune donne, et vous propose trois réglages. <span class="k a" role="img" aria-label="bouton A">A</span> en applique un, <span class="k x" role="img" aria-label="bouton X">X</span> l'enregistre dans le profil du jeu.</p>
+        <h2>Comparer les limites,<br>sur une scène de votre jeu.</h2>
+        <p class="lead">Lancez le <button class="t" data-t="banc">banc d'essai</button> sur une scène stable : Canapé mesure plusieurs limites TDP et propose jusqu'à trois réglages selon les résultats. <span class="k a" role="img" aria-label="bouton A">A</span> en applique un, <span class="k x" role="img" aria-label="bouton X">X</span> l'enregistre dans le profil.</p>
       </div>
       <div class="bench rise" id="bench">
         <div class="bench-head">
@@ -672,11 +680,11 @@ footer small { color: var(--faint); }
         <div class="bars-wrap" id="bars-wrap"><div class="bars" id="bars" role="img" aria-label="Images par seconde obtenues à chaque puissance, de 7 à 25 watts"></div></div>
         <div class="recos">
           <div class="reco" data-w="22"><small>Meilleur compromis</small><b>22 W · 79 FPS</b><p>Presque toutes les images, sans les derniers watts qui n'apportent plus rien.</p></div>
-          <div class="reco" data-w="16"><small>Pour 60 FPS</small><b>16 W · 69 FPS</b><p>La plus petite puissance qui tient l'objectif.</p></div>
-          <div class="reco" data-w="16" data-eff><small>Le plus efficace</small><b>16 W · 4,3 FPS/W</b><p>Le plus d'images pour chaque watt.</p></div>
+          <div class="reco" data-w="16"><small>Pour 60 FPS</small><b>16 W · 69 FPS</b><p>La plus petite limite mesurée dont la moyenne atteint l'objectif.</p></div>
+          <div class="reco" data-w="16" data-eff><small>Le plus efficace</small><b>16 W · 4,3 FPS/W</b><p>FPS moyens divisés par la limite TDP, pas par la consommation de la console.</p></div>
         </div>
       </div>
-      <p class="note" style="margin-top:14px">Mesures réelles prises sur une ROG Ally (Z1 Extreme). FPS moyens, FPS les plus bas et température maximale relevés à chaque palier.</p>
+      <p class="note" style="margin-top:14px">Mesures sur ROG Ally Z1 Extreme, avec Heaven en 720p et une vue fixe. Paliers de 15 s ; résultats propres à cet essai et à la version testée. <a href="https://github.com/pierregouedar/canape/blob/main/docs/m5-report-2.md">Rapport détaillé</a>.</p>
     </div>
   </section>
 
@@ -685,20 +693,20 @@ footer small { color: var(--faint); }
       <div class="block-head rise">
         <p class="eyebrow">Ce qu'il y a dedans</p>
         <h2>Léger d'abord.<br>Complet quand même.</h2>
-        <p class="lead">Pas de navigateur embarqué, pas de moteur de jeu pour afficher un menu. Chaque mégaoctet laissé libre revient à vos jeux. Chiffres mesurés sur la ROG Ally.</p>
+        <p class="lead">Pas de navigateur embarqué. Les mesures ci-dessous proviennent d'essais distincts sur la ROG Ally ; elles dépendent de la version et de la méthode de mesure.</p>
       </div>
       <div class="bento">
-        <div class="tile big red rise"><b class="n" data-count="28">0<small>Mo</small></b><p>de mémoire pour l'interface, grâce au <button class="t" data-t="rendu">rendu logiciel</button>. Moins qu'un onglet de navigateur.</p></div>
-        <div class="tile big rise"><b class="n" data-count="1.4" data-dec="1">0<small>Mo</small></b><p>pour le <button class="t" data-t="service">service</button> qui pilote le matériel, en arrière-plan.</p></div>
+        <div class="tile big red rise"><b class="n" data-count="28">0<small>Mo</small></b><p>de mémoire privée pour l'interface en rendu logiciel, dans un essai sur l'Ally.</p></div>
+        <div class="tile big rise"><b class="n" data-count="1.4" data-dec="1">0<small>Mo</small></b><p>de mémoire résidente privée pour le service, dans un autre essai.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><div class="lang" id="lang"><span>Jeux</span></div><p>13 langues, celle de Windows par défaut ou celle de votre choix.</p></div>
-        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer sans lanceur</h3><p>Les jeux Steam, Epic et GOG que vous possédez s'installent depuis Canapé, progression sur la jaquette, sans ouvrir la boutique.</p></div>
+        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer depuis Canapé</h3><p>Installation Steam, Epic et GOG avec progression ; Steam peut afficher sa fenêtre. Les parcours sans fenêtre restent à essayer sur l'Ally.</p></div>
         <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-profile"/></svg><h3>Un profil par jeu</h3><p>Puissance, ventilateurs, limite de FPS, définition d'écran, réglages du processeur : chaque jeu garde les siens.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-bench"/></svg><h3>Banc d'essai</h3><p>Il teste plusieurs puissances sur votre jeu et propose le meilleur compromis.</p><svg class="mini" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C30 60 45 30 80 22 S140 14 200 12" fill="none" stroke="#ff3d5e" stroke-width="3"/></svg></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg><h3>Processeur</h3><p>Boost, priorité performance ou énergie, fréquence maximale. Réglables jeu par jeu.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg><h3>Image</h3><p>Définition et fréquence d'écran par jeu. Mise à l'échelle et génération d'images en préparation.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Inclinez la console pour viser, en tenant une palette ou tout le temps.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à la couleur d'accent.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Windows allégé</h3><p>Copilot, publicités, applis inutiles : on retire, et on peut tout remettre.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Optimisations Windows</h3><p>Certains réglages sont réversibles. Les applications supprimées doivent être réinstallées séparément.</p></div>
         <div class="tile full rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><h3>Sous le capot</h3><p>Écrit en Rust. Un <button class="t" data-t="service">service</button> règle le matériel ; l'interface, elle, tourne comme une application ordinaire, sans droits particuliers. Les valeurs envoyées à la console restent dans les plages prévues pour chaque modèle.</p></div>
       </div>
     </div>
@@ -709,17 +717,16 @@ footer small { color: var(--faint); }
       <div class="block-head rise">
         <p class="eyebrow">Où en est le projet</p>
         <h2>Un projet personnel, en cours.</h2>
-        <p class="lead">Canapé est développé par une seule personne et essayé chaque semaine sur une vraie ROG Ally. Voici ce qui fonctionne aujourd'hui, ce qui est en essai et ce qui vient ensuite.</p>
+        <p class="lead">Projet personnel en développement, essayé sur une ROG Ally Z1 Extreme. Les essais concernent les versions indiquées dans les rapports ; les modifications ultérieures restent à valider.</p>
       </div>
       <div class="status">
         <div class="col ok rise" style="--i:0">
-          <header><h3>Fonctionne</h3><span class="chip-st">Validé sur l'Ally</span></header>
+          <header><h3>Essayé sur l'Ally</h3><span class="chip-st">Versions documentées</span></header>
           <div class="meter"><i style="--w:100%"></i></div>
           <ul>
             <li>Démarrage direct sur Canapé, en accueil du <button class="t" data-t="fse">FSE</button></li>
-            <li>Bibliothèque Steam, Epic et Xbox, jeux ajoutés à la main</li>
-            <li>Installation des jeux Steam et Epic sans leur lanceur</li>
-            <li>Fiche du jeu : durée pour le finir, succès</li>
+            <li>Bibliothèque Steam et Xbox ; liste des jeux Steam possédés</li>
+            <li>Installation Steam avec fenêtre de confirmation</li>
             <li>Modes, <button class="t" data-t="autotdp">auto TDP</button>, ventilateurs, banc d'essai</li>
             <li>Widget dans la Xbox Game Bar</li>
           </ul>
@@ -728,7 +735,9 @@ footer small { color: var(--faint); }
           <header><h3>En essai</h3><span class="chip-st">Écrit, à valider</span></header>
           <div class="meter"><i style="--w:60%"></i></div>
           <ul>
-            <li>Bibliothèque et installation GOG</li>
+            <li>Installation Steam sans fenêtre, connexions et installations Epic et GOG</li>
+            <li>Jeux ajoutés à la main, durées IGDB et succès Steam</li>
+            <li>Bibliothèque GOG et jeux Epic installés</li>
             <li>Options d'un jeu : renommer, catégories, désinstaller</li>
             <li>Réglages du processeur et définition d'écran par jeu</li>
             <li>Pleine puissance dans Canapé et mode d'affichage Fluide</li>
@@ -750,7 +759,7 @@ footer small { color: var(--faint); }
       </div>
       <div class="install rise">
         <svg aria-hidden="true"><use href="#i-download"/></svg>
-        <p><b>Pas encore de version publique.</b> Aujourd'hui, Canapé s'installe en mode développeur de Windows, avec un certificat de test : ce n'est pas encore fait pour être installé par tout le monde. Une version simple à installer viendra quand l'essentiel aura été validé.</p>
+        <p><b>Pas encore d'installateur grand public.</b> L'installation de développement demande Windows 11 24H2+, le mode développeur, les outils de compilation, un terminal administrateur et un certificat de test. Le widget s'installe séparément. <a href="https://github.com/pierregouedar/canape#installer-canapé">Prérequis et installation</a>.</p>
       </div>
     </div>
   </section>
@@ -760,13 +769,18 @@ footer small { color: var(--faint); }
       <div class="block-head rise">
         <p class="eyebrow">Compatibilité</p>
         <h2>Sur quelles machines, avec quelles boutiques.</h2>
-        <p class="lead">Canapé est développé et essayé sur une ROG Ally (Z1 Extreme). Les autres modèles de la gamme sont reconnus, mais n'ont pas encore été essayés. Windows 11 avec l'expérience plein écran (<button class="t" data-t="fse">FSE</button>) est nécessaire.</p>
+        <p class="lead">Canapé est développé et essayé sur une ROG Ally Z1 Extreme. Les autres modèles n'ont pas encore été essayés. Windows 11 24H2 ou plus récent est nécessaire.</p>
       </div>
       <div class="compat-wrap rise">
         <table class="compat">
           <thead><tr><th scope="col"><span class="sr-only">Fonction</span></th><th scope="col"><b>ROG Ally</b>Z1 Extreme</th><th scope="col"><b>ROG Ally</b>Z1</th><th scope="col"><b>ROG Ally X</b>Z1 Extreme</th><th scope="col"><b>ROG Xbox Ally / Ally X</b>Z2 A, Z2 Extreme</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Accueil et bibliothèque</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">Puissance, modes, auto TDP</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span><small>plage à confirmer</small></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span><small>plage à confirmer</small></td></tr><tr><th scope="row">Ventilateurs</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">Mode de la manette, boutons arrière, éclairage</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>manette non reconnue</small></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>manette non reconnue</small></td></tr><tr><th scope="row">Widget Game Bar</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr>
+            <tr><th scope="row">Accueil et bibliothèque</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">Puissance, modes, auto TDP</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span><small>plage à confirmer</small></td><td><span class="st p" aria-label="À essayer">?</span><small>plage à confirmer</small></td></tr>
+            <tr><th scope="row">Ventilateurs</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">Mode de la manette</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st n" aria-label="Manette non reconnue">–</span></td></tr>
+            <tr><th scope="row">Boutons arrière, éclairage</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st n" aria-label="Manette non reconnue">–</span></td></tr>
+            <tr><th scope="row">Widget Game Bar</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -774,11 +788,15 @@ footer small { color: var(--faint); }
         <table class="compat" style="min-width:520px">
           <thead><tr><th scope="col"><span class="sr-only">Boutique</span></th><th scope="col"><b>Jeux installés</b>affichés et lancés</th><th scope="col"><b>Jeux possédés</b>installés depuis Canapé</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Steam</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st y" aria-label="Validé">✓</span></td></tr><tr><th scope="row">Epic Games</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st y" aria-label="Validé">✓</span><small>par Legendary</small></td></tr><tr><th scope="row">GOG</th><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td><td><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span></td></tr><tr><th scope="row">App Xbox</th><td><span class="st y" aria-label="Validé">✓</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>depuis l'app Xbox</small></td></tr><tr><th scope="row">Autres jeux et émulateurs</th><td><span class="st y" aria-label="Validé">✓</span><small>ajoutés à la main</small></td><td><span class="st n" aria-label="Non pris en charge">–</span></td></tr>
+            <tr><th scope="row">Steam</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="Sans fenêtre à essayer">?</span><small>repli avec fenêtre essayé</small></td></tr>
+            <tr><th scope="row">Epic Games</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">GOG</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">App Xbox</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>depuis l'app Xbox</small></td></tr>
+            <tr><th scope="row">Autres jeux et émulateurs</th><td><span class="st p" aria-label="À essayer">?</span><small>ajoutés à la main</small></td><td><span class="st n" aria-label="Non pris en charge">–</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="legend2"><span><span class="st y" aria-label="Validé">✓</span> Validé sur l'Ally</span><span><span class="st p" aria-label="Devrait fonctionner, non essayé">?</span> Prévu, pas encore essayé</span><span><span class="st n" aria-label="Non pris en charge">–</span> Non pris en charge</span></div>
+      <div class="legend2"><span><span class="st y" aria-label="Essayé">✓</span> Essayé sur l'Ally, à une version donnée</span><span><span class="st p" aria-label="À essayer">?</span> Code écrit, à essayer</span><span><span class="st n" aria-label="Non pris en charge">–</span> Non pris en charge</span></div>
       <p class="note" style="margin-top:12px">Les autres consoles portables sous Windows (Legion Go, MSI Claw, Steam Deck…) ne sont pas prises en charge pour l'instant : le pilotage du matériel est propre aux consoles ASUS.</p>
     </div>
   </section>
@@ -790,14 +808,14 @@ footer small { color: var(--faint); }
         <h2>Ce qu'on demande souvent.</h2>
       </div>
       <div class="faq rise">
-        <details><summary>Est-ce que je peux l'installer ?</summary><div class="a"><p>Pas encore. Canapé s'installe aujourd'hui en mode développeur de Windows, avec un certificat de test. Une version simple à installer viendra quand l'essentiel aura été validé sur l'Ally.</p></div></details>
+        <details><summary>Est-ce que je peux l'installer ?</summary><div class="a"><p>Il n'existe pas encore d'installateur grand public. L'installation de développement demande Windows 11 24H2+, les outils Windows et Rust, le mode développeur et un terminal administrateur. Elle ajoute un certificat de test aux certificats de confiance ; le widget s'installe séparément.</p></div></details>
         <details><summary>Est-ce que Canapé remplace Windows ?</summary><div class="a"><p>Non. Canapé remplace seulement l'accueil plein écran que Windows 11 affiche au démarrage d'une console portable. Windows reste là : le bureau, les paramètres et toutes vos applications restent accessibles.</p></div></details>
-        <details><summary>Mes jeux et mes sauvegardes sont-ils touchés ?</summary><div class="a"><p>Non. Canapé lit ce que les boutiques ont installé et lance les jeux par leurs propres moyens. Il ne modifie ni vos jeux ni vos sauvegardes. Il n'écrit dans le dossier d'une boutique que lorsque vous lui demandez d'installer ou de désinstaller un jeu.</p></div></details>
-        <details><summary>Faut-il un compte ou un abonnement ?</summary><div class="a"><p>Non. Les jeux installés apparaissent sans rien faire. Pour voir et installer les jeux que vous possédez, il suffit de connecter les boutiques concernées : une clé d'API pour Steam, une connexion pour Epic Games et GOG.</p></div></details>
+        <details><summary>Mes jeux et mes sauvegardes sont-ils touchés ?</summary><div class="a"><p>Canapé lance les jeux par les moyens des boutiques. Une installation ou une désinstallation demandée modifie les fichiers du jeu ; les sauvegardes dépendent du jeu et de sa boutique.</p></div></details>
+        <details><summary>Faut-il un compte ou un abonnement ?</summary><div class="a"><p>Les jeux installés sont recherchés sans connexion à Canapé, avec certaines limites : les jeux Xbox hors dossier XboxGames ne sont pas détectés. Pour les jeux possédés non installés, configurez Steam, Epic ou GOG. La liste des jeux Xbox possédés n'est pas accessible.</p></div></details>
         <details><summary>Est-ce compatible avec les logiciels d'ASUS ?</summary><div class="a"><p>Canapé règle le même matériel (puissance, ventilateurs, manette). Deux logiciels qui règlent la même chose s'annulent : il vaut mieux n'en garder qu'un. Canapé vous prévient s'il en voit un autre en marche.</p></div></details>
-        <details><summary>Est-ce que ça consomme de la batterie ?</summary><div class="a"><p>Très peu. L'interface occupe environ 28 Mo de mémoire et le service 1,4 Mo. Au repos sur l'accueil, Canapé utilise environ 1 % d'un cœur du processeur, et il se met en retrait pendant que vous jouez.</p></div></details>
+        <details><summary>Est-ce que ça consomme de la batterie ?</summary><div class="a"><p>Canapé utilise des ressources, mais son effet sur l'autonomie n'a pas été établi. Des mesures de mémoire et de CPU existent pour des versions précises ; elles ne mesurent pas à elles seules la consommation de batterie.</p></div></details>
         <details><summary>Est-ce sûr ?</summary><div class="a"><p>Seul le service qui règle le matériel a des droits élevés ; l'interface fonctionne comme une application ordinaire. Les valeurs envoyées au matériel restent dans les plages prévues pour chaque modèle.</p></div></details>
-        <details><summary>Peut-on revenir en arrière ?</summary><div class="a"><p>Oui. La désinstallation retire Canapé et annule les optimisations de Windows qu'il a appliquées. Pour retrouver l'accueil d'origine, il suffit de le choisir à nouveau dans Paramètres, Jeux, Expérience plein écran.</p></div></details>
+        <details><summary>Peut-on revenir en arrière ?</summary><div class="a"><p>La désinstallation retire Canapé et restaure les optimisations réversibles enregistrées. Les applications supprimées doivent être réinstallées séparément. L'accueil d'origine se choisit à nouveau dans Paramètres, Jeux, Expérience plein écran.</p></div></details>
         <details><summary>Et sur une autre console que la ROG Ally ?</summary><div class="a"><p>Pas pour l'instant. La bibliothèque fonctionnerait sur n'importe quel PC sous Windows, mais le réglage de la puissance, des ventilateurs et de la manette est propre aux consoles ASUS.</p></div></details>
       </div>
     </div>
@@ -816,7 +834,7 @@ footer small { color: var(--faint); }
   <section class="closing">
     <div class="wrap rise">
       <h2>Allumez. Choisissez. Jouez.</h2>
-      <p class="lead">Canapé avance chaque semaine. Cette page suit le projet au fil de ses versions.</p>
+      <p class="lead">Canapé est en développement. Consultez les rapports pour les versions et les essais réalisés.</p>
     </div>
   </section>
 </main>
@@ -875,7 +893,6 @@ footer small { color: var(--faint); }
           <div class="row"><span>Auto TDP · 60 FPS</span><span class="toggle"></span></div>
           <svg class="spark" viewBox="0 0 200 50" preserveAspectRatio="none"><path d="M0 12 C30 14 40 28 70 30 S120 36 200 34" fill="none" stroke="#ff8aa0" stroke-width="3"/><path d="M0 8H200" stroke="#34d399" stroke-width="2" stroke-dasharray="4 4"/></svg>
           <div class="row"><span>Température</span><b>68 °C</b></div>
-          <div class="row"><span>Batterie</span><b>74 % · 2 h 40</b></div>
         </div>
       </div>
       <div class="ui hw" data-ui="hw">
@@ -986,7 +1003,7 @@ function showScene(device, scene) {
 }
 
 const heroDev = mountDevice(document.getElementById("hero-host"));
-heroDev.querySelector("img.body").alt = "Une ROG Ally qui affiche la bibliothèque de jeux de Canapé";
+heroDev.querySelector("img.body").alt = "Illustration d'une ROG Ally avec une maquette de Canapé";
 const story = mountDevice(document.getElementById("story-host"));
 selectGame(heroDev, 0); selectGame(story, 0);
 
@@ -1012,9 +1029,14 @@ const CAMERA = {
   hw: ["scale(1.08)", "rgba(168,85,247,.24)"],
 };
 const steps = [...document.querySelectorAll(".step")];
-const bars = [...document.querySelectorAll("#progress i")];
+const bars = [...document.querySelectorAll("#progress button")];
 const storyEl = document.getElementById("visite"), cam = document.getElementById("cam"), pin = storyEl.querySelector(".pin");
 const clamp01 = v => Math.min(1, Math.max(0, v));
+bars.forEach((button, i) => button.addEventListener("click", () => {
+  const start = storyEl.getBoundingClientRect().top + scrollY;
+  const distance = storyEl.offsetHeight - innerHeight;
+  scrollTo({ top: start + distance * (i + 0.5) / steps.length, behavior: reduce ? "instant" : "smooth" });
+}));
 function onScroll() {
   const t = clamp01(scrollY / 600);
   const host = document.getElementById("hero-host");
@@ -1024,8 +1046,8 @@ function onScroll() {
   const r = storyEl.getBoundingClientRect();
   const p = clamp01(-r.top / (r.height - innerHeight));
   const idx = Math.min(4, Math.floor(p * 5)), local = clamp01(p * 5 - idx);
-  steps.forEach((s, i) => s.classList.toggle("on", i === idx));
-  bars.forEach((b, i) => b.classList.toggle("on", i === idx));
+  steps.forEach((s, i) => { s.classList.toggle("on", i === idx); s.inert = i !== idx; });
+  bars.forEach((b, i) => { if (i === idx) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
   const scene = steps[idx].dataset.scene;
   if (story._scene !== scene) {
     showScene(story, scene);
@@ -1123,11 +1145,11 @@ setInterval(() => { if (reduce || document.hidden) return; wi = (wi + 1) % WORDS
 // Glossary and tooltips.
 const TERMS = {
   fse: ["FSE", "i-screen", "Full Screen Experience : le mode plein écran « console » de Windows 11. Au démarrage, Windows ouvre directement un accueil pour les jeux. Canapé prend cette place."],
-  tdp: ["TDP", "i-bolt", "La puissance maximale, en watts, que la puce a le droit de consommer. Plus bas : plus d'autonomie, moins de chaleur et de bruit. Plus haut : plus d'images par seconde."],
-  autotdp: ["Auto TDP", "i-auto", "Canapé mesure les images par seconde et ajuste le TDP en continu : il descend tant que l'objectif est tenu, remonte dès qu'il ne l'est plus."],
+  tdp: ["TDP", "i-bolt", "La limite de puissance, en watts, demandée pour la puce. Elle ne représente pas la consommation totale de la console ; son effet dépend du jeu et des conditions."],
+  autotdp: ["Auto TDP", "i-auto", "Canapé utilise les FPS disponibles pour ajuster la limite TDP par étapes, avec des marges et des délais. L'objectif n'est pas garanti."],
   fps: ["FPS", "i-fps", "Frames per second, images par seconde. 30 se joue, 60 est fluide, au-delà c'est très fluide si l'écran suit (celui de l'Ally monte à 120 Hz)."],
   profil: ["Profil de jeu", "i-profile", "Les réglages propres à un jeu (objectif de FPS, puissance, ventilateurs, écran…). Ils s'appliquent quand le jeu passe au premier plan et s'effacent quand il le quitte."],
-  banc: ["Banc d'essai", "i-bench", "Canapé fait tourner votre jeu à plusieurs puissances et note les images par seconde obtenues, puis vous propose le meilleur compromis."],
+  banc: ["Banc d'essai", "i-bench", "Canapé mesure les FPS sur plusieurs limites TDP, dans la scène choisie, et propose des réglages selon les résultats."],
   gamebar: ["Xbox Game Bar", "i-widget", "Le panneau que Windows affiche par-dessus un jeu (bouton Command Center de l'Ally). Canapé y ajoute son propre widget."],
   gyro: ["Gyroscope", "i-gyro", "Le capteur qui mesure la rotation de la console. Canapé le transforme en mouvement de souris pour viser en inclinant l'Ally."],
   igdb: ["IGDB", "i-library", "Une grande base de données de jeux vidéo. Canapé y lit la durée moyenne pour finir chaque jeu."],
