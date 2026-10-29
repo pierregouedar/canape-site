@@ -157,6 +157,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Screen UI, sized in container units */
 .ui { position: absolute; inset: 0; font-family: var(--body); color: #eef0f4; font-size: 1.5cqw; background: #0b0c0f; opacity: 0; transition: opacity .45s ease; }
 .ui.on { opacity: 1; }
+.shot { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.035); transition: opacity .45s ease, transform 1.4s cubic-bezier(.16,1,.3,1); }
+.shot.on { transform: scale(1); }
 .bar { position: absolute; left: 3.8cqw; right: 3.8cqw; top: 2.6cqw; display: flex; align-items: center; gap: 2.2cqw; font-size: 1.35cqw; z-index: 3; }
 .bar .logo { display: flex; align-items: center; gap: .9cqw; font-weight: 700; font-size: 1.5cqw; margin-right: 1.4cqw; }
 .bar .logo svg { width: 2.3cqw; height: 1.7cqw; }
@@ -876,55 +878,11 @@ footer small { color: var(--faint); }
     <img class="body" src="ally.webp" srcset="ally.webp 1799w, ally@2x.webp 2698w" sizes="(max-width: 900px) 96vw, 1280px" alt="" width="1799" height="756" decoding="async">
     <span class="glowring" style="left:7.8%;top:22.1%"></span><span class="glowring" style="left:86.8%;top:44.7%"></span>
     <div class="screen">
-      <div class="ui lib on" data-ui="lib">
-        <div class="banner" data-hero></div>
-        <div class="shade"></div>
-        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab on">Jeux</span><span class="tab">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span><span>21:42</span></span></div>
-        <div class="head"><span class="store">STEAM</span><span class="title">ELDEN RING</span><span class="sub">Joué hier</span><span class="pill"><i>A</i>Détails</span></div>
-        <span class="label">Récents</span>
-        <div class="track"></div>
-        <div class="hints"><span><i>✥</i>Étagères</span><span><i>A</i>Détails</span><span><i>LB</i><i>RB</i>Sections</span></div>
-      </div>
-      <div class="ui game" data-ui="game">
-        <div class="banner" data-app="367520" data-kind="hero" style="--c1:#1f2a44;--c2:#0b0c0f"></div>
-        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab on">Jeux</span><span class="tab">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span></span></div>
-        <div class="cover art" data-app="367520" data-name="Hollow Knight"></div>
-        <div class="info">
-          <span class="title">Hollow Knight</span>
-          <span class="sub">Steam · Joué aujourd'hui · 9,2 Go · 6 W appris</span>
-          <span class="pill"><i>A</i>Jouer</span>
-          <div class="ttb"><div><small>Histoire</small><b>27 h</b></div><div><small>Complet</small><b>42 h</b></div><div><small>100 %</small><b>63 h</b></div></div>
-          <div class="ach"><span class="icons"><i></i><i></i><i></i><i></i></span><span class="meter"><i></i></span><small>Succès 36 / 63</small></div>
-        </div>
-        <div class="hints"><span><i>A</i>Jouer</span><span><i>Y</i>Options</span><span><i>B</i>Retour</span></div>
-      </div>
-      <div class="ui perf" data-ui="perf">
-        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab">Jeux</span><span class="tab on">Performance</span><span class="tab">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b class="pw">11</b> W</span><span><b>60</b> FPS</span><span><b>80</b> %</span></span></div>
-        <div class="fig"><small>PUISSANCE</small><b><em class="pw" style="font-style:normal">11</em><span>W</span></b><p>Auto TDP · objectif 60 FPS · <em>tenu</em></p></div>
-        <svg class="graph" viewBox="0 0 520 180" preserveAspectRatio="none"><path d="M0 170H520" stroke="#2a2d34" stroke-width="2"/><path d="M0 40H520" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 6"/><path d="M0 30 C60 34 90 60 140 80 S240 110 300 112 S420 118 520 116 V170 H0Z" fill="rgba(255,61,94,.14)"/><path d="M0 30 C60 34 90 60 140 80 S240 110 300 112 S420 118 520 116" fill="none" stroke="#ff8aa0" stroke-width="5" stroke-linecap="round"/></svg>
-        <div class="cards"><div class="card"><span class="dot"></span><small>Mode</small><b>Silencieux</b></div><div class="card sel"><span class="dot"></span><small>Auto TDP</small><b>60 FPS</b></div><div class="card"><span class="dot"></span><small>Plage</small><b>7 – 25 W</b></div><div class="card"><span class="dot"></span><small>Processeur</small><b>Boost off</b></div></div>
-        <div class="hints"><span><i>✥</i>Cartes</span><span><i>A</i>Régler</span><span><i>X</i>Enregistrer pour ce jeu</span></div>
-      </div>
-      <div class="ui ingame" data-ui="ingame">
-        <div class="banner" data-app="1245620" data-kind="hero" style="--c1:#3a2f17;--c2:#0b0c0f"></div>
-        <div class="osd"><span class="fps">60</span> FPS · <span class="pw">9</span> W</div>
-        <div class="widget">
-          <header><svg><use href="#logo"/></svg>Canapé</header>
-          <div class="modes"><span>Silence</span><span class="on">Perf.</span><span>Turbo</span></div>
-          <div class="w"><i>−</i><b><span class="pw">9</span> W</b><i>+</i></div>
-          <div class="row"><span>Auto TDP · 60 FPS</span><span class="toggle"></span></div>
-          <svg class="spark" viewBox="0 0 200 50" preserveAspectRatio="none"><path d="M0 12 C30 14 40 28 70 30 S120 36 200 34" fill="none" stroke="#ff8aa0" stroke-width="3"/><path d="M0 8H200" stroke="#34d399" stroke-width="2" stroke-dasharray="4 4"/></svg>
-          <div class="row"><span>Température</span><b>68 °C</b></div>
-        </div>
-      </div>
-      <div class="ui hw" data-ui="hw">
-        <div class="bar"><span class="logo"><svg><use href="#logo"/></svg>Canapé</span><span class="tab">Jeux</span><span class="tab">Performance</span><span class="tab on">Matériel</span><span class="tab">Réglages</span><span class="stat"><span><b>9</b> W</span><span><b>60</b> FPS</span></span></div>
-        <span class="sh-label" style="top:9cqw">Refroidissement</span>
-        <div class="shelf" style="top:12cqw"><div class="card"><small>Ventilateurs</small><b>Équilibré</b><svg class="curve" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 26 L20 22 L40 17 L60 11 L80 6 L100 3" fill="none" stroke="#ff8aa0" stroke-width="2.5"/></svg></div><div class="card"><small>Température</small><b>68 °C</b></div><div class="card"><small>Limite de FPS</small><b>60</b></div></div>
-        <span class="sh-label" style="top:26cqw">Manette</span>
-        <div class="shelf" style="top:29cqw"><div class="card sel"><small>Éclairage</small><b>Arc-en-ciel</b><span class="ringprev"></span></div><div class="card"><small>Boutons arrière</small><b>M1 · M2</b></div><div class="card"><small>Gyroscope</small><b>Palette gauche</b></div><div class="card"><small>Écran</small><b>1280 × 720</b></div></div>
-        <div class="hints"><span><i>✥</i>Cartes</span><span><i>A</i>Régler</span></div>
-      </div>
+      <img class="ui shot on" data-ui="lib" src="screens/lib.webp" alt="Canapé : la bibliothèque, avec la jaquette sélectionnée et les jeux récents" width="1600" height="900" decoding="async">
+      <img class="ui shot" data-ui="game" src="screens/game.webp" alt="Canapé : la fiche d'un jeu, avec sa durée de jeu" width="1600" height="900" loading="lazy" decoding="async">
+      <img class="ui shot" data-ui="perf" src="screens/perf.webp" alt="Canapé : la page Performance, avec Auto TDP" width="1600" height="900" loading="lazy" decoding="async">
+      <img class="ui shot" data-ui="ingame" src="screens/ingame.webp" alt="Le panneau Canapé ouvert dans la Game Bar, pendant un jeu" width="1600" height="900" loading="lazy" decoding="async">
+      <img class="ui shot" data-ui="hw" src="screens/hw.webp" alt="Canapé : la page Matériel, avec les ventilateurs et la limite de FPS" width="1600" height="900" loading="lazy" decoding="async">
     </div>
   </div>
 </template>
@@ -992,31 +950,11 @@ fill(document.querySelector(".drift.d1"), GAMES.slice(0, 12));
 fill(document.querySelector(".drift.d2"), shuffle(GAMES, 5).slice(0, 12));
 document.querySelectorAll(".wall .row").forEach((row, i) => fill(row, shuffle(GAMES, [7, 5, 11][i]), true));
 
-// A handheld: drawn body, live screen.
+// A handheld: the real body and real screenshots of Canapé on its screen.
 function mountDevice(host) {
   const node = document.getElementById("device-tpl").content.firstElementChild.cloneNode(true);
   host.append(node);
-  node.querySelectorAll("[data-app]").forEach(el => {
-    if (el.classList.contains("cover")) { const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = el.dataset.name || ""; el.append(nm); }
-    art(el, el.dataset.app, el.dataset.kind || "cover");
-  });
-  const track = node.querySelector(".lib .track");
-  for (const g of GAMES.slice(0, 10)) track.append(cover(g));
-  const hero = node.querySelector(".lib [data-hero]");
-  node._heroes = GAMES.slice(0, 10).map(g => { const b = document.createElement("div"); b.className = "banner"; b.style.opacity = 0; b.style.setProperty("--c1", g[3]); art(b, g[0], "hero"); hero.append(b); return b; });
   return node;
-}
-function selectGame(device, i) {
-  i = Math.max(0, Math.min(9, i));
-  if (device._sel === i) return;
-  device._sel = i;
-  device.querySelectorAll(".lib .track .cover").forEach((c, k) => c.classList.toggle("sel", k === i));
-  device.querySelector(".lib .track").style.transform = `translateX(-${Math.max(0, i - 2) * 10.4}cqw)`;
-  device._heroes.forEach((b, k) => b.style.opacity = k === i ? 1 : 0);
-  device.querySelector(".lib .title").textContent = GAMES[i][1];
-  device.querySelector(".lib .store").textContent = GAMES[i][2];
-  device.querySelector(".lib .sub").textContent = ["Joué aujourd'hui", "Joué hier", "Joué il y a 3 jours", "Pas encore installé · A pour l'installer"][i % 4];
-  if (device === heroDev) document.getElementById("halo").style.setProperty("--halo", GAMES[i][3] + "66");
 }
 function showScene(device, scene) {
   if (device._scene === scene) return;
@@ -1027,27 +965,20 @@ function showScene(device, scene) {
 const heroDev = mountDevice(document.getElementById("hero-host"));
 heroDev.querySelector("img.body").alt = "Illustration d'une ROG Ally avec une maquette de Canapé";
 const story = mountDevice(document.getElementById("story-host"));
-selectGame(heroDev, 0); selectGame(story, 0);
 
+// The hero console shows the pages of Canapé one after the other.
 if (!reduce) {
-  let k = 0, dir = 1;
-  setInterval(() => { if (document.hidden) return; k += dir; if (k >= 6 || k <= 0) dir = -dir; selectGame(heroDev, k); }, 2200);
+  const pages = ["lib", "perf", "hw", "ingame", "game"];
+  let k = 0;
+  setInterval(() => { if (document.hidden) return; k = (k + 1) % pages.length; showScene(heroDev, pages[k]); }, 2800);
 }
-
-// Stick rings light up in a rainbow in the hardware scene.
-let hue = 280;
-setInterval(() => {
-  if (story._scene !== "hw" || document.hidden) return;
-  hue = (hue + (reduce ? 0 : 5)) % 360;
-  story.style.setProperty("--lit", `hsl(${hue} 95% 62%)`);
-}, 70);
 
 // Camera moves per scene, and the light behind the stage.
 const CAMERA = {
   lib: ["scale(1)", "rgba(255,61,94,.16)"],
   game: ["scale(1.06) translateY(1%)", "rgba(96,165,250,.18)"],
   perf: ["scale(1.02)", "rgba(255,61,94,.22)"],
-  ingame: ["scale(1.3) translate(-11%, -2%)", "rgba(245,158,11,.18)"],
+  ingame: ["scale(1.16) translate(7%, 0)", "rgba(245,158,11,.18)"],
   hw: ["scale(1.08)", "rgba(168,85,247,.24)"],
 };
 const steps = [...document.querySelectorAll(".step")];
@@ -1111,9 +1042,6 @@ function onScroll() {
   const [tf, glow] = CAMERA[scene];
   cam.style.transform = tf;
   pin.style.setProperty("--scene", glow);
-  if (scene === "lib") selectGame(story, Math.round(local * 7));
-  if (scene === "perf") story.querySelectorAll(".perf .pw").forEach(e => e.textContent = Math.round(22 - local * 11));
-  if (scene === "game") story.querySelector(".game .ach .meter i").style.width = Math.round(15 + local * 42) + "%";
   const wall = document.querySelector(".wall");
   const wr = wall.getBoundingClientRect();
   wall.style.setProperty("--sx", ((wr.top + wr.height / 2 - innerHeight / 2) * 0.25).toFixed(1) + "px");
