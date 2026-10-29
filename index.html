@@ -13,7 +13,7 @@
 <meta name="robots" content="index, follow">
 <meta name="author" content="Pierre Gouedar">
 <link rel="preload" as="image" href="ally.webp" imagesrcset="ally.webp 1799w, ally@2x.webp 2698w" imagesizes="(max-width: 900px) 96vw, 1280px" type="image/webp">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Canapé", "applicationCategory": "GameApplication", "operatingSystem": "Windows 11", "inLanguage": "fr", "url": "https://pierregouedar.github.io/canape-site/", "image": "https://pierregouedar.github.io/canape-site/og.jpg", "description": "Accueil plein écran pour la ROG Ally sous Windows : bibliothèque Steam, Epic, GOG et Xbox, réglage automatique de la puissance (auto TDP), ventilateurs et manette, à la manette.", "author": {"@type": "Person", "name": "Pierre Gouedar"}, "softwareVersion": "en développement"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Canapé", "applicationCategory": "GameApplication", "operatingSystem": "Windows 11", "inLanguage": "fr", "url": "https://pierregouedar.github.io/canape-site/", "image": "https://pierregouedar.github.io/canape-site/og.jpg", "description": "Accueil plein écran pour la ROG Ally sous Windows : bibliothèque Steam, Epic et Xbox, réglage automatique de la puissance (auto TDP), ventilateurs et manette, à la manette.", "author": {"@type": "Person", "name": "Pierre Gouedar"}, "softwareVersion": "en développement"}</script>
 <link rel="canonical" href="https://pierregouedar.github.io/canape-site/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
@@ -274,9 +274,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .captions { position: relative; width: 100%; height: 190px; z-index: 2; }
 .captions::before { content: ""; position: absolute; left: 0; right: 0; top: -60px; bottom: -40vh; background: linear-gradient(rgba(8,9,11,0), var(--bg) 60px); pointer-events: none; }
 .step { position: absolute; inset: 0; margin-inline: auto; width: min(100% - 32px, 780px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; pointer-events: none; }
-.js .step > * { opacity: 0; transform: translateY(26px); transition: opacity .5s, transform .7s cubic-bezier(.16,1,.3,1); }
+.js .step > * { opacity: 0; transform: translateY(calc(var(--dir, 1) * 28px)); filter: blur(6px); transition: opacity .5s, transform .75s cubic-bezier(.16,1,.3,1), filter .5s; }
 .step.on { pointer-events: auto; }
-.js .step.on > * { opacity: 1; transform: none; }
+.js .step.on > * { opacity: 1; transform: none; filter: none; }
+.js .step.leaving > * { transform: translateY(calc(var(--dir, 1) * -24px)); transition-duration: .3s; transition-delay: 0s; }
 .step.on > *:nth-child(2) { transition-delay: .07s; }
 .step.on > *:nth-child(3) { transition-delay: .14s; }
 .step.on > *:nth-child(4) { transition-delay: .21s; }
@@ -285,11 +286,22 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .step ul { display: none; margin: 0; padding: 0; list-style: none; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .step li { display: flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 99px; background: rgba(255,255,255,.05); border: 1px solid var(--stroke); color: #c6cad2; font-size: 14px; }
 .step li svg { width: 16px; height: 16px; flex: none; color: var(--accent); }
-.progress { position: absolute; right: max(12px, var(--gutter-r)); top: 50%; transform: translateY(-50%); display: none; flex-direction: column; gap: 4px; z-index: 3; }
-.js .progress { display: flex; }
-.progress button { width: 44px; height: 44px; border: 1px solid var(--stroke); border-radius: 50%; background: var(--surface); color: #c6cad2; cursor: pointer; font: 700 13px var(--mono); }
-.progress button[aria-current="step"] { border-color: var(--accent); background: var(--accent); color: #08090b; }
-.progress button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.stepper { position: absolute; right: max(24px, var(--gutter-r)); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-end; gap: 14px; z-index: 3; }
+.stepper::before, .stepper::after { content: ""; position: absolute; right: 13px; top: 14px; width: 2px; border-radius: 2px; }
+.stepper::before { bottom: 14px; background: var(--stroke); }
+.stepper::after { height: calc((100% - 28px) * var(--f, 0)); background: var(--accent); transition: height .25s linear; }
+.st-dot { position: relative; z-index: 1; display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: #8b909c; font: inherit; cursor: pointer; }
+.st-dot .num { width: 28px; height: 28px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--bg); border: 2px solid var(--stroke); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; transition: background .3s, border-color .3s, color .3s, transform .4s cubic-bezier(.16,1,.3,1); }
+.st-dot .lab { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; font-size: 13px; font-weight: 600; padding: 5px 0; border-radius: 99px; background: rgba(8,9,11,.86); box-shadow: 0 0 0 1px var(--stroke); transition: max-width .45s cubic-bezier(.16,1,.3,1), opacity .3s, padding .3s; }
+.st-dot.done .num { border-color: var(--accent); color: var(--accent); }
+.st-dot.on .num { background: var(--accent); border-color: var(--accent); color: #fff; transform: scale(1.14); }
+.st-dot.on .lab, .st-dot:hover .lab, .st-dot:focus-visible .lab { max-width: 170px; opacity: 1; color: #fff; padding: 5px 12px; }
+.skip { position: absolute; z-index: 4; top: 76px; right: max(24px, var(--gutter-r)); display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 99px; background: rgba(255,255,255,.08); border: 1px solid var(--stroke); color: #e9ebef; font-size: 14px; font-weight: 600; text-decoration: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background .3s, border-color .3s, transform .3s; }
+.skip:hover { background: rgba(255,255,255,.15); transform: translateY(1px); }
+.skip svg { width: 16px; height: 16px; }
+.skip.next { background: var(--accent); border-color: var(--accent); color: #fff; }
+@keyframes swapin { from { opacity: .2; transform: scale(.985); } to { opacity: 1; transform: none; } }
+#story-host.swap { animation: swapin .6s cubic-bezier(.16,1,.3,1); }
 .glowring { position: absolute; width: 8.2%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); border: .55vw solid var(--lit, transparent); box-shadow: 0 0 2vw var(--lit, transparent), inset 0 0 1vw var(--lit, transparent); opacity: 0; transition: opacity .5s; pointer-events: none; mix-blend-mode: screen; }
 .ally[data-lit] .glowring { opacity: .95; }
 @media (max-width: 900px) {
@@ -298,8 +310,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .step h2 { font-size: clamp(26px, 7vw, 36px); }
   .step p { font-size: 15px; }
   .step ul { display: none; }
-  .progress { right: auto; top: auto; bottom: 14px; left: 50%; transform: translateX(-50%); flex-direction: row; }
-  .progress button { width: 44px; height: 44px; }
+  .stepper { right: auto; top: auto; bottom: 12px; left: 50%; transform: translateX(-50%); flex-direction: row; align-items: center; gap: 10px; }
+  .stepper::before, .stepper::after { right: auto; top: 50%; width: auto; height: 2px; margin-top: -1px; }
+  .stepper::before { left: 14px; right: 14px; bottom: auto; }
+  .stepper::after { left: 14px; height: 2px; width: calc((100% - 28px) * var(--f, 0)); transition: width .25s linear; }
+  .st-dot { flex-direction: row; }
+  .st-dot:hover .lab { max-width: 0; opacity: 0; padding: 5px 0; }
+  .st-dot.on:hover .lab { max-width: 120px; opacity: 1; padding: 5px 10px; }
+  .st-dot.on .lab { max-width: 120px; opacity: 1; padding: 5px 10px; }
+  .skip { top: 98px; right: 16px; padding: 7px 13px; font-size: 13px; }
 }
 
 /* Sections */
@@ -498,7 +517,9 @@ footer small { color: var(--faint); }
   html { scroll-behavior: auto; }
   .js .rise { transform: none; opacity: 1; transition: none; }
   .drift, .wall .row { animation: none !important; }
-  .ui, .cover, .lib .track, .widget, .ingame .banner, .ach .meter i, .hero-device, .cam, .step > *, .w { transition: none !important; }
+  .ui, .cover, .lib .track, .widget, .ingame .banner, .ach .meter i, .hero-device, .cam, .step > *, .w, .st-dot .num, .st-dot .lab, .skip { transition: none !important; }
+  #story-host.swap { animation: none; }
+  .js .step > *, .js .step.leaving > * { filter: none; }
   .js .split .w { opacity: 1; transform: none; }
 }
 </style>
@@ -572,20 +593,21 @@ footer small { color: var(--faint); }
       <div class="rise">
         <p class="eyebrow">Une seule bibliothèque</p>
         <h2>Vos jeux, réunis.</h2>
-        <p class="lead">Canapé retrouve les jeux installés de plusieurs boutiques. Les jeux possédés sur Steam, Epic et GOG apparaissent après configuration ; vos autres jeux et émulateurs s'ajoutent à la main.</p>
-        <div class="stores"><span>Steam</span><span>Epic Games</span><span>GOG</span><span>Xbox</span><span>Émulateurs</span></div>
+        <p class="lead">Canapé retrouve les jeux installés de plusieurs boutiques. Les jeux possédés sur Steam et Epic apparaissent après configuration ; vos autres jeux et émulateurs s'ajoutent à la main.</p>
+        <div class="stores"><span>Steam</span><span>Epic Games</span><span>Xbox</span><span>Émulateurs</span></div>
       </div>
     </div>
   </section>
 
   <section class="story" id="visite" aria-label="La visite, illustrée par une maquette animée">
     <div class="pin">
+      <a class="skip" id="skip" href="#auto"><span id="skip-label">Passer la visite</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <div class="cam-wrap"><div class="cam" id="cam"><div id="story-host"></div></div></div>
       <div class="captions">
         <article class="step" data-scene="lib">
           <p class="eyebrow">01 · Bibliothèque</p>
           <h2>Tout est là, à la manette.</h2>
-          <p>Les jeux Steam, Epic, GOG et Xbox installés sont rangés sur des étagères. Les jeux possédés sur Steam, Epic et GOG peuvent aussi être installés depuis leur fiche ; Steam peut afficher sa fenêtre.</p>
+          <p>Les jeux Steam, Epic et Xbox installés sont rangés sur des étagères. Les jeux possédés sur Steam et Epic peuvent aussi être installés depuis leur fiche ; Steam peut afficher sa fenêtre.</p>
           <ul>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Récents, installés, par boutique et par catégorie</li>
             <li><svg aria-hidden="true"><use href="#i-check"/></svg>Jaquettes et bannières téléchargées automatiquement</li>
@@ -618,13 +640,7 @@ footer small { color: var(--faint); }
           <p>Ventilateurs, limite de FPS, écran par jeu, boutons arrière, éclairage et gyroscope. Les réglages généraux sont conservés ; les profils s'appliquent au jeu au premier plan. Plusieurs fonctions restent à essayer sur l'Ally.</p>
         </article>
       </div>
-      <nav class="progress" id="progress" aria-label="Étapes de la visite">
-        <button type="button" aria-label="1. Bibliothèque">1</button>
-        <button type="button" aria-label="2. Fiche du jeu">2</button>
-        <button type="button" aria-label="3. Performance">3</button>
-        <button type="button" aria-label="4. En jeu">4</button>
-        <button type="button" aria-label="5. Matériel">5</button>
-      </nav>
+      <nav class="stepper" id="stepper" aria-label="Étapes de la visite" hidden></nav>
     </div>
   </section>
 
@@ -699,12 +715,12 @@ footer small { color: var(--faint); }
         <div class="tile big red rise"><b class="n" data-count="28">0<small>Mo</small></b><p>de mémoire privée pour l'interface en rendu logiciel, dans un essai sur l'Ally.</p></div>
         <div class="tile big rise"><b class="n" data-count="1.4" data-dec="1">0<small>Mo</small></b><p>de mémoire résidente privée pour le service, dans un autre essai.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><div class="lang" id="lang"><span>Jeux</span></div><p>13 langues, celle de Windows par défaut ou celle de votre choix.</p></div>
-        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer depuis Canapé</h3><p>Installation Steam, Epic et GOG avec progression ; Steam peut afficher sa fenêtre. Les parcours sans fenêtre restent à essayer sur l'Ally.</p></div>
+        <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Installer depuis Canapé</h3><p>Installation Steam et Epic avec progression ; Steam peut afficher sa fenêtre. Le parcours Steam sans fenêtre reste à essayer sur l'Ally.</p></div>
         <div class="tile wide rise"><svg class="ic" aria-hidden="true"><use href="#i-profile"/></svg><h3>Un profil par jeu</h3><p>Puissance, ventilateurs, limite de FPS, définition d'écran, réglages du processeur : chaque jeu garde les siens.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-bench"/></svg><h3>Banc d'essai</h3><p>Il teste plusieurs puissances sur votre jeu et propose le meilleur compromis.</p><svg class="mini" viewBox="0 0 200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 64 C30 60 45 30 80 22 S140 14 200 12" fill="none" stroke="#ff3d5e" stroke-width="3"/></svg></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg><h3>Processeur</h3><p>Boost, priorité performance ou énergie, fréquence maximale. Réglables jeu par jeu.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg><h3>Image</h3><p>Définition et fréquence d'écran par jeu. Mise à l'échelle et génération d'images en préparation.</p></div>
-        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Inclinez la console pour viser, en tenant une palette ou tout le temps.</p></div>
+        <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-gyro"/></svg><h3>Visée au gyroscope</h3><p>Inclinez la console pour viser, en tenant une palette ou tout le temps. Le mouvement peut aussi être transmis aux émulateurs (en essai, sans émulateur pour l'instant).</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-light"/></svg><h3>Éclairage</h3><p>Couleur et effets des anneaux des sticks, assortis à la couleur d'accent.</p></div>
         <div class="tile rise"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><h3>Optimisations Windows</h3><p>Certains réglages sont réversibles. Les applications supprimées doivent être réinstallées séparément.</p></div>
         <div class="tile full rise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><h3>Sous le capot</h3><p>Écrit en Rust. Un <button class="t" data-t="service">service</button> règle le matériel ; l'interface, elle, tourne comme une application ordinaire, sans droits particuliers. Les valeurs envoyées à la console restent dans les plages prévues pour chaque modèle.</p></div>
@@ -725,24 +741,26 @@ footer small { color: var(--faint); }
           <div class="meter"><i style="--w:100%"></i></div>
           <ul>
             <li>Démarrage direct sur Canapé, en accueil du <button class="t" data-t="fse">FSE</button></li>
-            <li>Bibliothèque Steam et Xbox ; liste des jeux Steam possédés</li>
-            <li>Installation Steam avec fenêtre de confirmation</li>
+            <li>Bibliothèque Steam, Epic et Xbox ; liste des jeux Steam possédés</li>
+            <li>Installation Steam avec fenêtre de confirmation ; installation, lancement et désinstallation d'un jeu Epic</li>
             <li>Modes, <button class="t" data-t="autotdp">auto TDP</button>, ventilateurs, banc d'essai</li>
-            <li>Widget dans la Xbox Game Bar</li>
+            <li>Fréquence d'écran propre à un jeu</li>
+            <li>Visée au <button class="t" data-t="gyro">gyroscope</button>, boutons arrière, éclairage des sticks</li>
+            <li>Bascule vers l'affichage Fluide, par la carte graphique</li>
+            <li>Widget dans la Xbox Game Bar : modes, auto TDP, profil du jeu</li>
           </ul>
         </div>
         <div class="col wip rise" style="--i:1">
           <header><h3>En essai</h3><span class="chip-st">Écrit, à valider</span></header>
-          <div class="meter"><i style="--w:60%"></i></div>
+          <div class="meter"><i style="--w:55%"></i></div>
           <ul>
-            <li>Installation Steam sans fenêtre, connexions et installations Epic et GOG</li>
+            <li>Installation Steam sans que Steam ne s'affiche</li>
             <li>Jeux ajoutés à la main, durées IGDB et succès Steam</li>
-            <li>Bibliothèque GOG et jeux Epic installés</li>
-            <li>Options d'un jeu : renommer, catégories, désinstaller</li>
+            <li>Options d'un jeu : renommer, catégories, masquer</li>
             <li>Réglages du processeur et définition d'écran par jeu</li>
-            <li>Pleine puissance dans Canapé et mode d'affichage Fluide</li>
-            <li>Optimisations de Windows</li>
-            <li>Visée au gyroscope, boutons arrière, éclairage</li>
+            <li>Pleine puissance dans Canapé et animations allégées en mode éco</li>
+            <li>Optimisations de Windows et limite de charge de la batterie</li>
+            <li>Mouvement transmis aux émulateurs (essayé avec un client de test)</li>
           </ul>
         </div>
         <div class="col next rise" style="--i:2">
@@ -754,6 +772,7 @@ footer small { color: var(--faint); }
             <li>Réglages avancés du processeur (tension, température)</li>
             <li>Un banc d'essai qui combine tous les réglages</li>
             <li>Une version installable par tous</li>
+            <li>La boutique GOG, en pause pour le moment</li>
           </ul>
         </div>
       </div>
@@ -779,7 +798,9 @@ footer small { color: var(--faint); }
             <tr><th scope="row">Puissance, modes, auto TDP</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span><small>plage à confirmer</small></td><td><span class="st p" aria-label="À essayer">?</span><small>plage à confirmer</small></td></tr>
             <tr><th scope="row">Ventilateurs</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
             <tr><th scope="row">Mode de la manette</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st n" aria-label="Manette non reconnue">–</span></td></tr>
-            <tr><th scope="row">Boutons arrière, éclairage</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st n" aria-label="Manette non reconnue">–</span></td></tr>
+            <tr><th scope="row">Boutons arrière, éclairage</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">Fréquence d'écran par jeu</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">Visée au gyroscope</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
             <tr><th scope="row">Widget Game Bar</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
           </tbody>
         </table>
@@ -789,8 +810,8 @@ footer small { color: var(--faint); }
           <thead><tr><th scope="col"><span class="sr-only">Boutique</span></th><th scope="col"><b>Jeux installés</b>affichés et lancés</th><th scope="col"><b>Jeux possédés</b>installés depuis Canapé</th></tr></thead>
           <tbody>
             <tr><th scope="row">Steam</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st p" aria-label="Sans fenêtre à essayer">?</span><small>repli avec fenêtre essayé</small></td></tr>
-            <tr><th scope="row">Epic Games</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
-            <tr><th scope="row">GOG</th><td><span class="st p" aria-label="À essayer">?</span></td><td><span class="st p" aria-label="À essayer">?</span></td></tr>
+            <tr><th scope="row">Epic Games</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st y" aria-label="Essayé">✓</span><small>par Legendary</small></td></tr>
+            <tr><th scope="row">GOG</th><td><span class="st n" aria-label="Non pris en charge">–</span><small>en pause</small></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>en pause</small></td></tr>
             <tr><th scope="row">App Xbox</th><td><span class="st y" aria-label="Essayé">✓</span></td><td><span class="st n" aria-label="Non pris en charge">–</span><small>depuis l'app Xbox</small></td></tr>
             <tr><th scope="row">Autres jeux et émulateurs</th><td><span class="st p" aria-label="À essayer">?</span><small>ajoutés à la main</small></td><td><span class="st n" aria-label="Non pris en charge">–</span></td></tr>
           </tbody>
@@ -811,7 +832,8 @@ footer small { color: var(--faint); }
         <details><summary>Est-ce que je peux l'installer ?</summary><div class="a"><p>Il n'existe pas encore d'installateur grand public. L'installation de développement demande Windows 11 24H2+, les outils Windows et Rust, le mode développeur et un terminal administrateur. Elle ajoute un certificat de test aux certificats de confiance ; le widget s'installe séparément.</p></div></details>
         <details><summary>Est-ce que Canapé remplace Windows ?</summary><div class="a"><p>Non. Canapé remplace seulement l'accueil plein écran que Windows 11 affiche au démarrage d'une console portable. Windows reste là : le bureau, les paramètres et toutes vos applications restent accessibles.</p></div></details>
         <details><summary>Mes jeux et mes sauvegardes sont-ils touchés ?</summary><div class="a"><p>Canapé lance les jeux par les moyens des boutiques. Une installation ou une désinstallation demandée modifie les fichiers du jeu ; les sauvegardes dépendent du jeu et de sa boutique.</p></div></details>
-        <details><summary>Faut-il un compte ou un abonnement ?</summary><div class="a"><p>Les jeux installés sont recherchés sans connexion à Canapé, avec certaines limites : les jeux Xbox hors dossier XboxGames ne sont pas détectés. Pour les jeux possédés non installés, configurez Steam, Epic ou GOG. La liste des jeux Xbox possédés n'est pas accessible.</p></div></details>
+        <details><summary>Et la boutique GOG ?</summary><div class="a"><p>Elle n'est pas proposée pour le moment. Le développement est en pause : aucun compte GOG n'a encore pu servir à l'essayer sur la console, et Canapé n'affiche que ce qui a été essayé.</p></div></details>
+        <details><summary>Faut-il un compte ou un abonnement ?</summary><div class="a"><p>Les jeux installés sont recherchés sans connexion à Canapé, avec certaines limites : les jeux Xbox hors dossier XboxGames ne sont pas détectés. Pour les jeux possédés non installés, configurez Steam ou Epic. La liste des jeux Xbox possédés n'est pas accessible.</p></div></details>
         <details><summary>Est-ce compatible avec les logiciels d'ASUS ?</summary><div class="a"><p>Canapé règle le même matériel (puissance, ventilateurs, manette). Deux logiciels qui règlent la même chose s'annulent : il vaut mieux n'en garder qu'un. Canapé vous prévient s'il en voit un autre en marche.</p></div></details>
         <details><summary>Est-ce que ça consomme de la batterie ?</summary><div class="a"><p>Canapé utilise des ressources, mais son effet sur l'autonomie n'a pas été établi. Des mesures de mémoire et de CPU existent pour des versions précises ; elles ne mesurent pas à elles seules la consommation de batterie.</p></div></details>
         <details><summary>Est-ce sûr ?</summary><div class="a"><p>Seul le service qui règle le matériel a des droits élevés ; l'interface fonctionne comme une application ordinaire. Les valeurs envoyées au matériel restent dans les plages prévues pour chaque modèle.</p></div></details>
@@ -915,18 +937,18 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const GAMES = [
   [1245620, "ELDEN RING", "STEAM", "#b98b2e"],
   [1086940, "Baldur's Gate 3", "STEAM", "#7c3aed"],
-  [1091500, "Cyberpunk 2077", "GOG", "#e6d23c"],
+  [1091500, "Cyberpunk 2077", "STEAM", "#e6d23c"],
   [1145350, "Hades II", "STEAM", "#c2410c"],
   [367520, "Hollow Knight", "STEAM", "#3b5b8f"],
   [1850570, "DEATH STRANDING", "EPIC GAMES", "#4b6a88"],
   [1551360, "Forza Horizon 5", "XBOX", "#ec4899"],
-  [413150, "Stardew Valley", "GOG", "#22c55e"],
+  [413150, "Stardew Valley", "STEAM", "#22c55e"],
   [2379780, "Balatro", "STEAM", "#ef4444"],
   [1174180, "Red Dead Redemption 2", "EPIC GAMES", "#b91c1c"],
   [504230, "Celeste", "EPIC GAMES", "#a855f7"],
   [1172620, "Sea of Thieves", "XBOX", "#14b8a6"],
   [814380, "Sekiro", "STEAM", "#991b1b"],
-  [292030, "The Witcher 3", "GOG", "#78716c"],
+  [292030, "The Witcher 3", "STEAM", "#78716c"],
   [1627720, "Lies of P", "STEAM", "#a16207"],
   [553850, "HELLDIVERS 2", "STEAM", "#facc15"],
   [1868140, "DAVE THE DIVER", "STEAM", "#0ea5e9"],
@@ -1029,14 +1051,29 @@ const CAMERA = {
   hw: ["scale(1.08)", "rgba(168,85,247,.24)"],
 };
 const steps = [...document.querySelectorAll(".step")];
-const bars = [...document.querySelectorAll("#progress button")];
+const stepper = document.getElementById("stepper"), skip = document.getElementById("skip"), skipLabel = document.getElementById("skip-label");
+const dots = steps.map((s, i) => {
+  const label = s.querySelector(".eyebrow").textContent.replace(/^\d+\s*·\s*/, "");
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "st-dot";
+  b.setAttribute("aria-label", "Étape " + (i + 1) + " sur " + steps.length + " : " + label);
+  b.innerHTML = '<span class="num"></span><span class="lab"></span>';
+  b.querySelector(".num").textContent = i + 1;
+  b.querySelector(".lab").textContent = label;
+  b.addEventListener("click", () => goStep(i));
+  stepper.append(b);
+  return b;
+});
+stepper.hidden = false;
+// Scrolls the page to the middle of the first part of scene i.
+function goStep(i) {
+  const top = storyEl.getBoundingClientRect().top + scrollY;
+  scrollTo({ top: top + (storyEl.offsetHeight - innerHeight) * ((i + 0.12) / steps.length), behavior: reduce ? "auto" : "smooth" });
+}
+let prevIdx = -1;
 const storyEl = document.getElementById("visite"), cam = document.getElementById("cam"), pin = storyEl.querySelector(".pin");
 const clamp01 = v => Math.min(1, Math.max(0, v));
-bars.forEach((button, i) => button.addEventListener("click", () => {
-  const start = storyEl.getBoundingClientRect().top + scrollY;
-  const distance = storyEl.offsetHeight - innerHeight;
-  scrollTo({ top: start + distance * (i + 0.5) / steps.length, behavior: reduce ? "instant" : "smooth" });
-}));
+
 function onScroll() {
   const t = clamp01(scrollY / 600);
   const host = document.getElementById("hero-host");
@@ -1046,8 +1083,26 @@ function onScroll() {
   const r = storyEl.getBoundingClientRect();
   const p = clamp01(-r.top / (r.height - innerHeight));
   const idx = Math.min(4, Math.floor(p * 5)), local = clamp01(p * 5 - idx);
-  steps.forEach((s, i) => { s.classList.toggle("on", i === idx); s.inert = i !== idx; });
-  bars.forEach((b, i) => { if (i === idx) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+  if (idx !== prevIdx) {
+    if (prevIdx >= 0) {
+      pin.style.setProperty("--dir", idx > prevIdx ? 1 : -1);
+      const gone = steps[prevIdx];
+      gone.classList.add("leaving");
+      setTimeout(() => gone.classList.remove("leaving"), 450);
+      const host = document.getElementById("story-host");
+      host.classList.remove("swap"); void host.offsetWidth; if (!reduce) host.classList.add("swap");
+    }
+    steps.forEach((s, i) => { s.classList.toggle("on", i === idx); s.inert = i !== idx; });
+    dots.forEach((b, i) => {
+      b.classList.toggle("on", i === idx);
+      b.classList.toggle("done", i < idx);
+      if (i === idx) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+    });
+    skipLabel.textContent = idx === steps.length - 1 ? "Continuer" : "Passer la visite";
+    skip.classList.toggle("next", idx === steps.length - 1);
+    prevIdx = idx;
+  }
+  stepper.style.setProperty("--f", clamp01((p * steps.length - 0.5) / (steps.length - 1)).toFixed(3));
   const scene = steps[idx].dataset.scene;
   if (story._scene !== scene) {
     showScene(story, scene);
