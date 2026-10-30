@@ -493,6 +493,9 @@ table.compat { width: 100%; min-width: 760px; border-collapse: collapse; font-si
 .bb.done .meta { opacity: 1; }
 .bb.scan .col { background: linear-gradient(180deg, #fff, rgba(255,255,255,.35)); box-shadow: 0 0 30px rgba(255,255,255,.25); }
 .bb.pick .col { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px #fff, 0 0 40px rgba(255,61,94,.5); }
+.realshot { margin: 18px 0 0; border: 1px solid var(--line, rgba(255,255,255,.1)); border-radius: 18px; overflow: hidden; background: #0b0c0f; }
+.realshot img { display: block; width: 100%; height: auto; }
+.realshot figcaption { padding: 12px 18px; font-size: 14px; color: var(--dim, #9aa0aa); }
 .recos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .reco { background: var(--bg-2); border: 1px solid var(--stroke); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 6px; opacity: .35; transform: translateY(10px); transition: opacity .5s, transform .6s cubic-bezier(.16,1,.3,1), border-color .3s; cursor: default; min-width: 0; }
 .reco.on { opacity: 1; transform: none; }
@@ -702,6 +705,10 @@ footer small { color: var(--faint); }
           <div class="reco" data-w="16" data-eff><small>Le plus efficace</small><b>16 W · 4,3 FPS/W</b><p>FPS moyens divisés par la limite TDP, pas par la consommation de la console.</p></div>
         </div>
       </div>
+      <figure class="realshot">
+        <img src="screens/bench.webp" alt="La page du banc d'essai de Canapé sur l'Ally : trois recommandations et le tableau des mesures de 7 à 25 W" width="1600" height="900" loading="lazy" decoding="async">
+        <figcaption>Les mêmes mesures, telles que Canapé les affiche sur la console.</figcaption>
+      </figure>
       <p class="note" style="margin-top:14px">Mesures sur ROG Ally Z1 Extreme, avec Heaven en 720p et une vue fixe. Paliers de 15 s ; résultats propres à cet essai et à la version testée. <a href="https://github.com/pierregouedar/canape/blob/main/docs/m5-report-2.md">Rapport détaillé</a>.</p>
     </div>
   </section>
